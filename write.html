@@ -458,36 +458,134 @@
   .dark-mode-toggle{
     white-space:nowrap;
   }
+
+  body.dark-mode .header,
+body.dark-mode .bottom-menu{
+  background:rgba(28,20,25,0.94);
+  border-color:#3a2730;
+}
+
+body.dark-mode .brand{
+  color:#ff8fb1;
+}
+
+body.dark-mode .mini-logo{
+  background:#ff8fb1;
+}
+
+body.dark-mode .mini-logo::after{
+  background:#2a1d24;
+}
+
+body.dark-mode .card{
+  background:rgba(38,27,34,0.96);
+  border-color:#4a303b;
+  color:#f7edf2;
+  box-shadow:0 14px 35px rgba(0,0,0,0.22);
+}
+
+body.dark-mode .label,
+body.dark-mode .draft-btn,
+body.dark-mode .back-link,
+body.dark-mode .pill{
+  background:#3a2430;
+  color:#ff8fb1;
+  border-color:#5b3747;
+}
+
+body.dark-mode h2,
+body.dark-mode .section-title{
+  color:#fff6fa;
+}
+
+body.dark-mode .sub,
+body.dark-mode .draft-state,
+body.dark-mode .count-row,
+body.dark-mode .helper,
+body.dark-mode .bottom-menu a{
+  color:#c9aeb9;
+}
+
+body.dark-mode .bottom-menu a.active{
+  color:#ff8fb1;
+}
+
+body.dark-mode .category-option span,
+body.dark-mode .input-box,
+body.dark-mode .textarea-box,
+body.dark-mode .upload-label,
+body.dark-mode .loading-box,
+body.dark-mode .preview-item{
+  background:#2f2028;
+  border-color:#4a303b;
+  color:#f5e8ee;
+}
+
+body.dark-mode .input-box::placeholder,
+body.dark-mode .textarea-box::placeholder{
+  color:#bfa5b0;
+}
+
+body.dark-mode .input-box:focus,
+body.dark-mode .textarea-box:focus{
+  background:#35242d;
+  border-color:#ff8fb1;
+  box-shadow:0 0 0 4px rgba(255,143,177,0.12);
+}
+
+body.dark-mode .category-option input:checked + span,
+body.dark-mode .post-btn{
+  background:#ff5c8a;
+  color:white;
+  border-color:#ff5c8a;
+}
+
+body.dark-mode .upload-label span{
+  background:#3a2430;
+  color:#ff8fb1;
+}
+
+body.dark-mode .draft-btn{
+  box-shadow:none;
+}
   </style>
 </head>
 
 <body>
 <div class="header">
   <div class="header-inner">
-    <!-- 로고 -->
-    <div class="brand">
-      <span class="mini-logo"></span>
-      오늘도육아
-    </div>
 
-    <!-- 오른쪽 버튼 묶음 -->
-    <div class="header-actions" style="display:flex; gap:8px; align-items:center; justify-content:flex-end;">
-      <!-- 홈 버튼 -->
-      <a href="home.html" class="pill back-link">홈으로</a>
+<!-- 로고 -->
+<div class="brand">
+  <span class="mini-logo"></span>
+  오늘도육아
+</div>
 
-      <!-- 야간 버튼 -->
-      <button
-        class="pill dark-mode-toggle"
-        onclick="toggleDarkMode()"
-        type="button"
-      >
-        🌙 야간
-      </button>
-    </div>
+<!-- 오른쪽 버튼 -->
+<div
+  class="header-actions"
+  style="display:flex; gap:8px; align-items:center; justify-content:flex-end;"
+>
+
+  <!-- 야간모드 -->
+  <button
+    class="pill dark-mode-toggle"
+    data-mode="icon"
+    onclick="toggleDarkMode()"
+    type="button"
+  >
+    🌙
+  </button>
+
+  <!-- 홈으로 -->
+  <a href="home.html" class="pill back-link">
+    홈으로
+  </a>
+
+</div>
+
   </div>
 </div>
-    </div>
-  </div>a
 
   <div class="container">
     <div class="card">
@@ -550,13 +648,7 @@
           </span>
         </label>
 
-        <label class="category-option">
-          <input type="radio" name="category" value="위로받기">
-          <span>
-            <b>💗</b>
-            위로받기
-          </span>
-        </label>
+
 
       </div>
 

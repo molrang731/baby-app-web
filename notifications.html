@@ -423,6 +423,109 @@
 
     .bottom-menu a.active{color:#ff5c8a;}
 
+
+
+    body.dark-mode{
+      background:linear-gradient(135deg,#181216,#24161d);
+      color:#f7edf2;
+    }
+
+    body.dark-mode::before{
+      background:#573040;
+      opacity:0.36;
+    }
+
+    body.dark-mode::after{
+      background:#7a344d;
+      opacity:0.25;
+    }
+
+    body.dark-mode .header,
+    body.dark-mode .bottom-menu{
+      background:rgba(28,20,25,0.94);
+      border-color:#3a2730;
+    }
+
+    body.dark-mode .brand{
+      color:#ff8fb1;
+    }
+
+    body.dark-mode .mini-logo{
+      background:#ff8fb1;
+    }
+
+    body.dark-mode .mini-logo::after{
+      background:#2a1d24;
+    }
+
+    body.dark-mode .pill,
+    body.dark-mode .read-all-btn,
+    body.dark-mode .hero-label,
+    body.dark-mode .notice-type{
+      background:#3a2430;
+      color:#ff8fb1;
+      border-color:#5b3747;
+    }
+
+    body.dark-mode .notice-hero,
+    body.dark-mode .summary-card,
+    body.dark-mode .control-card,
+    body.dark-mode .notice-item,
+    body.dark-mode .empty{
+      background:#2f2028;
+      border-color:#4a303b;
+      color:#f5e8ee;
+      box-shadow:0 14px 35px rgba(0,0,0,0.22);
+    }
+
+    body.dark-mode .notice-hero::after{
+      background:#573040;
+      opacity:0.34;
+    }
+
+    body.dark-mode .notice-item.unread{
+      background:#3a2430;
+      border-color:#5b3747;
+    }
+
+    body.dark-mode .notice-title,
+    body.dark-mode .notice-hero h1,
+    body.dark-mode .summary-card strong{
+      color:#fff6fa;
+    }
+
+    body.dark-mode .notice-message,
+    body.dark-mode .notice-meta,
+    body.dark-mode .notice-hero p,
+    body.dark-mode .summary-card span,
+    body.dark-mode .bottom-menu a{
+      color:#c9aeb9;
+    }
+
+    body.dark-mode .bottom-menu a.active{
+      color:#ff8fb1;
+    }
+
+    body.dark-mode .filter-row{
+      background:#24181f;
+      border-color:#4a303b;
+    }
+
+    body.dark-mode .filter-btn{
+      color:#c9aeb9;
+    }
+
+    body.dark-mode .filter-btn.active{
+      background:#ff5c8a;
+      color:white;
+      box-shadow:0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    body.dark-mode .notice-icon{
+      background:linear-gradient(135deg,#3a2430,#4a303b);
+      color:#ff8fb1;
+    }
+
     @media(max-width:390px){
       .container{padding-left:12px;padding-right:12px;}
       .header-inner{padding-left:16px;padding-right:16px;}
@@ -450,17 +553,18 @@
       </div>
 
       <div class="header-actions">
+        <button
+          class="pill dark-mode-toggle"
+          data-mode="icon"
+          onclick="toggleDarkMode()"
+          type="button"
+          aria-label="야간모드 전환"
+        >
+          🌙
+        </button>
+
         <a href="home.html" class="pill">홈으로</a>
-
-  <button
-    class="pill dark-mode-toggle"
-    onclick="toggleDarkMode()"
-    type="button"
-  >
-    🌙 야간
-  </button>
-
-</div>
+      </div>
     </div>
   </div>
 

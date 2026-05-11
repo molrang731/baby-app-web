@@ -6,7 +6,12 @@
   <title>회원가입 - 오늘도육아</title>
 
   <style>
-    *{ margin:0; padding:0; box-sizing:border-box; }
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
 
     body{
       font-family:Arial, sans-serif;
@@ -56,6 +61,7 @@
       justify-content:space-between;
       align-items:center;
       margin-bottom:22px;
+      gap:10px;
     }
 
     .brand{
@@ -66,6 +72,8 @@
       font-weight:900;
       color:#ff5c8a;
       letter-spacing:-0.8px;
+      white-space:nowrap;
+      flex-shrink:0;
     }
 
     .mini-logo{
@@ -75,6 +83,7 @@
       background:#ff5c8a;
       position:relative;
       display:inline-block;
+      flex-shrink:0;
     }
 
     .mini-logo::after{
@@ -88,15 +97,37 @@
       left:7px;
     }
 
-    .back-link{
+    .top-actions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:8px;
+      flex-shrink:0;
+    }
+
+    .back-link,
+    .dark-mode-toggle{
       text-decoration:none;
       color:#ff5c8a;
       background:white;
       border:1px solid #ffd6e7;
-      padding:8px 12px;
+      height:38px;
+      padding:0 13px;
       border-radius:999px;
       font-size:12px;
       font-weight:bold;
+      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      white-space:nowrap;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      line-height:1;
+      cursor:pointer;
+    }
+
+    .dark-mode-toggle{
+      min-width:38px;
+      padding:0 12px;
     }
 
     .join-card{
@@ -132,7 +163,8 @@
       margin-bottom:22px;
     }
 
-    input, textarea{
+    input,
+    textarea{
       width:100%;
       padding:16px;
       border-radius:18px;
@@ -207,7 +239,7 @@
       box-shadow:0 10px 24px rgba(255,92,138,0.10);
     }
 
-    button{
+    button.join-submit{
       width:100%;
       padding:16px;
       border:none;
@@ -222,10 +254,17 @@
     }
 
     .kakao-btn{
+      width:100%;
+      padding:16px;
+      border:none;
+      border-radius:18px;
       background:#FEE500;
       color:#191919;
-      box-shadow:none;
+      font-size:16px;
+      cursor:pointer;
+      font-weight:bold;
       margin-top:10px;
+      box-shadow:none;
     }
 
     button:disabled{
@@ -247,12 +286,118 @@
     }
 
     @media(max-width:360px){
-      h1{ font-size:26px; }
+      .app{
+        padding-left:14px;
+        padding-right:14px;
+      }
+
+      .brand{
+        font-size:22px;
+      }
+
+      h1{
+        font-size:26px;
+      }
 
       .stage-box,
       .category-box{
         grid-template-columns:1fr;
       }
+
+      .back-link,
+      .dark-mode-toggle{
+        height:36px;
+        padding:0 10px;
+        font-size:11px;
+      }
+    }
+
+    body.dark-mode{
+      background:linear-gradient(135deg,#1f171c,#2b2027);
+      color:#f8eef3;
+    }
+
+    body.dark-mode::before{
+      background:#5a3040;
+      opacity:0.28;
+    }
+
+    body.dark-mode::after{
+      background:#6b3548;
+      opacity:0.22;
+    }
+
+    body.dark-mode .brand{
+      color:#ff8fb1;
+    }
+
+    body.dark-mode .mini-logo{
+      background:#ff8fb1;
+    }
+
+    body.dark-mode .mini-logo::after{
+      background:#3a2932;
+    }
+
+    body.dark-mode .back-link,
+    body.dark-mode .dark-mode-toggle,
+    body.dark-mode .join-card{
+      background:rgba(43,32,39,0.98);
+      border-color:#4a3440;
+      color:#f8eef3;
+      box-shadow:0 18px 45px rgba(0,0,0,0.26);
+    }
+
+    body.dark-mode .back-link,
+    body.dark-mode .dark-mode-toggle{
+      color:#ffc1d5;
+      border-color:#5b3d4b;
+    }
+
+    body.dark-mode .label{
+      background:#241b21;
+      color:#ffc1d5;
+      border:1px solid #4a3440;
+    }
+
+    body.dark-mode h1{
+      color:#fff7fb;
+    }
+
+    body.dark-mode .sub,
+    body.dark-mode .section-title,
+    body.dark-mode .login-link{
+      color:#c9aeba;
+    }
+
+    body.dark-mode input,
+    body.dark-mode textarea,
+    body.dark-mode .option span{
+      background:#241b21;
+      border-color:#4a3440;
+      color:#f8eef3;
+    }
+
+    body.dark-mode input::placeholder,
+    body.dark-mode textarea::placeholder{
+      color:#bfa5b0;
+    }
+
+    body.dark-mode input:focus,
+    body.dark-mode textarea:focus{
+      background:#2d2229;
+      border-color:#ff8fb1;
+      box-shadow:0 0 0 4px rgba(255,143,177,0.12);
+    }
+
+    body.dark-mode .category-box .option input:checked + span{
+      background:#3a2932;
+      color:#ffc1d5;
+      border-color:#ff8fb1;
+    }
+
+    body.dark-mode .login-link a{
+      color:#ff8fb1;
     }
   </style>
 </head>
@@ -267,7 +412,21 @@
         오늘도육아
       </div>
 
-      <a href="index.html" class="back-link">로그인</a>
+      <div class="top-actions">
+        <button
+          class="dark-mode-toggle"
+          data-mode="icon"
+          onclick="toggleDarkMode()"
+          type="button"
+          aria-label="야간모드 전환"
+        >
+          🌙
+        </button>
+
+        <a href="index.html" class="back-link">
+          로그인
+        </a>
+      </div>
     </div>
 
     <div class="join-card">
@@ -339,18 +498,15 @@
           <input type="checkbox" value="어린이">
           <span>🧒 어린이</span>
         </label>
-
-        <label class="option">
-          <input type="checkbox" value="위로받기">
-          <span>💗 위로받기</span>
-        </label>
       </div>
 
       <div class="section-title">상태메시지</div>
 
       <textarea id="status" placeholder="예: 초보엄마예요 💕"></textarea>
 
-      <button id="joinBtn">회원가입하기</button>
+      <button id="joinBtn" class="join-submit">
+        회원가입하기
+      </button>
 
       <button id="kakaoBtn" class="kakao-btn" type="button">
         카카오톡으로 시작하기
@@ -365,7 +521,6 @@
   </div>
 
   <script type="module">
-
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
     import {
@@ -419,7 +574,6 @@
     }
 
     joinBtn.addEventListener("click", async () => {
-
       const checkedStage = document.querySelector("input[name='stage']:checked");
       const categories = getCategories();
 
@@ -478,9 +632,7 @@
 
         alert("회원가입이 완료됐어요 💕");
         window.location.href = "home.html";
-      }
-
-      catch(error){
+      } catch(error){
         console.error("회원가입 오류:", error);
 
         if(error.code === "auth/email-already-in-use"){
@@ -490,13 +642,10 @@
         } else {
           alert(error.message || "회원가입 중 오류가 발생했어요.");
         }
-      }
-
-      finally{
+      } finally {
         joinBtn.disabled = false;
         joinBtn.innerText = "회원가입하기";
       }
-
     });
 
     [nickname, loginId, password, status].forEach((input) => {
@@ -512,9 +661,7 @@
       try{
         const provider = new OAuthProvider("oidc.kakao");
         await signInWithRedirect(auth, provider);
-      }
-
-      catch(error){
+      } catch(error){
         alert(error.message);
       }
     });
@@ -553,16 +700,15 @@
         }
 
         window.location.href = "home.html";
-      }
-
-      catch(error){
+      } catch(error){
         console.log(error.message);
       }
     }
 
     checkKakaoRedirect();
-
   </script>
+
+  <script src="theme.js"></script>
 
 </body>
 </html>

@@ -1,32 +1,43 @@
-(function(){
+function updateDarkModeButtons(){
+  const isDark = document.body.classList.contains("dark-mode");
+  const buttons = document.querySelectorAll(".dark-mode-toggle");
+
+  buttons.forEach((button) => {
+    const mode = button.dataset.mode || "text";
+
+    if(mode === "icon"){
+      button.innerText = isDark ? "☀️" : "🌙";
+    } else {
+      button.innerText = isDark ? "☀️ 주간" : "🌙 야간";
+    }
+  });
+}
+
+function applySavedTheme(){
   const savedTheme = localStorage.getItem("todayParentingTheme");
 
   if(savedTheme === "dark"){
     document.body.classList.add("dark-mode");
+  } else {
+    document.body.classList.remove("dark-mode");
   }
 
-  window.toggleDarkMode = function(){
-    document.body.classList.toggle("dark-mode");
+  updateDarkModeButtons();
+}
 
-    if(document.body.classList.contains("dark-mode")){
-      localStorage.setItem("todayParentingTheme", "dark");
-    } else {
-      localStorage.setItem("todayParentingTheme", "light");
-    }
+window.toggleDarkMode = function(){
+  const nextDark =
+    !document.body.classList.contains("dark-mode");
 
-    updateDarkModeButtons();
-  };
+  localStorage.setItem(
+    "todayParentingTheme",
+    nextDark ? "dark" : "light"
+  );
 
-  window.updateDarkModeButtons = function(){
-    const isDark = document.body.classList.contains("dark-mode");
-    const buttons = document.querySelectorAll(".dark-mode-toggle");
+  applySavedTheme();
+};
 
-    buttons.forEach((button) => {
-      button.innerText = isDark ? "☀️ 라이트" : "🌙 야간";
-    });
-  };
-
-  document.addEventListener("DOMContentLoaded", () => {
-    updateDarkModeButtons();
-  });
-})();
+document.addEventListener(
+  "DOMContentLoaded",
+  applySavedTheme
+);

@@ -5,15 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>내정보 - 오늘도육아</title>
 
-<link rel="stylesheet" href="theme.css">
-
   <style>
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 
+    :root{
+      --bg1:#fff7fb;
+      --bg2:#ffeaf2;
+      --text:#241f21;
+      --sub:#5f5357;
+      --muted:#8d7c83;
+      --card:rgba(255,255,255,0.96);
+      --header:rgba(255,255,255,0.88);
+      --line:#f0dfe6;
+      --soft:#fff7fa;
+      --soft2:#fff0f5;
+      --point:#ff5c8a;
+      --point2:#ffd6e7;
+      --shadow:rgba(255,92,138,0.12);
+      --bottom:rgba(255,255,255,0.96);
+      --input:#fff7fa;
+    }
+
+    body.dark-mode{
+      --bg1:#181216;
+      --bg2:#24161d;
+      --text:#fff6fa;
+      --sub:#f5e8ee;
+      --muted:#c9aeb9;
+      --card:rgba(38,27,34,0.96);
+      --header:rgba(28,20,25,0.94);
+      --line:#4a303b;
+      --soft:#2f2028;
+      --soft2:#3a2430;
+      --point:#ff8fb1;
+      --point2:#5b3747;
+      --shadow:rgba(0,0,0,0.24);
+      --bottom:rgba(28,20,25,0.94);
+      --input:#2f2028;
+    }
+
     body{
       font-family:Arial,sans-serif;
-      background:linear-gradient(135deg,#fff7fb,#ffeaf2);
-      color:#241f21;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
       padding-bottom:96px;
       min-height:100vh;
       overflow-x:hidden;
@@ -25,11 +59,11 @@
       position:fixed;
       width:320px;
       height:320px;
-      background:#ffd6e7;
+      background:var(--point2);
       border-radius:50%;
       top:-130px;
       left:-130px;
-      opacity:0.5;
+      opacity:0.45;
       z-index:-1;
     }
 
@@ -38,11 +72,11 @@
       position:fixed;
       width:260px;
       height:260px;
-      background:#ffc8dc;
+      background:var(--point);
       border-radius:50%;
       bottom:-100px;
       right:-100px;
-      opacity:0.32;
+      opacity:0.18;
       z-index:-1;
     }
 
@@ -50,10 +84,10 @@
       position:sticky;
       top:0;
       z-index:100;
-      background:rgba(255,255,255,0.88);
+      background:var(--header);
       backdrop-filter:blur(18px);
       -webkit-backdrop-filter:blur(18px);
-      border-bottom:1px solid rgba(255,214,231,0.55);
+      border-bottom:1px solid var(--line);
     }
 
     .header-inner{
@@ -73,7 +107,7 @@
       gap:10px;
       font-size:23px;
       font-weight:900;
-      color:#ff5c8a;
+      color:var(--point);
       letter-spacing:-0.8px;
       white-space:nowrap;
     }
@@ -82,7 +116,7 @@
       width:19px;
       height:19px;
       border-radius:50%;
-      background:#ff5c8a;
+      background:var(--point);
       position:relative;
       display:inline-block;
       flex-shrink:0;
@@ -94,21 +128,47 @@
       width:19px;
       height:19px;
       border-radius:50%;
-      background:#ffe4ef;
+      background:var(--bg2);
       top:-2px;
       left:7px;
     }
 
+    .header-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-end;
+      flex-shrink:0;
+    }
+
     .pill{
-      background:white;
-      color:#ff5c8a;
-      border:1px solid #ffd6e7;
-      padding:8px 11px;
+      width:auto;
+      height:38px;
+      min-height:38px;
+      padding:0 12px;
+      margin:0;
       border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      line-height:1;
+      text-decoration:none;
+      cursor:pointer;
+      font-family:inherit;
       font-size:12px;
       font-weight:bold;
-      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      background:var(--card);
+      color:var(--point);
+      border:1px solid var(--point2);
+      box-shadow:0 8px 22px var(--shadow);
       white-space:nowrap;
+    }
+
+    .dark-mode-toggle{
+      min-width:38px;
+      padding:0 10px;
+      font-size:17px;
+      border:none;
     }
 
     .container{
@@ -121,50 +181,49 @@
     .profile-hero,
     .activity-card,
     .edit-card{
-      background:rgba(255,255,255,0.96);
+      background:var(--card);
       border-radius:30px;
       overflow:hidden;
-      box-shadow:0 14px 35px rgba(255,92,138,0.10);
-      border:1px solid rgba(255,255,255,0.95);
+      box-shadow:0 14px 35px var(--shadow);
+      border:1px solid var(--line);
       margin-bottom:14px;
     }
 
     .cover{
       height:112px;
       background:
-        radial-gradient(circle at 20% 20%, #fff 0 12%, transparent 13%),
-        radial-gradient(circle at 80% 15%, #ffe4ef 0 18%, transparent 19%),
-        linear-gradient(135deg,#ff8fb1,#ffd6e7);
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.8) 0 12%, transparent 13%),
+        radial-gradient(circle at 80% 15%, rgba(255,228,239,0.75) 0 18%, transparent 19%),
+        linear-gradient(135deg,#ff8fb1,var(--point2));
       position:relative;
     }
 
-    .cover-label{
-      position:absolute;
-      left:18px;
-      top:18px;
-      background:rgba(255,255,255,0.82);
-      color:#ff5c8a;
-      border:1px solid rgba(255,255,255,0.9);
-      padding:7px 12px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:900;
-      backdrop-filter:blur(12px);
+    body.dark-mode .cover{
+      background:linear-gradient(135deg,#4a2635,#6b3449);
     }
 
+    .cover-label,
     .visibility-badge{
       position:absolute;
-      right:18px;
       top:18px;
       background:rgba(255,255,255,0.82);
-      color:#ff5c8a;
-      border:1px solid rgba(255,255,255,0.9);
+      color:var(--point);
+      border:1px solid rgba(255,255,255,0.35);
       padding:7px 12px;
       border-radius:999px;
       font-size:12px;
       font-weight:900;
       backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
     }
+
+    body.dark-mode .cover-label,
+    body.dark-mode .visibility-badge{
+      background:rgba(58,36,48,0.88);
+    }
+
+    .cover-label{left:18px;}
+    .visibility-badge{right:18px;}
 
     .profile-main{
       padding:0 16px 18px;
@@ -185,16 +244,16 @@
       width:104px;
       height:104px;
       border-radius:38px;
-      background:linear-gradient(135deg,#fff0f5,#ffd6e7);
+      background:linear-gradient(135deg,var(--soft2),var(--point2));
       display:flex;
       align-items:center;
       justify-content:center;
-      color:#ff5c8a;
+      color:var(--point);
       font-size:40px;
       font-weight:900;
       overflow:hidden;
-      border:5px solid white;
-      box-shadow:0 18px 38px rgba(255,92,138,0.22);
+      border:5px solid var(--card);
+      box-shadow:0 18px 38px var(--shadow);
     }
 
     .profile-photo img{
@@ -211,15 +270,15 @@
       width:39px;
       height:39px;
       border-radius:50%;
-      background:#ff5c8a;
+      background:var(--point);
       color:white;
       display:flex;
       align-items:center;
       justify-content:center;
       font-size:19px;
       cursor:pointer;
-      box-shadow:0 9px 22px rgba(255,92,138,0.28);
-      border:3px solid white;
+      box-shadow:0 9px 22px var(--shadow);
+      border:3px solid var(--card);
       font-weight:bold;
     }
 
@@ -230,7 +289,7 @@
       font-weight:900;
       letter-spacing:-0.9px;
       margin-bottom:7px;
-      color:#241f21;
+      color:var(--text);
       word-break:keep-all;
     }
 
@@ -238,22 +297,22 @@
       display:inline-flex;
       align-items:center;
       gap:5px;
-      background:#fff0f5;
-      color:#ff5c8a;
+      background:var(--soft2);
+      color:var(--point);
       padding:8px 14px;
       border-radius:999px;
       font-size:13px;
       font-weight:bold;
       margin-bottom:14px;
-      border:1px solid #ffd6e7;
+      border:1px solid var(--point2);
     }
 
     .status{
-      color:#5f5357;
+      color:var(--sub);
       line-height:1.65;
       font-size:14px;
-      background:#fff9fb;
-      border:1px solid #f7e5ec;
+      background:var(--soft);
+      border:1px solid var(--line);
       border-radius:22px;
       padding:14px;
       white-space:pre-line;
@@ -271,8 +330,8 @@
     }
 
     .stat{
-      background:#fff7fa;
-      border:1px solid #f7e5ec;
+      background:var(--soft);
+      border:1px solid var(--line);
       border-radius:21px;
       padding:13px 4px;
       text-align:center;
@@ -280,14 +339,14 @@
 
     .stat strong{
       display:block;
-      color:#241f21;
+      color:var(--text);
       font-size:23px;
       margin-bottom:5px;
       letter-spacing:-0.5px;
     }
 
     .stat span{
-      color:#8d7c83;
+      color:var(--muted);
       font-size:12px;
       font-weight:bold;
     }
@@ -303,12 +362,12 @@
       text-decoration:none;
       border-radius:20px;
       padding:14px 10px;
-      background:white;
-      color:#ff5c8a;
-      border:1px solid #ffd6e7;
+      background:var(--card);
+      color:var(--point);
+      border:1px solid var(--point2);
       font-size:13px;
       font-weight:900;
-      box-shadow:0 8px 20px rgba(255,92,138,0.07);
+      box-shadow:0 8px 20px var(--shadow);
     }
 
     .activity-card,
@@ -320,34 +379,44 @@
       font-size:18px;
       font-weight:900;
       margin-bottom:6px;
-      color:#241f21;
+      color:var(--text);
       letter-spacing:-0.5px;
     }
 
     .edit-sub{
-      color:#8d7c83;
+      color:var(--muted);
       font-size:13px;
       line-height:1.5;
       margin-bottom:12px;
     }
 
-    .visibility-box{
+    .section-title{
+      color:var(--text);
+      font-size:14px;
+      font-weight:900;
+      margin:12px 0 8px;
+    }
+
+    .visibility-box,
+    .stage-edit-box{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:9px;
       margin:14px 0 16px;
     }
 
-    .visibility-option input{
+    .visibility-option input,
+    .stage-option input{
       display:none;
     }
 
-    .visibility-option span{
+    .visibility-option span,
+    .stage-option span{
       min-height:58px;
       border-radius:20px;
-      background:#fff7fa;
-      border:1px solid #f3dfe7;
-      color:#7d7276;
+      background:var(--soft);
+      border:1px solid var(--line);
+      color:var(--muted);
       display:flex;
       flex-direction:column;
       justify-content:center;
@@ -356,18 +425,25 @@
       font-size:13px;
       font-weight:900;
       cursor:pointer;
+      text-align:center;
+    }
+
+    .stage-option span{
+      min-height:54px;
+      border-radius:18px;
     }
 
     .visibility-option small{
       font-size:11px;
-      color:#aa9ba1;
+      color:var(--muted);
       font-weight:bold;
     }
 
-    .visibility-option input:checked + span{
-      background:#ff5c8a;
+    .visibility-option input:checked + span,
+    .stage-option input:checked + span{
+      background:var(--point);
       color:white;
-      border-color:#ff5c8a;
+      border-color:var(--point);
       box-shadow:0 12px 28px rgba(255,92,138,0.22);
     }
 
@@ -380,26 +456,30 @@
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:8px;
-      background:#fff7fa;
+      background:var(--soft);
       padding:5px;
       border-radius:999px;
-      border:1px solid #f3dfe7;
+      border:1px solid var(--line);
       margin:14px 0 14px;
     }
 
     .tab-btn{
+      width:100%;
       margin:0;
       padding:11px 6px;
+      border:none;
       border-radius:999px;
       background:transparent;
-      color:#8d7c83;
+      color:var(--muted);
       box-shadow:none;
       font-size:12.5px;
       white-space:nowrap;
+      font-weight:bold;
+      cursor:pointer;
     }
 
     .tab-btn.active{
-      background:#ff5c8a;
+      background:var(--point);
       color:white;
       box-shadow:0 8px 20px rgba(255,92,138,0.18);
     }
@@ -413,8 +493,8 @@
     .mini-post{
       display:flex;
       gap:10px;
-      background:#fff7fa;
-      border:1px solid #f7e5ec;
+      background:var(--soft);
+      border:1px solid var(--line);
       border-radius:22px;
       padding:10px;
       cursor:pointer;
@@ -424,15 +504,13 @@
       width:68px;
       height:68px;
       border-radius:18px;
-      background:
-        radial-gradient(circle at 25% 20%, #fff 0 12%, transparent 13%),
-        linear-gradient(135deg,#fff0f5,#ffd6e7);
+      background:linear-gradient(135deg,var(--soft2),var(--point2));
       flex-shrink:0;
       overflow:hidden;
       display:flex;
       align-items:center;
       justify-content:center;
-      color:#ff5c8a;
+      color:var(--point);
       font-size:24px;
       font-weight:900;
     }
@@ -451,9 +529,9 @@
 
     .mini-category{
       display:inline-block;
-      color:#ff5c8a;
-      background:white;
-      border:1px solid #ffd6e7;
+      color:var(--point);
+      background:var(--card);
+      border:1px solid var(--point2);
       padding:4px 8px;
       border-radius:999px;
       font-size:10.5px;
@@ -464,7 +542,7 @@
     .mini-title{
       font-size:14px;
       font-weight:900;
-      color:#241f21;
+      color:var(--text);
       line-height:1.35;
       margin-bottom:5px;
       overflow:hidden;
@@ -474,7 +552,7 @@
     }
 
     .mini-meta{
-      color:#9c8b91;
+      color:var(--muted);
       font-size:11.5px;
       font-weight:bold;
       display:flex;
@@ -486,30 +564,30 @@
       width:100%;
       height:105px;
       resize:none;
-      border:none;
       outline:none;
-      background:#fff7fa;
+      background:var(--input);
       border-radius:21px;
       padding:15px;
       font-size:14px;
       line-height:1.65;
-      color:#2f272a;
-      border:1px solid #f3dfe7;
+      color:var(--text);
+      border:1px solid var(--line);
       margin-bottom:10px;
+      font-family:inherit;
     }
 
     textarea:focus{
-      background:white;
-      border-color:#ff8fb1;
+      background:var(--card);
+      border-color:var(--point);
       box-shadow:0 0 0 4px rgba(255,92,138,0.08);
     }
 
-    button{
+    .main-btn{
       width:100%;
       padding:15px;
       border:none;
       border-radius:20px;
-      background:#ff5c8a;
+      background:var(--point);
       color:white;
       font-size:15px;
       cursor:pointer;
@@ -518,7 +596,12 @@
       box-shadow:0 12px 26px rgba(255,92,138,0.20);
     }
 
-    button:active{transform:scale(0.99);}
+    .main-btn:active,
+    .more-btn:active,
+    .tab-btn:active,
+    .pill:active{
+      transform:scale(0.99);
+    }
 
     .logout-btn{
       background:#f2edf0;
@@ -526,31 +609,41 @@
       box-shadow:none;
     }
 
+    body.dark-mode .logout-btn{
+      background:#30242b;
+      color:#ffc1d5;
+      border:1px solid var(--point2);
+    }
+
     .more-btn{
+      width:100%;
       margin-top:12px;
-      background:white;
-      color:#ff5c8a;
-      border:1px solid #ffd6e7;
-      box-shadow:0 8px 20px rgba(255,92,138,0.07);
+      background:var(--card);
+      color:var(--point);
+      border:1px solid var(--point2);
+      box-shadow:0 8px 20px var(--shadow);
       font-size:13px;
       padding:13px;
+      border-radius:20px;
+      font-weight:900;
+      cursor:pointer;
     }
 
     .empty{
-      background:#fff7fa;
-      border:1px solid #f7e5ec;
+      background:var(--soft);
+      border:1px solid var(--line);
       border-radius:22px;
       padding:24px 14px;
       text-align:center;
-      color:#8d7c83;
+      color:var(--muted);
       font-size:13px;
       line-height:1.7;
     }
 
     .private-note{
-      background:#fff0f5;
-      border:1px solid #ffd6e7;
-      color:#ff5c8a;
+      background:var(--soft2);
+      border:1px solid var(--point2);
+      color:var(--point);
       border-radius:22px;
       padding:13px;
       font-size:13px;
@@ -569,10 +662,10 @@
       bottom:0;
       left:0;
       width:100%;
-      background:rgba(255,255,255,0.96);
+      background:var(--bottom);
       backdrop-filter:blur(16px);
       -webkit-backdrop-filter:blur(16px);
-      border-top:1px solid #f0dfe6;
+      border-top:1px solid var(--line);
       z-index:110;
       padding-bottom:env(safe-area-inset-bottom);
     }
@@ -589,7 +682,7 @@
     .bottom-menu a{
       width:25%;
       text-decoration:none;
-      color:#7d7276;
+      color:var(--muted);
       font-size:11.5px;
       text-align:center;
       font-weight:bold;
@@ -601,7 +694,9 @@
       line-height:1;
     }
 
-    .bottom-menu a.active{color:#ff5c8a;}
+    .bottom-menu a.active{
+      color:var(--point);
+    }
 
     .notification-link{
       position:relative;
@@ -640,6 +735,7 @@
     @media(max-width:390px){
       .container{padding-left:12px;padding-right:12px;}
       .header-inner{padding-left:16px;padding-right:16px;}
+      .brand{font-size:21px;}
       .nickname{font-size:24px; overflow-wrap:anywhere;}
       .profile-photo-wrap{width:96px;height:96px;}
       .profile-photo{width:96px;height:96px;border-radius:35px;font-size:36px;}
@@ -664,24 +760,11 @@
         <span class="mini-logo"></span>
         오늘도육아
       </div>
-      <div style="display:flex; gap:8px; align-items:center;">
 
-  <button
-  class="pill"
-  type="button"
->
-  마이홈
-</button>
-
-  <button
-    class="pill dark-mode-toggle"
-    onclick="toggleDarkMode()"
-    type="button"
-  >
-    🌙 야간
-  </button>
-
-</div>
+      <div class="header-actions">
+        <button class="pill dark-mode-toggle" id="themeToggle" type="button" aria-label="야간모드 전환">🌙</button>
+        <a href="home.html" class="pill">마이홈</a>
+      </div>
     </div>
   </div>
 
@@ -703,9 +786,7 @@
         <div class="nickname" id="nickname">불러오는 중...</div>
         <div class="stage" id="stageBadge">육아 단계</div>
 
-        <div class="status" id="statusText">
-          상태메시지가 아직 없어요.
-        </div>
+        <div class="status" id="statusText">상태메시지가 아직 없어요.</div>
 
         <div class="stats">
           <div class="stat">
@@ -733,9 +814,7 @@
 
     <div class="activity-card">
       <div class="edit-title">공개 설정</div>
-      <div class="edit-sub">
-        내 활동을 다른 사람에게 보여줄지 선택할 수 있어요.
-      </div>
+      <div class="edit-sub">내 활동을 다른 사람에게 보여줄지 선택할 수 있어요.</div>
 
       <div class="visibility-box">
         <label class="visibility-option">
@@ -755,7 +834,7 @@
         </label>
       </div>
 
-      <button id="saveVisibilityBtn">공개 설정 저장</button>
+      <button class="main-btn" id="saveVisibilityBtn" type="button">공개 설정 저장</button>
     </div>
 
     <div class="activity-card">
@@ -781,10 +860,34 @@
       <div class="edit-title">내 소개 수정</div>
       <div class="edit-sub">오늘의 마음이나 내 육아 상태를 짧게 남겨보세요.</div>
 
+      <div class="section-title">육아 단계 수정</div>
+
+      <div class="stage-edit-box">
+        <label class="stage-option">
+          <input type="radio" name="editStage" value="예비부모">
+          <span>🤰 예비부모</span>
+        </label>
+
+        <label class="stage-option">
+          <input type="radio" name="editStage" value="신생아">
+          <span>🍼 신생아</span>
+        </label>
+
+        <label class="stage-option">
+          <input type="radio" name="editStage" value="영유아">
+          <span>🧸 영유아</span>
+        </label>
+
+        <label class="stage-option">
+          <input type="radio" name="editStage" value="어린이">
+          <span>🧒 어린이</span>
+        </label>
+      </div>
+
       <textarea id="statusInput" placeholder="예: 오늘도 새벽수유 완료... ☕"></textarea>
 
-      <button id="saveStatusBtn">소개 저장하기</button>
-      <button class="logout-btn" id="logoutBtn">로그아웃</button>
+      <button class="main-btn" id="saveStatusBtn" type="button">소개 저장하기</button>
+      <button class="main-btn logout-btn" id="logoutBtn" type="button">로그아웃</button>
     </div>
 
   </div>
@@ -881,6 +984,7 @@
     const likedPostsTab = document.getElementById("likedPostsTab");
     const activityList = document.getElementById("activityList");
     const notificationBadge = document.getElementById("notificationBadge");
+    const themeToggle = document.getElementById("themeToggle");
 
     let currentUser = null;
     let currentNickname = "사용자";
@@ -894,6 +998,8 @@
     let currentTab = "myPosts";
     let activityVisibleCount = 8;
 
+    initTheme();
+
     onAuthStateChanged(auth, async (user) => {
       if(!user){
         alert("로그인이 필요합니다.");
@@ -902,7 +1008,6 @@
       }
 
       currentUser = user;
-
       startNotificationBadge(user.uid);
 
       await loadProfile();
@@ -910,6 +1015,34 @@
       loadStats();
       renderActivityList();
     });
+
+    function initTheme(){
+      const savedTheme =
+        localStorage.getItem("theme") ||
+        localStorage.getItem("colorTheme") ||
+        localStorage.getItem("todayParentingTheme");
+
+      const isDark = savedTheme === "dark";
+      document.body.classList.toggle("dark-mode", isDark);
+      updateThemeIcon(isDark);
+
+      themeToggle.addEventListener("click", () => {
+        const nextDark = !document.body.classList.contains("dark-mode");
+
+        document.body.classList.toggle("dark-mode", nextDark);
+
+        localStorage.setItem("theme", nextDark ? "dark" : "light");
+        localStorage.setItem("colorTheme", nextDark ? "dark" : "light");
+        localStorage.setItem("todayParentingTheme", nextDark ? "dark" : "light");
+
+        updateThemeIcon(nextDark);
+      });
+    }
+
+    function updateThemeIcon(isDark){
+      themeToggle.innerText = isDark ? "☀️" : "🌙";
+      themeToggle.setAttribute("aria-label", isDark ? "주간모드 전환" : "야간모드 전환");
+    }
 
     function startNotificationBadge(uid){
       if(!notificationBadge || !uid){
@@ -1034,6 +1167,7 @@
 
           nicknameEl.innerText = currentNickname;
           stageBadge.innerText = "🌷 " + currentStage + " 부모";
+          renderStageEdit();
 
           if(data.status && data.status.trim() !== ""){
             statusText.innerText = data.status;
@@ -1060,7 +1194,7 @@
 
           nicknameEl.innerText = currentNickname;
           stageBadge.innerText = "🌷 " + currentStage + " 부모";
-
+          renderStageEdit();
           renderPhoto();
           renderVisibility();
         }
@@ -1075,6 +1209,14 @@
         profilePhoto.innerHTML = `<img src="${escapeHTML(currentPhotoURL)}" alt="프로필 사진">`;
       } else {
         profilePhoto.innerText = currentNickname ? currentNickname.charAt(0) : "?";
+      }
+    }
+
+    function renderStageEdit(){
+      const target = document.querySelector(`input[name="editStage"][value="${currentStage}"]`);
+
+      if(target){
+        target.checked = true;
       }
     }
 
@@ -1305,8 +1447,6 @@
       }
     });
 
-
-
     function compressProfileImage(file){
       return new Promise((resolve, reject) => {
         if(!file || !file.type.startsWith("image/")){
@@ -1417,17 +1557,24 @@
 
     saveStatusBtn.addEventListener("click", async () => {
       const nextStatus = statusInput.value.trim();
+      const checkedStage = document.querySelector("input[name='editStage']:checked");
+      const nextStage = checkedStage ? checkedStage.value : currentStage;
 
       try{
         await setDoc(doc(db, "users", currentUser.uid), {
           status: nextStatus,
+          stage: nextStage,
           updatedAt: new Date()
         }, { merge:true });
+
+        currentStage = nextStage;
+        stageBadge.innerText = "🌷 " + currentStage + " 부모";
+        renderStageEdit();
 
         statusText.innerText = nextStatus || "상태메시지가 아직 없어요.";
         statusInput.value = nextStatus;
 
-        alert(nextStatus ? "소개글이 저장됐어요." : "소개글이 비워졌어요.");
+        alert("프로필 정보가 저장됐어요.");
 
       } catch(error){
         alert("저장 실패: " + error.message);
@@ -1441,12 +1588,9 @@
     });
 
     window.goDetail = function(postId){
-      window.location.href = "detail.html?id=" + postId;
+      window.location.href = "detail.html?id=" + encodeURIComponent(postId);
     };
   </script>
-
-<script src="theme.js"></script>
-
 
 </body>
 </html>

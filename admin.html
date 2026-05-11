@@ -5,15 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>관리자 페이지 - 오늘도육아</title>
 
-  <script src="theme.js"></script>
-
   <style>
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 
+    :root{
+      --bg1:#fff7fb;
+      --bg2:#ffeaf2;
+      --text:#261f22;
+      --sub:#5f5357;
+      --muted:#8b7f83;
+      --card:rgba(255,255,255,0.97);
+      --header:rgba(255,255,255,0.9);
+      --line:#f0dfe6;
+      --soft:#fff8fb;
+      --soft2:#fff0f5;
+      --input:#fff7fa;
+      --point:#ff5c8a;
+      --point2:#ffd6e7;
+      --danger:#ff3d73;
+      --shadow:rgba(255,92,138,0.10);
+    }
+
+    body.dark-mode{
+      --bg1:#181216;
+      --bg2:#24161d;
+      --text:#fff6fa;
+      --sub:#f5e8ee;
+      --muted:#c9aeb9;
+      --card:rgba(38,27,34,0.96);
+      --header:rgba(28,20,25,0.94);
+      --line:#4a303b;
+      --soft:#2f2028;
+      --soft2:#3a2430;
+      --input:#2f2028;
+      --point:#ff8fb1;
+      --point2:#5b3747;
+      --danger:#ff5c8a;
+      --shadow:rgba(0,0,0,0.24);
+    }
+
     body{
       font-family:Arial,sans-serif;
-      background:linear-gradient(135deg,#fff7fb,#ffeaf2);
-      color:#2f272a;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
       min-height:100vh;
       overflow-x:hidden;
       position:relative;
@@ -24,11 +58,11 @@
       position:fixed;
       width:320px;
       height:320px;
-      background:#ffd6e7;
+      background:var(--point2);
       border-radius:50%;
       top:-130px;
       left:-130px;
-      opacity:0.5;
+      opacity:0.45;
       z-index:-1;
     }
 
@@ -37,11 +71,11 @@
       position:fixed;
       width:260px;
       height:260px;
-      background:#ffc8dc;
+      background:var(--point);
       border-radius:50%;
       bottom:-100px;
       right:-100px;
-      opacity:0.32;
+      opacity:0.18;
       z-index:-1;
     }
 
@@ -49,10 +83,10 @@
       position:sticky;
       top:0;
       z-index:100;
-      background:rgba(255,255,255,0.9);
+      background:var(--header);
       backdrop-filter:blur(18px);
       -webkit-backdrop-filter:blur(18px);
-      border-bottom:1px solid rgba(255,214,231,0.55);
+      border-bottom:1px solid var(--line);
     }
 
     .header-inner{
@@ -70,7 +104,7 @@
       display:flex;
       align-items:center;
       gap:10px;
-      color:#ff5c8a;
+      color:var(--point);
       font-size:22px;
       font-weight:900;
       letter-spacing:-0.8px;
@@ -82,7 +116,7 @@
       width:19px;
       height:19px;
       border-radius:50%;
-      background:#ff5c8a;
+      background:var(--point);
       position:relative;
       display:inline-block;
       flex-shrink:0;
@@ -94,7 +128,7 @@
       width:19px;
       height:19px;
       border-radius:50%;
-      background:#ffe4ef;
+      background:var(--bg2);
       top:-2px;
       left:7px;
     }
@@ -107,18 +141,23 @@
     }
 
     .pill-btn{
-      border:none;
       text-decoration:none;
-      color:#ff5c8a;
-      background:white;
-      border:1px solid #ffd6e7;
+      color:var(--point);
+      background:var(--card);
+      border:1px solid var(--point2);
       padding:9px 12px;
       border-radius:999px;
       font-size:12px;
       font-weight:900;
-      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      box-shadow:0 8px 22px var(--shadow);
       cursor:pointer;
       white-space:nowrap;
+      font-family:inherit;
+    }
+
+    .dark-mode-toggle{
+      min-width:38px;
+      padding:9px 11px;
     }
 
     .container{
@@ -129,24 +168,24 @@
     }
 
     .panel{
-      background:rgba(255,255,255,0.97);
+      background:var(--card);
       border-radius:28px;
       padding:18px;
-      box-shadow:0 14px 35px rgba(255,92,138,0.08);
-      border:1px solid rgba(255,255,255,0.95);
+      box-shadow:0 14px 35px var(--shadow);
+      border:1px solid var(--line);
       margin-bottom:14px;
     }
 
     .admin-title{
       font-size:22px;
       font-weight:900;
-      color:#261f22;
+      color:var(--text);
       letter-spacing:-0.7px;
       margin-bottom:8px;
     }
 
     .admin-desc{
-      color:#7d7276;
+      color:var(--muted);
       font-size:13.5px;
       line-height:1.65;
     }
@@ -159,8 +198,8 @@
     }
 
     .summary-card{
-      background:#fff8fb;
-      border:1px solid #f5e4eb;
+      background:var(--soft);
+      border:1px solid var(--line);
       border-radius:20px;
       padding:13px 10px;
       text-align:center;
@@ -169,14 +208,14 @@
     .summary-number{
       font-size:22px;
       font-weight:900;
-      color:#ff3d73;
+      color:var(--danger);
       margin-bottom:4px;
     }
 
     .summary-label{
       font-size:11.5px;
       font-weight:900;
-      color:#8b7f83;
+      color:var(--muted);
     }
 
     .tabs{
@@ -189,21 +228,22 @@
 
     .tab-btn{
       border:none;
-      background:white;
-      color:#8b7f83;
-      border:1px solid #f3dfe7;
+      background:var(--card);
+      color:var(--muted);
+      border:1px solid var(--line);
       padding:9px 12px;
       border-radius:999px;
       font-size:12px;
       font-weight:900;
       cursor:pointer;
       white-space:nowrap;
+      font-family:inherit;
     }
 
     .tab-btn.active{
-      background:#ff5c8a;
+      background:var(--point);
       color:white;
-      border-color:#ff5c8a;
+      border-color:var(--point);
       box-shadow:0 10px 22px rgba(255,92,138,0.18);
     }
 
@@ -216,24 +256,25 @@
     .search-input{
       flex:1;
       min-width:0;
-      border:1px solid #f3dfe7;
-      background:#fff7fa;
+      border:1px solid var(--line);
+      background:var(--input);
       border-radius:17px;
       padding:12px 13px;
       outline:none;
-      color:#2f272a;
+      color:var(--text);
       font-size:13.5px;
+      font-family:inherit;
     }
 
     .search-input:focus{
-      background:white;
-      border-color:#ff8fb1;
+      background:var(--card);
+      border-color:var(--point);
       box-shadow:0 0 0 4px rgba(255,92,138,0.08);
     }
 
     .refresh-btn{
       border:none;
-      background:#ff5c8a;
+      background:var(--point);
       color:white;
       padding:0 14px;
       border-radius:17px;
@@ -242,6 +283,7 @@
       cursor:pointer;
       box-shadow:0 12px 26px rgba(255,92,138,0.2);
       white-space:nowrap;
+      font-family:inherit;
     }
 
     .bulk-panel{
@@ -251,8 +293,8 @@
       gap:10px;
       flex-wrap:wrap;
       margin-top:14px;
-      background:#fff8fb;
-      border:1px solid #f5e4eb;
+      background:var(--soft);
+      border:1px solid var(--line);
       border-radius:20px;
       padding:12px;
     }
@@ -272,18 +314,19 @@
       font-size:12px;
       font-weight:900;
       cursor:pointer;
-      background:white;
-      color:#7d7276;
-      border:1px solid #f3dfe7;
+      background:var(--card);
+      color:var(--muted);
+      border:1px solid var(--line);
+      font-family:inherit;
     }
 
     .bulk-btn.dark{background:#342b2f;color:white;border-color:#342b2f;}
-    .bulk-btn.pink{background:#fff0f5;color:#ff5c8a;border-color:#ffd6e7;}
-    .bulk-btn.danger{background:#ff3d73;color:white;border-color:#ff3d73;}
+    .bulk-btn.pink{background:var(--soft2);color:var(--point);border-color:var(--point2);}
+    .bulk-btn.danger{background:var(--danger);color:white;border-color:var(--danger);}
     .bulk-btn:disabled{opacity:0.5;cursor:not-allowed;}
 
     .selected-count{
-      color:#ff3d73;
+      color:var(--danger);
       font-size:12px;
       font-weight:900;
       white-space:nowrap;
@@ -291,30 +334,30 @@
 
     .loading,
     .empty{
-      background:rgba(255,255,255,0.95);
+      background:var(--card);
       border-radius:28px;
       padding:38px 22px;
       text-align:center;
-      color:#8b7f83;
+      color:var(--muted);
       line-height:1.7;
       font-size:14px;
-      box-shadow:0 14px 35px rgba(255,92,138,0.07);
-      border:1px solid rgba(255,255,255,0.95);
+      box-shadow:0 14px 35px var(--shadow);
+      border:1px solid var(--line);
     }
 
     .hidden{display:none !important;}
 
     .report-card{
-      background:rgba(255,255,255,0.98);
+      background:var(--card);
       border-radius:26px;
       padding:16px;
       margin-bottom:12px;
-      box-shadow:0 14px 35px rgba(255,92,138,0.07);
-      border:1px solid rgba(255,255,255,0.95);
+      box-shadow:0 14px 35px var(--shadow);
+      border:1px solid var(--line);
     }
 
     .report-card.selected{
-      border-color:#ff8fb1;
+      border-color:var(--point);
       box-shadow:0 14px 35px rgba(255,92,138,0.16);
     }
 
@@ -336,15 +379,13 @@
     .select-box{
       width:23px;
       height:23px;
-      accent-color:#ff5c8a;
+      accent-color:var(--point);
       flex-shrink:0;
       margin-top:2px;
       cursor:pointer;
     }
 
-    .report-main{
-      min-width:0;
-    }
+    .report-main{min-width:0;}
 
     .report-type-row{
       display:flex;
@@ -367,19 +408,46 @@
       white-space:nowrap;
     }
 
-    .type-badge.post{background:#fff0f5;color:#ff3d73;}
+    .type-badge.post{background:var(--soft2);color:var(--danger);}
     .type-badge.comment{background:#f4f0ff;color:#7d5cff;}
     .status-badge.pending{background:#fff7e9;color:#d38400;}
     .status-badge.done{background:#edf8f0;color:#238544;}
     .status-badge.deleted{background:#f1f1f1;color:#666;}
     .status-badge.auto{background:#ffecef;color:#dd315c;}
-    .count-badge{background:#fff8fb;color:#8b7f83;border:1px solid #f3dfe7;}
+    .count-badge{background:var(--soft);color:var(--muted);border:1px solid var(--line);}
     .count-badge.hot{background:#ffecef;color:#dd315c;border-color:#ffc6d1;}
+
+    body.dark-mode .type-badge.comment{
+      background:#302949;
+      color:#bca8ff;
+    }
+
+    body.dark-mode .status-badge.pending{
+      background:#3d2e1c;
+      color:#ffc06a;
+    }
+
+    body.dark-mode .status-badge.done{
+      background:#203529;
+      color:#82e0a0;
+    }
+
+    body.dark-mode .status-badge.deleted{
+      background:#332b30;
+      color:#c9aeb9;
+    }
+
+    body.dark-mode .status-badge.auto,
+    body.dark-mode .count-badge.hot{
+      background:#442232;
+      color:#ff9fbd;
+      border-color:#6b3a4f;
+    }
 
     .report-title{
       font-size:17px;
       font-weight:900;
-      color:#261f22;
+      color:var(--text);
       line-height:1.45;
       letter-spacing:-0.4px;
       word-break:keep-all;
@@ -387,7 +455,7 @@
     }
 
     .report-date{
-      color:#aa9ba1;
+      color:var(--muted);
       font-size:12px;
       font-weight:800;
       white-space:nowrap;
@@ -402,22 +470,22 @@
     }
 
     .meta-item{
-      background:#fff8fb;
-      border:1px solid #f5e4eb;
+      background:var(--soft);
+      border:1px solid var(--line);
       border-radius:16px;
       padding:10px;
       min-width:0;
     }
 
     .meta-label{
-      color:#aa9ba1;
+      color:var(--muted);
       font-size:11px;
       font-weight:900;
       margin-bottom:5px;
     }
 
     .meta-value{
-      color:#4d4447;
+      color:var(--sub);
       font-size:12.5px;
       font-weight:800;
       line-height:1.45;
@@ -427,17 +495,17 @@
     .section-title{
       margin-top:12px;
       margin-bottom:7px;
-      color:#342b2f;
+      color:var(--text);
       font-size:13px;
       font-weight:900;
     }
 
     .text-box{
-      background:#fff9fb;
-      border:1px solid #f7e5ec;
+      background:var(--input);
+      border:1px solid var(--line);
       border-radius:18px;
       padding:12px;
-      color:#5f5357;
+      color:var(--sub);
       font-size:13.5px;
       line-height:1.65;
       white-space:pre-line;
@@ -460,12 +528,22 @@
       font-size:12px;
       font-weight:900;
       cursor:pointer;
+      font-family:inherit;
     }
 
-    .view-btn{background:white;color:#ff5c8a;border:1px solid #ffd6e7;}
+    .view-btn{background:var(--card);color:var(--point);border:1px solid var(--point2);}
     .done-btn{background:#342b2f;color:white;}
-    .delete-target-btn{background:#ff3d73;color:white;}
-    .delete-report-btn{background:#fff0f5;color:#ff5c8a;}
+    .delete-target-btn{background:var(--danger);color:white;}
+    .delete-report-btn{background:var(--soft2);color:var(--point);border:1px solid var(--point2);}
+
+    button:active,
+    .pill-btn:active,
+    .tab-btn:active,
+    .bulk-btn:active,
+    .action-btn:active,
+    .refresh-btn:active{
+      transform:scale(0.99);
+    }
 
     @media(max-width:820px){
       .summary-grid{grid-template-columns:repeat(3,1fr);}
@@ -476,7 +554,7 @@
       .meta-grid{grid-template-columns:1fr;}
       .header-inner{max-width:430px;}
       .container{max-width:430px;}
-      .brand{font-size:21px;}
+      .brand{font-size:19px;}
       .admin-title{font-size:21px;}
       .report-head{display:block;}
       .report-date{margin-top:8px;}
@@ -486,30 +564,25 @@
       .bulk-panel{display:block;}
       .bulk-left,.bulk-right{margin-top:8px;}
       .bulk-btn{flex:1;}
+      .header-actions{gap:6px;}
+      .pill-btn{padding:8px 10px;font-size:11.5px;}
     }
   </style>
 </head>
 
 <body>
 
- <div class="header">
-  <div class="header-inner">
-    <!-- 관리자 로고 -->
-    <div class="brand" onclick="location.href='home.html'">
-      <span class="mini-logo"></span>
-      오늘도육아 관리자
-    </div>
+  <div class="header">
+    <div class="header-inner">
+      <div class="brand" onclick="location.href='home.html'">
+        <span class="mini-logo"></span>
+        오늘도육아 관리자
+      </div>
 
-    <!-- 오른쪽 버튼 묶음 -->
-    <div class="header-actions" style="display:flex; gap:8px; align-items:center; justify-content:flex-end;">
-      <!-- 새로고침 버튼 -->
-      <button class="pill-btn" onclick="loadReports()">새로고침</button>
-
-      <!-- 홈 버튼 -->
-      <a href="home.html" class="pill-btn">홈으로</a>
-
-      <!-- 야간 모드 버튼 -->
-      <button class="pill-btn dark-mode-toggle" type="button">🌙 야간</button>
+      <div class="header-actions">
+        <button class="pill-btn" onclick="loadReports()" type="button">새로고침</button>
+        <a href="home.html" class="pill-btn">홈으로</a>
+        <button class="pill-btn dark-mode-toggle" id="themeToggle" type="button" aria-label="야간모드 전환">🌙</button>
       </div>
     </div>
   </div>
@@ -523,7 +596,7 @@
       관리자만 접근할 수 있는 페이지입니다.<br>
       로그인 계정을 확인해주세요.
       <div style="margin-top:16px;">
-        <button class="pill-btn" onclick="location.href='home.html'">홈으로 가기</button>
+        <button class="pill-btn" onclick="location.href='home.html'" type="button">홈으로 가기</button>
       </div>
     </div>
 
@@ -559,13 +632,13 @@
         </div>
 
         <div class="tabs">
-          <button class="tab-btn active" data-filter="all" onclick="setFilter('all')">전체</button>
-          <button class="tab-btn" data-filter="pending" onclick="setFilter('pending')">대기중</button>
-          <button class="tab-btn" data-filter="accumulated" onclick="setFilter('accumulated')">누적 3회 이상</button>
-          <button class="tab-btn" data-filter="done" onclick="setFilter('done')">처리완료</button>
-          <button class="tab-btn" data-filter="post" onclick="setFilter('post')">게시글</button>
-          <button class="tab-btn" data-filter="comment" onclick="setFilter('comment')">댓글</button>
-          <button class="tab-btn" data-filter="auto_deleted" onclick="setFilter('auto_deleted')">자동삭제 기록</button>
+          <button class="tab-btn active" data-filter="all" onclick="setFilter('all')" type="button">전체</button>
+          <button class="tab-btn" data-filter="pending" onclick="setFilter('pending')" type="button">대기중</button>
+          <button class="tab-btn" data-filter="accumulated" onclick="setFilter('accumulated')" type="button">누적 3회 이상</button>
+          <button class="tab-btn" data-filter="done" onclick="setFilter('done')" type="button">처리완료</button>
+          <button class="tab-btn" data-filter="post" onclick="setFilter('post')" type="button">게시글</button>
+          <button class="tab-btn" data-filter="comment" onclick="setFilter('comment')" type="button">댓글</button>
+          <button class="tab-btn" data-filter="auto_deleted" onclick="setFilter('auto_deleted')" type="button">자동삭제 기록</button>
         </div>
 
         <div class="search-row">
@@ -575,20 +648,20 @@
             type="text"
             placeholder="신고 사유, 제목, 닉네임, 내용 검색"
           >
-          <button class="refresh-btn" onclick="loadReports()">갱신</button>
+          <button class="refresh-btn" onclick="loadReports()" type="button">갱신</button>
         </div>
 
         <div class="bulk-panel">
           <div class="bulk-left">
-            <button class="bulk-btn" onclick="selectVisibleReports()">현재 목록 전체 선택</button>
-            <button class="bulk-btn" onclick="clearSelectedReports()">선택 해제</button>
+            <button class="bulk-btn" onclick="selectVisibleReports()" type="button">현재 목록 전체 선택</button>
+            <button class="bulk-btn" onclick="clearSelectedReports()" type="button">선택 해제</button>
             <span class="selected-count" id="selectedCountText">선택 0개</span>
           </div>
 
           <div class="bulk-right">
-            <button class="bulk-btn dark" id="bulkDoneBtn" onclick="bulkMarkDone()">선택 처리완료</button>
-            <button class="bulk-btn danger" id="bulkTargetBtn" onclick="bulkDeleteTargets()">선택 대상삭제</button>
-            <button class="bulk-btn pink" id="bulkReportBtn" onclick="bulkDeleteReports()">선택 신고기록 삭제</button>
+            <button class="bulk-btn dark" id="bulkDoneBtn" onclick="bulkMarkDone()" type="button">선택 처리완료</button>
+            <button class="bulk-btn danger" id="bulkTargetBtn" onclick="bulkDeleteTargets()" type="button">선택 대상삭제</button>
+            <button class="bulk-btn pink" id="bulkReportBtn" onclick="bulkDeleteReports()" type="button">선택 신고기록 삭제</button>
           </div>
         </div>
       </div>
@@ -628,7 +701,6 @@
       appId: "1:375329953167:web:d29af0e45cc7d10e9f67fa"
     };
 
-    // 중요: 실제 관리자 계정 이메일로 바꿔주세요.
     const ADMIN_EMAIL = "admin@todayparenting.local";
 
     const app = initializeApp(firebaseConfig);
@@ -640,6 +712,7 @@
     const adminBox = document.getElementById("adminBox");
     const reportsList = document.getElementById("reportsList");
     const searchInput = document.getElementById("searchInput");
+    const themeToggle = document.getElementById("themeToggle");
 
     const totalCount = document.getElementById("totalCount");
     const pendingCount = document.getElementById("pendingCount");
@@ -657,6 +730,8 @@
     let selectedReportIds = new Set();
     let groupCountMap = {};
 
+    initTheme();
+
     onAuthStateChanged(auth, async (user) => {
       loadingBox.classList.add("hidden");
 
@@ -672,6 +747,34 @@
     searchInput.addEventListener("input", () => {
       renderReports();
     });
+
+    function initTheme(){
+      const savedTheme =
+        localStorage.getItem("theme") ||
+        localStorage.getItem("colorTheme") ||
+        localStorage.getItem("todayParentingTheme");
+
+      const isDark = savedTheme === "dark";
+      document.body.classList.toggle("dark-mode", isDark);
+      updateThemeIcon(isDark);
+
+      themeToggle.addEventListener("click", () => {
+        const nextDark = !document.body.classList.contains("dark-mode");
+
+        document.body.classList.toggle("dark-mode", nextDark);
+
+        localStorage.setItem("theme", nextDark ? "dark" : "light");
+        localStorage.setItem("colorTheme", nextDark ? "dark" : "light");
+        localStorage.setItem("todayParentingTheme", nextDark ? "dark" : "light");
+
+        updateThemeIcon(nextDark);
+      });
+    }
+
+    function updateThemeIcon(isDark){
+      themeToggle.innerText = isDark ? "☀️" : "🌙";
+      themeToggle.setAttribute("aria-label", isDark ? "주간모드 전환" : "야간모드 전환");
+    }
 
     function escapeHTML(text){
       return String(text || "")
@@ -1206,10 +1309,9 @@
         await loadReports();
       } catch(error){
         alert("일괄 대상삭제 중 오류가 발생했어요.\n" + error.message);
-      } 
+      }
     };
   </script>
-
 
 </body>
 </html>

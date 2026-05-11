@@ -61,6 +61,7 @@
       justify-content:space-between;
       align-items:center;
       margin-bottom:26px;
+      gap:10px;
     }
 
     .brand{
@@ -71,6 +72,8 @@
       font-weight:900;
       color:#ff5c8a;
       letter-spacing:-0.8px;
+      white-space:nowrap;
+      flex-shrink:0;
     }
 
     .mini-logo{
@@ -94,15 +97,53 @@
       left:7px;
     }
 
+    .top-actions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:8px;
+      flex-shrink:0;
+    }
+
     .badge{
       background:white;
       color:#ff5c8a;
       border:1px solid #ffd6e7;
-      padding:8px 12px;
+      height:38px;
+      padding:0 14px;
       border-radius:999px;
       font-size:12px;
       font-weight:bold;
       box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      line-height:1;
+      white-space:nowrap;
+    }
+
+    .dark-mode-toggle{
+      width:auto;
+      height:38px;
+      padding:0 14px;
+      margin-top:0;
+      border-radius:999px;
+      background:white;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      font-size:12px;
+      font-weight:bold;
+      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      cursor:pointer;
+      white-space:nowrap;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      line-height:1;
+    }
+
+    .dark-mode-toggle:active{
+      transform:scale(0.97);
     }
 
     .hero{
@@ -164,27 +205,28 @@
 
     .category-row{
       display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
+      grid-template-columns:repeat(5,1fr);
+      gap:8px;
       margin:18px 0 22px;
     }
 
     .category{
       background:rgba(255,255,255,0.94);
-      border-radius:22px;
-      padding:16px 6px 14px;
+      border-radius:20px;
+      padding:13px 4px 12px;
       text-align:center;
       box-shadow:0 12px 28px rgba(255,92,138,0.07);
       border:1px solid rgba(255,255,255,0.9);
+      min-height:44px;
     }
 
     .category div{
-      font-size:24px;
+      font-size:22px;
       margin-bottom:7px;
     }
 
     .category span{
-      font-size:12px;
+      font-size:11px;
       font-weight:bold;
       color:#5f5357;
       white-space:nowrap;
@@ -265,6 +307,7 @@
       font-size:15px;
       outline:none;
       color:#2f272a;
+      min-height:44px;
     }
 
     input:focus{
@@ -285,10 +328,17 @@
       font-weight:bold;
       margin-top:8px;
       box-shadow:0 12px 28px rgba(255,92,138,0.25);
+      min-height:44px;
     }
 
     button:active{
       transform:scale(0.99);
+    }
+
+    button:disabled{
+      opacity:0.65;
+      cursor:not-allowed;
+      transform:none;
     }
 
     .kakao-btn{
@@ -341,39 +391,19 @@
       opacity:0.92;
     }
 
-    .top-actions{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-shrink:0;
-    }
-
-    .dark-mode-toggle{
-      width:auto;
-      min-height:36px;
-      padding:8px 12px;
-      margin-top:0;
-      border-radius:999px;
-      background:white;
-      color:#ff5c8a;
-      border:1px solid #ffd6e7;
-      font-size:12px;
-      font-weight:bold;
-      box-shadow:0 8px 22px rgba(255,92,138,0.08);
-      cursor:pointer;
-      white-space:nowrap;
-    }
-
-    .dark-mode-toggle:active{
-      transform:scale(0.97);
-    }
-
     @supports(padding:max(0px)){
       .app{
         padding-top:max(22px, env(safe-area-inset-top));
         padding-left:max(18px, env(safe-area-inset-left));
         padding-right:max(18px, env(safe-area-inset-right));
         padding-bottom:max(30px, env(safe-area-inset-bottom));
+      }
+    }
+
+    @media (max-width:390px){
+      .category-row{
+        grid-template-columns:repeat(3,1fr);
+        gap:8px;
       }
     }
 
@@ -391,17 +421,14 @@
         font-size:28px;
       }
 
-      .category-row{
-        gap:8px;
-      }
-
       .category span{
         font-size:11px;
       }
 
       .badge,
       .dark-mode-toggle{
-        padding:8px 10px;
+        height:36px;
+        padding:0 10px;
         font-size:11px;
       }
     }
@@ -415,20 +442,6 @@
       .app{
         width:430px;
       }
-    }
-
-    input,
-    button,
-    .category,
-    .badge,
-    .dark-mode-toggle{
-      min-height:44px;
-    }
-
-    button:disabled{
-      opacity:0.65;
-      cursor:not-allowed;
-      transform:none;
     }
 
     body.dark-mode{
@@ -562,7 +575,6 @@
     body.dark-mode .bottom-note p{
       color:#f8dbe6;
     }
-
   </style>
 </head>
 
@@ -577,13 +589,13 @@
       </div>
 
       <div class="top-actions">
-        <div class="badge">
-          따뜻한 공간
-        </div>
-
         <button class="dark-mode-toggle" type="button" onclick="toggleDarkMode()">
           🌙 야간
         </button>
+
+        <div class="badge">
+          따뜻한 공간
+        </div>
       </div>
     </div>
 
@@ -628,11 +640,6 @@
       <div class="category">
         <div>🧒</div>
         <span>어린이</span>
-      </div>
-
-      <div class="category">
-        <div>💗</div>
-        <span>위로받기</span>
       </div>
     </div>
 
@@ -687,41 +694,6 @@
   </div>
 
   <script type="module">
-
-    function applySavedTheme(){
-      const savedTheme = localStorage.getItem("todayParentingTheme");
-
-      if(savedTheme === "dark"){
-        document.body.classList.add("dark-mode");
-      }
-
-      updateDarkModeButtons();
-    }
-
-    function updateDarkModeButtons(){
-      const isDark = document.body.classList.contains("dark-mode");
-      const buttons = document.querySelectorAll(".dark-mode-toggle");
-
-      buttons.forEach((button) => {
-        button.innerText = isDark ? "☀️ 라이트" : "🌙 야간";
-      });
-    }
-
-    window.toggleDarkMode = function(){
-      document.body.classList.toggle("dark-mode");
-
-      if(document.body.classList.contains("dark-mode")){
-        localStorage.setItem("todayParentingTheme", "dark");
-      } else {
-        localStorage.setItem("todayParentingTheme", "light");
-      }
-
-      updateDarkModeButtons();
-    };
-
-    applySavedTheme();
-
-
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 
     import {
@@ -773,7 +745,6 @@
     }
 
     loginBtn.addEventListener("click", async () => {
-
       if(loginId.value.trim() === ""){
         alert("아이디를 입력해주세요.");
         return;
@@ -785,7 +756,6 @@
       }
 
       try{
-
         loginBtn.disabled = true;
         loginBtn.innerText = "로그인 중...";
 
@@ -798,42 +768,30 @@
         );
 
         goAfterLogin(loginId.value);
-
-      }
-
-      catch(error){
-
+      } catch(error){
         alert("아이디 또는 비밀번호를 확인해주세요.");
 
         loginBtn.disabled = false;
         loginBtn.innerText = "로그인하기";
-
       }
-
     });
 
     kakaoBtn.addEventListener("click", async () => {
-
       try{
+        kakaoBtn.disabled = true;
+        kakaoBtn.innerText = "카카오 로그인 중...";
 
         const provider = new OAuthProvider("oidc.kakao");
-
         await signInWithRedirect(auth, provider);
-
-      }
-
-      catch(error){
-
+      } catch(error){
         alert(error.message);
-
+        kakaoBtn.disabled = false;
+        kakaoBtn.innerText = "카카오톡으로 로그인";
       }
-
     });
 
     async function checkKakaoRedirect(){
-
       try{
-
         const result = await getRedirectResult(auth);
 
         if(!result){
@@ -841,13 +799,10 @@
         }
 
         const user = result.user;
-
         const userRef = doc(db, "users", user.uid);
-
         const userSnap = await getDoc(userRef);
 
         if(!userSnap.exists()){
-
           await setDoc(userRef, {
             nickname: user.displayName || "카카오사용자",
             loginId: "",
@@ -860,52 +815,37 @@
               "새벽육아",
               "신생아",
               "영유아",
-              "어린이",
-              "위로받기"
+              "어린이"
             ],
             status: "초보엄마예요 💕",
             photoUrl: user.photoURL || "",
             createdAt: new Date()
           });
-
         }
 
         window.location.href = "home.html";
-
-      }
-
-      catch(error){
-
+      } catch(error){
         console.log(error.message);
-
       }
-
     }
 
     document.addEventListener("keydown", async (event) => {
-
       if(event.key !== "Enter"){
         return;
       }
 
       const activeElement = document.activeElement;
 
-      if(
-        activeElement === loginId ||
-        activeElement === password
-      ){
-
+      if(activeElement === loginId || activeElement === password){
         event.preventDefault();
-
         loginBtn.click();
-
       }
-
     });
 
     checkKakaoRedirect();
-
   </script>
+
+<script src="theme.js"></script>
 
 </body>
 </html>

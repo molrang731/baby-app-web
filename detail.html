@@ -687,6 +687,127 @@
   white-space:nowrap;
 }
 
+
+
+    body.dark-mode{
+      background:linear-gradient(135deg,#181216,#24161d);
+      color:#f7edf2;
+    }
+
+    body.dark-mode::before{
+      background:#573040;
+      opacity:0.36;
+    }
+
+    body.dark-mode::after{
+      background:#7a344d;
+      opacity:0.25;
+    }
+
+    body.dark-mode .header,
+    body.dark-mode .bottom-menu{
+      background:rgba(28,20,25,0.94);
+      border-color:#3a2730;
+    }
+
+    body.dark-mode .brand{
+      color:#ff8fb1;
+    }
+
+    body.dark-mode .mini-logo{
+      background:#ff8fb1;
+    }
+
+    body.dark-mode .mini-logo::after{
+      background:#2a1d24;
+    }
+
+    body.dark-mode .post,
+    body.dark-mode .comment-section,
+    body.dark-mode .comment,
+    body.dark-mode .empty,
+    body.dark-mode .content,
+    body.dark-mode .post-footer,
+    body.dark-mode .comment-input{
+      background:#2f2028;
+      border-color:#4a303b;
+      color:#f5e8ee;
+      box-shadow:0 14px 35px rgba(0,0,0,0.22);
+    }
+
+    body.dark-mode .image-grid,
+    body.dark-mode .post-image{
+      background:#24181f;
+    }
+
+    body.dark-mode .title,
+    body.dark-mode .name,
+    body.dark-mode .comment-section h3{
+      color:#fff6fa;
+    }
+
+    body.dark-mode .time,
+    body.dark-mode .post-views,
+    body.dark-mode .comment-time,
+    body.dark-mode .comment-text,
+    body.dark-mode .bottom-menu a{
+      color:#c9aeb9;
+    }
+
+    body.dark-mode .bottom-menu a.active{
+      color:#ff8fb1;
+    }
+
+    body.dark-mode .post-category,
+    body.dark-mode .delete-btn,
+    body.dark-mode .report-btn,
+    body.dark-mode .comment-delete,
+    body.dark-mode .comment-report,
+    body.dark-mode .action-btn,
+    body.dark-mode .comment-action-btn,
+    body.dark-mode .back-link,
+    body.dark-mode .notice-link,
+    body.dark-mode .pill,
+    body.dark-mode .comment-page-btn{
+      background:#3a2430;
+      color:#ff8fb1;
+      border-color:#5b3747;
+    }
+
+    body.dark-mode .like-btn,
+    body.dark-mode .heart-red,
+    body.dark-mode .comment-action-btn.good{
+      color:#ff8fb1;
+    }
+
+    body.dark-mode .like-btn.liked,
+    body.dark-mode .comment-action-btn.active,
+    body.dark-mode .comment-page-btn.active{
+      background:#ff5c8a;
+      color:white;
+      border-color:#ff5c8a;
+    }
+
+    body.dark-mode .profile{
+      background:linear-gradient(135deg,#3a2430,#553144);
+      color:#ff8fb1;
+    }
+
+    body.dark-mode .comment-input::placeholder{
+      color:#bfa5b0;
+    }
+
+    body.dark-mode .comment-input:focus{
+      background:#35242d;
+      border-color:#ff8fb1;
+      box-shadow:0 0 0 4px rgba(255,143,177,0.12);
+    }
+
+    body.dark-mode .modal-close{
+      background:#3a2430;
+      color:#ff8fb1;
+    }
+
     @media(max-width:390px){
       .container{padding-left:12px;padding-right:12px;}
       .header-inner{padding-left:16px;padding-right:16px;}
@@ -707,30 +828,33 @@
 
 <body>
 
- <div class="header-inner">
-  <div class="brand" onclick="location.href='home.html'">
-    <span class="mini-logo"></span>
-    오늘도육아
+  <div class="header">
+    <div class="header-inner">
+      <div class="brand" onclick="location.href='home.html'">
+        <span class="mini-logo"></span>
+        오늘도육아
+      </div>
+
+      <div class="header-actions">
+        <button
+          class="pill dark-mode-toggle"
+          data-mode="icon"
+          onclick="toggleDarkMode()"
+          type="button"
+          aria-label="야간모드 전환"
+        >
+          🌙
+        </button>
+
+        <a href="notifications.html" class="notice-link" aria-label="알림">
+          🔔
+          <span class="notice-badge" id="noticeBadge">0</span>
+        </a>
+
+        <a href="home.html" class="back-link">홈으로</a>
+      </div>
+    </div>
   </div>
-
-  <div class="header-actions">
-
-    <button
-      class="pill dark-mode-toggle"
-      onclick="toggleDarkMode()"
-      type="button"
-    >
-      🌙 야간
-    </button>
-
-    <a href="notifications.html" class="notice-link" aria-label="알림">
-      🔔
-      <span class="notice-badge" id="noticeBadge">0</span>
-    </a>
-
-    <a href="home.html" class="back-link">목록으로</a>
-  </div>
-</div>
 
   <div class="container">
     <div id="postArea"></div>
