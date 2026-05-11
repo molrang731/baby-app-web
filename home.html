@@ -1190,7 +1190,8 @@
 
     import {
       getAuth,
-      onAuthStateChanged
+      onAuthStateChanged,
+      signOut
     } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
     import {
@@ -1401,6 +1402,14 @@
 
           if(userDoc.exists()){
             const userData = userDoc.data();
+
+            if(userData.isBlocked === true){
+              alert("정지된 계정입니다. 관리자에게 문의해주세요.");
+              await signOut(auth);
+              window.location.href = "index.html";
+              return;
+            }
+
             currentNickname = userData.nickname || user.displayName || "사용자";
             userPill.innerText = currentNickname;
           } else {

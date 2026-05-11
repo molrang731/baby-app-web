@@ -534,6 +534,8 @@
     .view-btn{background:var(--card);color:var(--point);border:1px solid var(--point2);}
     .done-btn{background:#342b2f;color:white;}
     .delete-target-btn{background:var(--danger);color:white;}
+    .block-user-btn{background:#5b3d4b;color:white;}
+    .unblock-user-btn{background:var(--soft2);color:var(--point);border:1px solid var(--point2);}
     .delete-report-btn{background:var(--soft2);color:var(--point);border:1px solid var(--point2);}
 
     button:active,
@@ -545,6 +547,25 @@
       transform:scale(0.99);
     }
 
+
+    .menu-tabs{display:flex;gap:8px;overflow-x:auto;padding:4px;background:var(--soft);border:1px solid var(--line);border-radius:999px;margin-bottom:14px;}
+    .menu-tab{border:none;background:transparent;color:var(--muted);padding:11px 14px;border-radius:999px;font-size:13px;font-weight:900;cursor:pointer;white-space:nowrap;font-family:inherit;flex:1;}
+    .menu-tab.active{background:var(--point);color:white;box-shadow:0 10px 22px rgba(255,92,138,0.18);}
+    .user-card{background:var(--card);border-radius:26px;padding:16px;margin-bottom:12px;box-shadow:0 14px 35px var(--shadow);border:1px solid var(--line);}
+    .user-card.blocked{border-color:var(--danger);box-shadow:0 14px 35px rgba(255,92,138,0.16);}
+    .user-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px;}
+    .user-name{font-size:17px;font-weight:900;color:var(--text);line-height:1.4;word-break:break-word;}
+    .user-email{margin-top:3px;font-size:12.5px;color:var(--muted);font-weight:800;word-break:break-word;}
+    .user-badge{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:900;white-space:nowrap;background:#edf8f0;color:#238544;}
+    .user-badge.blocked{background:#ffecef;color:#dd315c;}
+    body.dark-mode .user-badge{background:#203529;color:#82e0a0;}
+    body.dark-mode .user-badge.blocked{background:#442232;color:#ff9fbd;}
+    .user-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;}
+    .user-info-item{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:10px;min-width:0;}
+    .user-info-label{color:var(--muted);font-size:11px;font-weight:900;margin-bottom:5px;}
+    .user-info-value{color:var(--sub);font-size:12.5px;font-weight:800;line-height:1.45;word-break:break-word;}
+    .reset-password-btn{background:var(--card);color:var(--point);border:1px solid var(--point2);}
+
     @media(max-width:820px){
       .summary-grid{grid-template-columns:repeat(3,1fr);}
     }
@@ -552,6 +573,7 @@
     @media(max-width:720px){
       .summary-grid{grid-template-columns:repeat(2,1fr);}
       .meta-grid{grid-template-columns:1fr;}
+      .user-info-grid{grid-template-columns:1fr;}
       .header-inner{max-width:430px;}
       .container{max-width:430px;}
       .brand{font-size:19px;}
@@ -601,6 +623,16 @@
     </div>
 
     <div id="adminBox" class="hidden">
+      <div class="panel">
+        <div class="admin-title">관리자 메뉴</div>
+        <div class="admin-desc">신고 관리와 가입 회원 관리를 한 곳에서 확인할 수 있어요.</div>
+        <div class="menu-tabs">
+          <button class="menu-tab active" id="reportMenuTab" type="button" onclick="showAdminMenu('reports')">신고 관리</button>
+          <button class="menu-tab" id="userMenuTab" type="button" onclick="showAdminMenu('users')">회원 관리</button>
+        </div>
+      </div>
+
+      <div id="reportsArea">
       <div class="panel">
         <div class="admin-title">신고 관리</div>
         <div class="admin-desc">
@@ -667,6 +699,19 @@
       </div>
 
       <div id="reportsList"></div>
+      </div>
+
+      <div id="usersArea" class="hidden">
+        <div class="panel">
+          <div class="admin-title">회원 관리</div>
+          <div class="admin-desc">가입한 회원 이메일과 상태를 확인하고, 비밀번호 재설정 메일 발송 / 계정 정지 / 정지 해제를 할 수 있어요.</div>
+          <div class="search-row">
+            <input id="userSearchInput" class="search-input" type="text" placeholder="이메일, 닉네임, UID 검색">
+            <button class="refresh-btn" onclick="loadUsers()" type="button">회원 갱신</button>
+          </div>
+        </div>
+        <div id="usersList"></div>
+      </div>
     </div>
   </div>
 
@@ -675,7 +720,8 @@
 
     import {
       getAuth,
-      onAuthStateChanged
+      onAuthStateChanged,
+      sendPasswordResetEmail
     } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
     import {
@@ -686,6 +732,7 @@
       getDoc,
       query,
       orderBy,
+      setDoc,
       updateDoc,
       deleteDoc,
       increment,
@@ -710,8 +757,14 @@
     const loadingBox = document.getElementById("loadingBox");
     const blockedBox = document.getElementById("blockedBox");
     const adminBox = document.getElementById("adminBox");
+    const reportsArea = document.getElementById("reportsArea");
+    const usersArea = document.getElementById("usersArea");
+    const reportMenuTab = document.getElementById("reportMenuTab");
+    const userMenuTab = document.getElementById("userMenuTab");
     const reportsList = document.getElementById("reportsList");
+    const usersList = document.getElementById("usersList");
     const searchInput = document.getElementById("searchInput");
+    const userSearchInput = document.getElementById("userSearchInput");
     const themeToggle = document.getElementById("themeToggle");
 
     const totalCount = document.getElementById("totalCount");
@@ -729,6 +782,7 @@
     let visibleReports = [];
     let selectedReportIds = new Set();
     let groupCountMap = {};
+    let allUsers = [];
 
     initTheme();
 
@@ -742,10 +796,15 @@
 
       adminBox.classList.remove("hidden");
       await loadReports();
+      await loadUsers();
     });
 
     searchInput.addEventListener("input", () => {
       renderReports();
+    });
+
+    userSearchInput.addEventListener("input", () => {
+      renderUsers();
     });
 
     function initTheme(){
@@ -1103,6 +1162,8 @@
           <div class="btn-wrap">
             <button class="action-btn view-btn" type="button">게시글 보기</button>
             <button class="action-btn done-btn" type="button">처리완료</button>
+            <button class="action-btn block-user-btn" type="button">계정 정지</button>
+            <button class="action-btn unblock-user-btn" type="button">정지 해제</button>
             <button class="action-btn delete-target-btn" type="button">대상 삭제</button>
             <button class="action-btn delete-report-btn" type="button">신고기록 삭제</button>
           </div>
@@ -1111,17 +1172,201 @@
         const checkbox = reportCard.querySelector(".select-box");
         const viewButton = reportCard.querySelector(".view-btn");
         const doneButton = reportCard.querySelector(".done-btn");
+        const blockUserButton = reportCard.querySelector(".block-user-btn");
+        const unblockUserButton = reportCard.querySelector(".unblock-user-btn");
         const targetButton = reportCard.querySelector(".delete-target-btn");
         const reportButton = reportCard.querySelector(".delete-report-btn");
 
         checkbox.addEventListener("change", () => toggleReportSelection(report.id));
         viewButton.addEventListener("click", () => location.href = postLink);
         doneButton.addEventListener("click", () => markDone(report.id));
+        blockUserButton.addEventListener("click", () => blockTargetUser(report.id, report.targetUserId || "", report.targetNickname || ""));
+        unblockUserButton.addEventListener("click", () => unblockTargetUser(report.targetUserId || "", report.targetNickname || ""));
         targetButton.addEventListener("click", () => deleteTarget(report.id, report.type || "", report.postId || "", report.commentId || ""));
         reportButton.addEventListener("click", () => deleteReport(report.id));
 
         reportsList.appendChild(reportCard);
       });
+    }
+
+    window.showAdminMenu = function(menuName){
+      const showUsers = menuName === "users";
+      reportsArea.classList.toggle("hidden", showUsers);
+      usersArea.classList.toggle("hidden", !showUsers);
+      reportMenuTab.classList.toggle("active", !showUsers);
+      userMenuTab.classList.toggle("active", showUsers);
+    };
+
+    function getUserDateText(value){
+      if(!value){ return "-"; }
+      const date = value.toDate ? value.toDate() : new Date(value);
+      if(Number.isNaN(date.getTime())){ return "-"; }
+      return date.getFullYear() + "." +
+        String(date.getMonth() + 1).padStart(2, "0") + "." +
+        String(date.getDate()).padStart(2, "0") + " " +
+        String(date.getHours()).padStart(2, "0") + ":" +
+        String(date.getMinutes()).padStart(2, "0");
+    }
+
+    window.loadUsers = async function(){
+      usersList.innerHTML = `<div class="loading">회원 목록을 불러오는 중이에요.</div>`;
+      try{
+        let snapshot;
+        try{
+          snapshot = await getDocs(query(collection(db, "users"), orderBy("createdAt", "desc")));
+        } catch(error){
+          snapshot = await getDocs(collection(db, "users"));
+        }
+
+        allUsers = [];
+        snapshot.forEach((userDoc) => {
+          allUsers.push({ id:userDoc.id, ...userDoc.data() });
+        });
+
+        renderUsers();
+      } catch(error){
+        usersList.innerHTML = `
+          <div class="empty">
+            회원 목록을 불러오지 못했어요.<br>
+            ${escapeHTML(error.message)}
+          </div>
+        `;
+      }
+    };
+
+    function renderUsers(){
+      const keyword = userSearchInput.value.trim().toLowerCase();
+      let users = allUsers.slice();
+
+      if(keyword){
+        users = users.filter((user) => [
+          user.id,
+          user.email,
+          user.nickname,
+          user.displayName,
+          user.stage,
+          user.status
+        ].join(" ").toLowerCase().includes(keyword));
+      }
+
+      if(users.length === 0){
+        usersList.innerHTML = `<div class="empty">표시할 회원이 없어요.</div>`;
+        return;
+      }
+
+      usersList.innerHTML = "";
+
+      users.forEach((user) => {
+        const isBlocked = user.isBlocked === true;
+        const email = user.email || "";
+        const nickname = user.nickname || user.displayName || "사용자";
+        const card = document.createElement("div");
+        card.className = "user-card" + (isBlocked ? " blocked" : "");
+
+        card.innerHTML = `
+          <div class="user-head">
+            <div>
+              <div class="user-name">${escapeHTML(nickname)}</div>
+              <div class="user-email">${escapeHTML(email || "이메일 없음")}</div>
+            </div>
+            <span class="user-badge ${isBlocked ? "blocked" : ""}">${isBlocked ? "정지됨" : "정상"}</span>
+          </div>
+
+          <div class="user-info-grid">
+            <div class="user-info-item">
+              <div class="user-info-label">UID</div>
+              <div class="user-info-value">${escapeHTML(user.id)}</div>
+            </div>
+            <div class="user-info-item">
+              <div class="user-info-label">육아 단계</div>
+              <div class="user-info-value">${escapeHTML(user.stage || "-")}</div>
+            </div>
+            <div class="user-info-item">
+              <div class="user-info-label">가입일</div>
+              <div class="user-info-value">${escapeHTML(getUserDateText(user.createdAt))}</div>
+            </div>
+            <div class="user-info-item">
+              <div class="user-info-label">정지 사유</div>
+              <div class="user-info-value">${escapeHTML(user.blockedReason || "-")}</div>
+            </div>
+          </div>
+
+          <div class="btn-wrap">
+            <button class="action-btn reset-password-btn" type="button">비밀번호 재설정 메일</button>
+            <button class="action-btn block-user-btn" type="button">계정 정지</button>
+            <button class="action-btn unblock-user-btn" type="button">정지 해제</button>
+          </div>
+        `;
+
+        card.querySelector(".reset-password-btn").addEventListener("click", () => sendResetEmailToUser(email));
+        card.querySelector(".block-user-btn").addEventListener("click", () => blockUserById(user.id, nickname));
+        card.querySelector(".unblock-user-btn").addEventListener("click", () => unblockUserById(user.id, nickname));
+
+        usersList.appendChild(card);
+      });
+    }
+
+    window.sendResetEmailToUser = async function(email){
+      if(!email){
+        alert("비밀번호 재설정 메일을 보낼 이메일이 없어요.");
+        return;
+      }
+
+      const ok = confirm(email + " 주소로 비밀번호 재설정 메일을 보낼까요?");
+      if(!ok) return;
+
+      try{
+        await sendPasswordResetEmail(auth, email);
+        alert("비밀번호 재설정 메일을 보냈어요.");
+      } catch(error){
+        alert("비밀번호 재설정 메일 발송 실패\n" + error.message);
+      }
+    };
+
+    async function blockUserById(userId, nickname){
+      if(!userId){
+        alert("정지할 사용자 ID가 없어요.");
+        return;
+      }
+
+      const reason = prompt((nickname || "이 사용자") + " 계정을 정지할까요?\n정지 사유를 입력해주세요.", "관리자 조치");
+      if(reason === null) return;
+
+      try{
+        await setDoc(doc(db, "users", userId), {
+          isBlocked:true,
+          blockedReason:reason || "관리자 조치",
+          blockedAt:new Date()
+        }, { merge:true });
+
+        alert("계정을 정지했어요.");
+        await loadUsers();
+      } catch(error){
+        alert("계정 정지 중 오류가 발생했어요.\n" + error.message);
+      }
+    }
+
+    async function unblockUserById(userId, nickname){
+      if(!userId){
+        alert("정지 해제할 사용자 ID가 없어요.");
+        return;
+      }
+
+      const ok = confirm((nickname || "이 사용자") + " 계정의 정지를 해제할까요?");
+      if(!ok) return;
+
+      try{
+        await setDoc(doc(db, "users", userId), {
+          isBlocked:false,
+          blockedReason:"",
+          unblockedAt:new Date()
+        }, { merge:true });
+
+        alert("계정 정지를 해제했어요.");
+        await loadUsers();
+      } catch(error){
+        alert("정지 해제 중 오류가 발생했어요.\n" + error.message);
+      }
     }
 
     window.markDone = async function(reportId){
@@ -1138,6 +1383,68 @@
         await loadReports();
       } catch(error){
         alert("처리 중 오류가 발생했어요.\n" + error.message);
+      }
+    };
+
+    window.blockTargetUser = async function(reportId, targetUserId, targetNickname){
+      if(!targetUserId){
+        alert("정지할 사용자 ID가 없어요.");
+        return;
+      }
+
+      const ok = confirm(
+        "이 계정을 정지할까요?\n" +
+        "대상: " + (targetNickname || targetUserId) + "\n\n" +
+        "정지된 사용자는 앱에 들어오거나 글쓰기/댓글 활동을 할 수 없게 만들 예정이에요."
+      );
+
+      if(!ok) return;
+
+      try{
+        await setDoc(doc(db, "users", targetUserId), {
+          isBlocked: true,
+          blockedReason: "관리자 조치",
+          blockedFromReportId: reportId,
+          blockedAt: new Date()
+        }, { merge:true });
+
+        await updateDoc(doc(db, "reports", reportId), {
+          status: "done",
+          handledAt: new Date(),
+          adminAction: "user_blocked"
+        });
+
+        alert("계정을 정지했고, 신고는 처리완료로 변경했어요.");
+        await loadReports();
+      } catch(error){
+        alert("계정 정지 중 오류가 발생했어요.\n" + error.message);
+      }
+    };
+
+    window.unblockTargetUser = async function(targetUserId, targetNickname){
+      if(!targetUserId){
+        alert("정지 해제할 사용자 ID가 없어요.");
+        return;
+      }
+
+      const ok = confirm(
+        "이 계정의 정지를 해제할까요?\n" +
+        "대상: " + (targetNickname || targetUserId)
+      );
+
+      if(!ok) return;
+
+      try{
+        await setDoc(doc(db, "users", targetUserId), {
+          isBlocked: false,
+          blockedReason: "",
+          unblockedAt: new Date()
+        }, { merge:true });
+
+        alert("계정 정지를 해제했어요.");
+        await loadReports();
+      } catch(error){
+        alert("정지 해제 중 오류가 발생했어요.\n" + error.message);
       }
     };
 
