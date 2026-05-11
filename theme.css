@@ -1,0 +1,80 @@
+body.dark-mode{
+  background:linear-gradient(135deg,#1f171c,#2b2027) !important;
+  color:#f8eef3 !important;
+}
+
+body.dark-mode::before,
+body.dark-mode::after{
+  background:#5a3040 !important;
+  opacity:0.28 !important;
+}
+
+body.dark-mode .header,
+body.dark-mode .bottom-menu{
+  background:rgba(35,27,32,0.94) !important;
+  border-color:#4a3440 !important;
+}
+
+body.dark-mode .post-card,
+body.dark-mode .post,
+body.dark-mode .panel,
+body.dark-mode .comment-section,
+body.dark-mode .report-card,
+body.dark-mode .empty,
+body.dark-mode .loading{
+  background:rgba(43,32,39,0.98) !important;
+  border-color:#4a3440 !important;
+  color:#f8eef3 !important;
+  box-shadow:0 14px 35px rgba(0,0,0,0.22) !important;
+}
+
+body.dark-mode .title,
+body.dark-mode .post-title,
+body.dark-mode .admin-title,
+body.dark-mode .name,
+body.dark-mode .report-title{
+  color:#fff7fb !important;
+}
+
+body.dark-mode .content,
+body.dark-mode .text-box,
+body.dark-mode .meta-item,
+body.dark-mode .summary-card,
+body.dark-mode .comment,
+body.dark-mode .search-input,
+body.dark-mode .comment-input{
+  background:#241b21 !important;
+  border-color:#4a3440 !important;
+  color:#f8eef3 !important;
+}
+
+body.dark-mode .time,
+body.dark-mode .admin-desc,
+body.dark-mode .meta-label,
+body.dark-mode .report-date,
+body.dark-mode .summary-label,
+body.dark-mode .post-views{
+  color:#c9aeba !important;
+}
+
+body.dark-mode .pill-btn,
+body.dark-mode .back-link,
+body.dark-mode .notice-link,
+body.dark-mode .action-btn,
+body.dark-mode .tab-btn,
+body.dark-mode .comment-action-btn{
+  background:#30242b !important;
+  border-color:#5b3d4b !important;
+  color:#ffc1d5 !important;
+}
+
+body.dark-mode .tab-btn.active,
+body.dark-mode .refresh-btn,
+body.dark-mode .comment-btn{
+  background:#ff5c8a !important;
+  color:white !important;
+}
+
+body.dark-mode input::placeholder{
+  color:#bfa5b0 !important;
+}

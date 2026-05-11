@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>회원가입 - 오늘도육아</title>
+
+  <style>
+    *{ margin:0; padding:0; box-sizing:border-box; }
+
+    body{
+      font-family:Arial, sans-serif;
+      background:linear-gradient(135deg,#fff7fb,#ffeaf2);
+      min-height:100vh;
+      color:#2f272a;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      width:320px;
+      height:320px;
+      background:#ffd6e7;
+      border-radius:50%;
+      top:-120px;
+      left:-120px;
+      opacity:0.65;
+      z-index:-1;
+    }
+
+    body::after{
+      content:'';
+      position:fixed;
+      width:260px;
+      height:260px;
+      background:#ffc8dc;
+      border-radius:50%;
+      bottom:-90px;
+      right:-90px;
+      opacity:0.45;
+      z-index:-1;
+    }
+
+    .app{
+      width:100%;
+      max-width:430px;
+      min-height:100vh;
+      margin:0 auto;
+      padding:22px 18px 34px;
+    }
+
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:22px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:24px;
+      font-weight:900;
+      color:#ff5c8a;
+      letter-spacing:-0.8px;
+    }
+
+    .mini-logo{
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ff5c8a;
+      position:relative;
+      display:inline-block;
+    }
+
+    .mini-logo::after{
+      content:'';
+      position:absolute;
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ffe4ef;
+      top:-2px;
+      left:7px;
+    }
+
+    .back-link{
+      text-decoration:none;
+      color:#ff5c8a;
+      background:white;
+      border:1px solid #ffd6e7;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+    }
+
+    .join-card{
+      background:rgba(255,255,255,0.96);
+      border-radius:34px;
+      padding:28px 22px;
+      box-shadow:0 20px 50px rgba(255,92,138,0.16);
+      border:1px solid rgba(255,255,255,0.9);
+    }
+
+    .label{
+      display:inline-block;
+      background:#fff0f5;
+      color:#ff5c8a;
+      padding:8px 13px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:16px;
+    }
+
+    h1{
+      font-size:28px;
+      line-height:1.3;
+      letter-spacing:-1px;
+      margin-bottom:8px;
+    }
+
+    .sub{
+      color:#7d7276;
+      font-size:14px;
+      line-height:1.6;
+      margin-bottom:22px;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:16px;
+      border-radius:18px;
+      border:1px solid #f0dfe6;
+      background:#fff7fa;
+      font-size:15px;
+      outline:none;
+      color:#2f272a;
+      margin-bottom:12px;
+    }
+
+    textarea{
+      height:92px;
+      resize:none;
+      line-height:1.6;
+    }
+
+    input:focus,
+    textarea:focus{
+      background:white;
+      border-color:#ff8fb1;
+      box-shadow:0 0 0 4px rgba(255,92,138,0.08);
+    }
+
+    .section-title{
+      font-size:14px;
+      font-weight:900;
+      color:#51464a;
+      margin:18px 0 10px;
+    }
+
+    .stage-box,
+    .category-box{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+
+    .option input{
+      display:none;
+    }
+
+    .option span{
+      min-height:56px;
+      border-radius:18px;
+      background:#fff7fa;
+      border:1px solid #f3dfe7;
+      color:#7d7276;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      font-size:14px;
+      font-weight:bold;
+      padding:10px;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    .option input:checked + span{
+      background:#ff5c8a;
+      color:white;
+      border-color:#ff5c8a;
+      box-shadow:0 12px 28px rgba(255,92,138,0.22);
+      transform:translateY(-2px);
+    }
+
+    .category-box .option input:checked + span{
+      background:#fff0f5;
+      color:#ff5c8a;
+      border-color:#ff8fb1;
+      box-shadow:0 10px 24px rgba(255,92,138,0.10);
+    }
+
+    button{
+      width:100%;
+      padding:16px;
+      border:none;
+      border-radius:18px;
+      background:#ff5c8a;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+      font-weight:bold;
+      margin-top:20px;
+      box-shadow:0 12px 28px rgba(255,92,138,0.25);
+    }
+
+    .kakao-btn{
+      background:#FEE500;
+      color:#191919;
+      box-shadow:none;
+      margin-top:10px;
+    }
+
+    button:disabled{
+      opacity:0.65;
+      cursor:not-allowed;
+    }
+
+    .login-link{
+      text-align:center;
+      margin-top:18px;
+      font-size:14px;
+      color:#7d7276;
+    }
+
+    .login-link a{
+      color:#ff5c8a;
+      text-decoration:none;
+      font-weight:bold;
+    }
+
+    @media(max-width:360px){
+      h1{ font-size:26px; }
+
+      .stage-box,
+      .category-box{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <div class="top">
+      <div class="brand">
+        <span class="mini-logo"></span>
+        오늘도육아
+      </div>
+
+      <a href="index.html" class="back-link">로그인</a>
+    </div>
+
+    <div class="join-card">
+
+      <div class="label">TODAY JOIN</div>
+
+      <h1>
+        오늘도육아에<br>
+        함께해 주세요
+      </h1>
+
+      <p class="sub">
+        아이디로 편하게 가입하고,<br>
+        카카오톡으로도 간편하게 시작할 수 있어요.
+      </p>
+
+      <input type="text" id="nickname" placeholder="닉네임 입력">
+      <input type="text" id="loginId" placeholder="아이디 입력">
+      <input type="password" id="password" placeholder="비밀번호 6자리 이상">
+
+      <div class="section-title">육아 단계 선택</div>
+
+      <div class="stage-box">
+        <label class="option">
+          <input type="radio" name="stage" value="예비부모" checked>
+          <span>🤰 예비부모</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="stage" value="신생아">
+          <span>🍼 신생아</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="stage" value="영유아">
+          <span>🧸 영유아</span>
+        </label>
+
+        <label class="option">
+          <input type="radio" name="stage" value="어린이">
+          <span>🧒 어린이</span>
+        </label>
+      </div>
+
+      <div class="section-title">관심 카테고리</div>
+
+      <div class="category-box">
+        <label class="option">
+          <input type="checkbox" value="출산준비">
+          <span>🤰 출산준비</span>
+        </label>
+
+        <label class="option">
+          <input type="checkbox" value="새벽육아">
+          <span>🌙 새벽육아</span>
+        </label>
+
+        <label class="option">
+          <input type="checkbox" value="신생아">
+          <span>🍼 신생아</span>
+        </label>
+
+        <label class="option">
+          <input type="checkbox" value="영유아">
+          <span>🧸 영유아</span>
+        </label>
+
+        <label class="option">
+          <input type="checkbox" value="어린이">
+          <span>🧒 어린이</span>
+        </label>
+
+        <label class="option">
+          <input type="checkbox" value="위로받기">
+          <span>💗 위로받기</span>
+        </label>
+      </div>
+
+      <div class="section-title">상태메시지</div>
+
+      <textarea id="status" placeholder="예: 초보엄마예요 💕"></textarea>
+
+      <button id="joinBtn">회원가입하기</button>
+
+      <button id="kakaoBtn" class="kakao-btn" type="button">
+        카카오톡으로 시작하기
+      </button>
+
+      <div class="login-link">
+        이미 계정이 있다면 <a href="index.html">로그인하기</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      OAuthProvider,
+      signInWithRedirect,
+      getRedirectResult
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4x9d4aQlbroxcnT2v-zHODDPdQabIFx0",
+      authDomain: "today-parenting-app.firebaseapp.com",
+      projectId: "today-parenting-app",
+      storageBucket: "today-parenting-app.firebasestorage.app",
+      messagingSenderId: "375329953167",
+      appId: "1:375329953167:web:d29af0e45cc7d10e9f67fa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const joinBtn = document.getElementById("joinBtn");
+    const kakaoBtn = document.getElementById("kakaoBtn");
+    const nickname = document.getElementById("nickname");
+    const loginId = document.getElementById("loginId");
+    const password = document.getElementById("password");
+    const status = document.getElementById("status");
+
+    function makeEmailFromId(id){
+      return id.trim().toLowerCase() + "@todayparenting.local";
+    }
+
+    function getCategories(){
+      const checkedCategories = document.querySelectorAll(".category-box input:checked");
+      const categories = [];
+
+      checkedCategories.forEach((item) => {
+        categories.push(item.value);
+      });
+
+      return categories;
+    }
+
+    joinBtn.addEventListener("click", async () => {
+
+      const checkedStage = document.querySelector("input[name='stage']:checked");
+      const categories = getCategories();
+
+      if(nickname.value.trim() === ""){
+        alert("닉네임을 입력해주세요.");
+        return;
+      }
+
+      if(loginId.value.trim() === ""){
+        alert("아이디를 입력해주세요.");
+        return;
+      }
+
+      if(!/^[a-zA-Z0-9_]{4,16}$/.test(loginId.value.trim())){
+        alert("아이디는 영문, 숫자, 언더바(_)만 사용해서 4~16자로 입력해주세요.");
+        return;
+      }
+
+      if(password.value.trim().length < 6){
+        alert("비밀번호는 6자리 이상 입력해주세요.");
+        return;
+      }
+
+      try{
+        joinBtn.disabled = true;
+        joinBtn.innerText = "가입 중...";
+
+        const fakeEmail = makeEmailFromId(loginId.value);
+
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          fakeEmail,
+          password.value
+        );
+
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          nickname: nickname.value.trim(),
+          displayName: nickname.value.trim(),
+          loginId: loginId.value.trim(),
+          email: fakeEmail,
+          realEmail: "",
+          loginType: "id",
+          stage: checkedStage.value,
+          categories: categories,
+          status: status.value.trim() || "초보엄마예요 💕",
+          bio: status.value.trim() || "",
+          photoUrl: "",
+          photoURL: "",
+          profileVisibility: "public",
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+
+        alert("회원가입이 완료됐어요 💕");
+        window.location.href = "home.html";
+      }
+
+      catch(error){
+        console.error("회원가입 오류:", error);
+
+        if(error.code === "auth/email-already-in-use"){
+          alert("이미 사용 중인 아이디예요.");
+        } else if(error.code === "permission-denied"){
+          alert("Firestore 권한 오류예요. users 규칙을 다시 확인해주세요.");
+        } else {
+          alert(error.message || "회원가입 중 오류가 발생했어요.");
+        }
+      }
+
+      finally{
+        joinBtn.disabled = false;
+        joinBtn.innerText = "회원가입하기";
+      }
+
+    });
+
+    [nickname, loginId, password, status].forEach((input) => {
+      input.addEventListener("keydown", (event) => {
+        if(event.key === "Enter"){
+          event.preventDefault();
+          joinBtn.click();
+        }
+      });
+    });
+
+    kakaoBtn.addEventListener("click", async () => {
+      try{
+        const provider = new OAuthProvider("oidc.kakao");
+        await signInWithRedirect(auth, provider);
+      }
+
+      catch(error){
+        alert(error.message);
+      }
+    });
+
+    async function checkKakaoRedirect(){
+      try{
+        const result = await getRedirectResult(auth);
+
+        if(!result){
+          return;
+        }
+
+        const user = result.user;
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if(!userSnap.exists()){
+          await setDoc(userRef, {
+            uid: user.uid,
+            nickname: user.displayName || "카카오사용자",
+            displayName: user.displayName || "카카오사용자",
+            loginId: "",
+            email: user.email || "",
+            realEmail: user.email || "",
+            loginType: "kakao",
+            stage: "예비부모",
+            categories: ["출산준비"],
+            status: "초보엄마예요 💕",
+            bio: "",
+            photoUrl: user.photoURL || "",
+            photoURL: user.photoURL || "",
+            profileVisibility: "public",
+            createdAt: new Date(),
+            updatedAt: new Date()
+          });
+        }
+
+        window.location.href = "home.html";
+      }
+
+      catch(error){
+        console.log(error.message);
+      }
+    }
+
+    checkKakaoRedirect();
+
+  </script>
+
+</body>
+</html>

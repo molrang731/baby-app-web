@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>알림 - 오늘도육아</title>
+
+  <link rel="stylesheet" href="theme.css">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+    body{
+      font-family:Arial,sans-serif;
+      background:linear-gradient(135deg,#fff7fb,#ffeaf2);
+      color:#2f272a;
+      padding-bottom:96px;
+      min-height:100vh;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      width:320px;
+      height:320px;
+      background:#ffd6e7;
+      border-radius:50%;
+      top:-130px;
+      left:-130px;
+      opacity:0.5;
+      z-index:-1;
+    }
+
+    body::after{
+      content:'';
+      position:fixed;
+      width:260px;
+      height:260px;
+      background:#ffc8dc;
+      border-radius:50%;
+      bottom:-100px;
+      right:-100px;
+      opacity:0.32;
+      z-index:-1;
+    }
+
+    .header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(255,255,255,0.88);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(255,214,231,0.55);
+    }
+
+    .header-inner{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      padding:15px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:23px;
+      font-weight:900;
+      color:#ff5c8a;
+      letter-spacing:-0.8px;
+      white-space:nowrap;
+      cursor:pointer;
+    }
+
+    .mini-logo{
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ff5c8a;
+      position:relative;
+      display:inline-block;
+      flex-shrink:0;
+    }
+
+    .mini-logo::after{
+      content:'';
+      position:absolute;
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ffe4ef;
+      top:-2px;
+      left:7px;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      flex-shrink:0;
+    }
+
+    .pill{
+      text-decoration:none;
+      color:#ff5c8a;
+      background:white;
+      border:1px solid #ffd6e7;
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      white-space:nowrap;
+      cursor:pointer;
+    }
+
+    .container{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      padding:18px 14px 24px;
+    }
+
+    .notice-hero{
+      background:rgba(255,255,255,0.96);
+      border-radius:32px;
+      padding:24px 20px;
+      box-shadow:0 18px 45px rgba(255,92,138,0.12);
+      border:1px solid rgba(255,255,255,0.95);
+      margin-bottom:15px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .notice-hero::after{
+      content:'';
+      position:absolute;
+      width:130px;
+      height:130px;
+      border-radius:50%;
+      background:#ffd6e7;
+      right:-45px;
+      top:-45px;
+      opacity:0.42;
+    }
+
+    .hero-label{
+      display:inline-block;
+      background:#fff0f5;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      padding:7px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:13px;
+      position:relative;
+      z-index:2;
+    }
+
+    .notice-hero h1{
+      font-size:26px;
+      line-height:1.35;
+      letter-spacing:-0.9px;
+      margin-bottom:8px;
+      color:#241f21;
+      position:relative;
+      z-index:2;
+    }
+
+    .notice-hero p{
+      color:#7d7276;
+      font-size:13.5px;
+      line-height:1.6;
+      position:relative;
+      z-index:2;
+    }
+
+    .summary-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+      margin-bottom:15px;
+    }
+
+    .summary-card{
+      background:rgba(255,255,255,0.96);
+      border:1px solid rgba(255,255,255,0.95);
+      border-radius:24px;
+      padding:16px 12px;
+      text-align:center;
+      box-shadow:0 12px 30px rgba(255,92,138,0.08);
+    }
+
+    .summary-card strong{
+      display:block;
+      font-size:24px;
+      color:#241f21;
+      margin-bottom:5px;
+      letter-spacing:-0.5px;
+    }
+
+    .summary-card span{
+      color:#8d7c83;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .control-card{
+      background:rgba(255,255,255,0.96);
+      border:1px solid rgba(255,255,255,0.95);
+      border-radius:28px;
+      padding:13px;
+      margin-bottom:15px;
+      box-shadow:0 12px 30px rgba(255,92,138,0.08);
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .filter-row{
+      display:flex;
+      gap:6px;
+      background:#fff7fa;
+      padding:5px;
+      border-radius:999px;
+      border:1px solid #f3dfe7;
+      flex:1;
+    }
+
+    .filter-btn{
+      border:none;
+      background:transparent;
+      color:#8d7c83;
+      border-radius:999px;
+      padding:9px 10px;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+      flex:1;
+    }
+
+    .filter-btn.active{
+      background:#ff5c8a;
+      color:white;
+      box-shadow:0 8px 20px rgba(255,92,138,0.18);
+    }
+
+    .read-all-btn{
+      border:none;
+      background:white;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      border-radius:999px;
+      padding:11px 12px;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+      white-space:nowrap;
+      box-shadow:0 8px 20px rgba(255,92,138,0.06);
+    }
+
+    .notice-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .notice-item{
+      background:rgba(255,255,255,0.97);
+      border:1px solid rgba(255,255,255,0.95);
+      border-radius:25px;
+      padding:14px;
+      box-shadow:0 12px 30px rgba(255,92,138,0.08);
+      cursor:pointer;
+      display:flex;
+      gap:11px;
+      align-items:flex-start;
+      position:relative;
+    }
+
+    .notice-item.unread{
+      background:#fff0f5;
+      border-color:#ffd6e7;
+    }
+
+    .notice-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#ff5c8a;
+      position:absolute;
+      top:13px;
+      right:13px;
+      display:none;
+      box-shadow:0 0 0 4px rgba(255,92,138,0.10);
+    }
+
+    .notice-item.unread .notice-dot{
+      display:block;
+    }
+
+    .notice-icon{
+      width:43px;
+      height:43px;
+      border-radius:17px;
+      background:linear-gradient(135deg,#fff0f5,#ffd6e7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#ff5c8a;
+      font-size:20px;
+      font-weight:900;
+      flex-shrink:0;
+    }
+
+    .notice-content{
+      min-width:0;
+      flex:1;
+      padding-right:12px;
+    }
+
+    .notice-title{
+      font-size:14px;
+      font-weight:900;
+      color:#241f21;
+      line-height:1.45;
+      margin-bottom:5px;
+      word-break:keep-all;
+      overflow-wrap:anywhere;
+    }
+
+    .notice-message{
+      color:#62575b;
+      font-size:13px;
+      line-height:1.5;
+      margin-bottom:7px;
+      word-break:keep-all;
+      overflow-wrap:anywhere;
+    }
+
+    .notice-meta{
+      display:flex;
+      gap:7px;
+      flex-wrap:wrap;
+      color:#9c8b91;
+      font-size:11.5px;
+      font-weight:900;
+    }
+
+    .notice-type{
+      color:#ff5c8a;
+      background:white;
+      border:1px solid #ffd6e7;
+      padding:3px 7px;
+      border-radius:999px;
+      font-size:10.5px;
+      font-weight:900;
+    }
+
+    .empty{
+      background:rgba(255,255,255,0.96);
+      border-radius:28px;
+      padding:34px 22px;
+      text-align:center;
+      color:#8b7f83;
+      line-height:1.7;
+      font-size:14px;
+      box-shadow:0 14px 35px rgba(255,92,138,0.07);
+      border:1px solid rgba(255,255,255,0.95);
+    }
+
+    .empty a{
+      color:#ff5c8a;
+      text-decoration:none;
+      font-weight:900;
+    }
+
+    .bottom-menu{
+      position:fixed;
+      bottom:0;
+      left:0;
+      width:100%;
+      background:rgba(255,255,255,0.96);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border-top:1px solid #f0dfe6;
+      z-index:110;
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+
+    .bottom-inner{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      display:flex;
+      justify-content:space-around;
+      padding:11px 0 9px;
+    }
+
+    .bottom-menu a{
+      width:25%;
+      text-decoration:none;
+      color:#7d7276;
+      font-size:11.5px;
+      text-align:center;
+      font-weight:bold;
+    }
+
+    .bottom-menu a div{
+      font-size:21px;
+      margin-bottom:3px;
+      line-height:1;
+    }
+
+    .bottom-menu a.active{color:#ff5c8a;}
+
+    @media(max-width:390px){
+      .container{padding-left:12px;padding-right:12px;}
+      .header-inner{padding-left:16px;padding-right:16px;}
+      .brand{font-size:22px;}
+      .notice-hero{padding:21px 18px;border-radius:29px;}
+      .notice-hero h1{font-size:24px;}
+      .summary-card{padding:14px 8px;border-radius:22px;}
+      .summary-card strong{font-size:22px;}
+      .control-card{display:block;}
+      .filter-row{margin-bottom:8px;}
+      .read-all-btn{width:100%;}
+      .notice-item{padding:13px;border-radius:23px;}
+      .notice-icon{width:40px;height:40px;border-radius:16px;font-size:19px;}
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="header-inner">
+      <div class="brand" onclick="location.href='home.html'">
+        <span class="mini-logo"></span>
+        오늘도육아
+      </div>
+
+      <div class="header-actions">
+        <a href="home.html" class="pill">홈으로</a>
+
+  <button
+    class="pill dark-mode-toggle"
+    onclick="toggleDarkMode()"
+    type="button"
+  >
+    🌙 야간
+  </button>
+
+</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="notice-hero">
+      <div class="hero-label">NOTIFICATIONS</div>
+      <h1>도착한 알림을<br>확인해보세요</h1>
+      <p>
+        내 글의 공감, 댓글, 댓글 공감을 한곳에서 볼 수 있어요.
+      </p>
+    </div>
+
+    <div class="summary-row">
+      <div class="summary-card">
+        <strong id="totalCount">0</strong>
+        <span>전체 알림</span>
+      </div>
+
+      <div class="summary-card">
+        <strong id="unreadCount">0</strong>
+        <span>안 읽은 알림</span>
+      </div>
+    </div>
+
+    <div class="control-card">
+      <div class="filter-row">
+        <button class="filter-btn active" type="button" data-filter="all">전체</button>
+        <button class="filter-btn" type="button" data-filter="unread">안읽음</button>
+      </div>
+
+      <button class="read-all-btn" id="readAllBtn" type="button">모두 읽음</button>
+    </div>
+
+    <div class="notice-list" id="noticeList">
+      <div class="empty">알림을 불러오는 중이에요.</div>
+    </div>
+
+  </div>
+
+  <div class="bottom-menu">
+    <div class="bottom-inner">
+      <a href="home.html">
+        <div>⌂</div>
+        홈
+      </a>
+
+      <a href="write.html">
+        <div>✎</div>
+        글쓰기
+      </a>
+
+      <a href="profile.html">
+        <div>☾</div>
+        내정보
+      </a>
+
+      <a href="notifications.html" class="active">
+        <div>🔔</div>
+        알림
+      </a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      query,
+      where,
+      orderBy,
+      doc,
+      updateDoc,
+      writeBatch,
+      limit,
+      startAfter
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4x9d4aQlbroxcnT2v-zHODDPdQabIFx0",
+      authDomain: "today-parenting-app.firebaseapp.com",
+      projectId: "today-parenting-app",
+      storageBucket: "today-parenting-app.firebasestorage.app",
+      messagingSenderId: "375329953167",
+      appId: "1:375329953167:web:d29af0e45cc7d10e9f67fa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const noticeList = document.getElementById("noticeList");
+    const totalCount = document.getElementById("totalCount");
+    const unreadCount = document.getElementById("unreadCount");
+    const readAllBtn = document.getElementById("readAllBtn");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+
+    let currentUser = null;
+    let notifications = [];
+    let currentFilter = "all";
+
+    const noticesPerPage = 20;
+
+    let receiverLastVisible = null;
+    let toUidLastVisible = null;
+
+    let receiverHasMore = true;
+    let toUidHasMore = true;
+
+    let isLoadingNotices = false;
+    let hasMoreNotices = true;
+
+    onAuthStateChanged(auth, async (user) => {
+      if(!user){
+        alert("로그인이 필요합니다.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      currentUser = user;
+      await resetNotifications();
+    });
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        filterButtons.forEach((item) => item.classList.remove("active"));
+        btn.classList.add("active");
+
+        currentFilter = btn.dataset.filter;
+        await resetNotifications();
+      });
+    });
+
+    readAllBtn.addEventListener("click", async () => {
+      if(!currentUser){
+        return;
+      }
+
+      try{
+        readAllBtn.disabled = true;
+        readAllBtn.innerText = "처리 중...";
+
+        const unreadDocs = await getUnreadNotificationDocs();
+
+        if(unreadDocs.length === 0){
+          alert("읽지 않은 알림이 없어요.");
+          return;
+        }
+
+        const batch = writeBatch(db);
+
+        unreadDocs.forEach((noticeDoc) => {
+          batch.update(doc(db, "notifications", noticeDoc.id), {
+            isRead: true,
+            read: true,
+            readAt: new Date()
+          });
+        });
+
+        await batch.commit();
+
+        notifications = notifications.map((item) => {
+          return {
+            id: item.id,
+            data: {
+              ...item.data,
+              isRead: true,
+              read: true,
+              readAt: new Date()
+            }
+          };
+        });
+
+        await loadCounts();
+        renderNotifications();
+
+      } catch(error){
+        alert(error.message);
+      } finally {
+        readAllBtn.disabled = false;
+        readAllBtn.innerText = "모두 읽음";
+      }
+    });
+
+    window.addEventListener("scroll", () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      if(scrollTop + windowHeight >= documentHeight - 260){
+        loadNotifications();
+      }
+    });
+
+    function escapeHTML(text){
+      return String(text || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getPostDate(createdAt){
+      if(!createdAt){
+        return new Date(0);
+      }
+
+      if(createdAt.toDate){
+        return createdAt.toDate();
+      }
+
+      return new Date(createdAt);
+    }
+
+    function getTimeText(createdAt){
+      const postDate = getPostDate(createdAt);
+
+      if(postDate.getTime() === 0){
+        return "방금 전";
+      }
+
+      const now = new Date();
+      const diff = now - postDate;
+
+      const minute = 60 * 1000;
+      const hour = 60 * minute;
+      const day = 24 * hour;
+
+      if(diff < minute){
+        return "방금 전";
+      }
+
+      if(diff < hour){
+        return Math.floor(diff / minute) + "분 전";
+      }
+
+      if(diff < day){
+        return Math.floor(diff / hour) + "시간 전";
+      }
+
+      if(diff < day * 7){
+        return Math.floor(diff / day) + "일 전";
+      }
+
+      return postDate.getFullYear() + "." +
+        String(postDate.getMonth() + 1).padStart(2, "0") + "." +
+        String(postDate.getDate()).padStart(2, "0");
+    }
+
+    function isNoticeRead(notification){
+      if(typeof notification.isRead === "boolean"){
+        return notification.isRead;
+      }
+
+      if(typeof notification.read === "boolean"){
+        return notification.read;
+      }
+
+      return false;
+    }
+
+    function getCreatedTime(notification){
+      const createdDate = getPostDate(notification.createdAt);
+      return createdDate.getTime();
+    }
+
+    function sortNotificationsDesc(list){
+      return list.sort((a, b) => {
+        return getCreatedTime(b.data) - getCreatedTime(a.data);
+      });
+    }
+
+    function mergeDocsToItems(docs){
+      const map = new Map();
+
+      docs.forEach((noticeDoc) => {
+        if(!map.has(noticeDoc.id)){
+          map.set(noticeDoc.id, {
+            id: noticeDoc.id,
+            data: noticeDoc.data()
+          });
+        }
+      });
+
+      return Array.from(map.values());
+    }
+
+    function addUniqueNotifications(items){
+      items.forEach((item) => {
+        const exists = notifications.some((notice) => notice.id === item.id);
+
+        if(!exists){
+          notifications.push(item);
+        }
+      });
+
+      notifications = sortNotificationsDesc(notifications);
+    }
+
+    function getNoticeIcon(type){
+      if(type === "post_like"){
+        return "♥";
+      }
+
+      if(type === "comment" || type === "post_comment"){
+        return "💬";
+      }
+
+      if(type === "comment_like"){
+        return "🌷";
+      }
+
+      return "🔔";
+    }
+
+    function getNoticeTypeText(type){
+      if(type === "post_like"){
+        return "글 공감";
+      }
+
+      if(type === "comment" || type === "post_comment"){
+        return "댓글";
+      }
+
+      if(type === "comment_like"){
+        return "댓글 공감";
+      }
+
+      return "알림";
+    }
+
+    function getNoticeTitle(notification){
+      const actorName =
+        notification.senderNickname ||
+        notification.actorNickname ||
+        "누군가";
+
+      if(notification.type === "post_like"){
+        return actorName + "님이 내 글에 공감했어요.";
+      }
+
+      if(notification.type === "comment" || notification.type === "post_comment"){
+        return actorName + "님이 내 글에 댓글을 남겼어요.";
+      }
+
+      if(notification.type === "comment_like"){
+        return actorName + "님이 내 댓글에 공감했어요.";
+      }
+
+      return "새 알림이 도착했어요.";
+    }
+
+    function getNoticeMessage(notification){
+      const postTitle = notification.postTitle || "게시글";
+
+      if(notification.message){
+        return notification.message;
+      }
+
+      return "‘" + postTitle + "’";
+    }
+
+    async function resetNotifications(){
+      notifications = [];
+
+      receiverLastVisible = null;
+      toUidLastVisible = null;
+
+      receiverHasMore = true;
+      toUidHasMore = true;
+
+      isLoadingNotices = false;
+      hasMoreNotices = true;
+
+      noticeList.innerHTML = `<div class="empty">알림을 불러오는 중이에요.</div>`;
+
+      await loadCounts();
+      await loadNotifications();
+    }
+
+    async function getAllNotificationDocsForCount(){
+      const receiverQuery = query(
+        collection(db, "notifications"),
+        where("receiverId", "==", currentUser.uid)
+      );
+
+      const toUidQuery = query(
+        collection(db, "notifications"),
+        where("toUid", "==", currentUser.uid)
+      );
+
+      const [receiverSnapshot, toUidSnapshot] = await Promise.all([
+        getDocs(receiverQuery),
+        getDocs(toUidQuery)
+      ]);
+
+      const map = new Map();
+
+      receiverSnapshot.forEach((noticeDoc) => {
+        map.set(noticeDoc.id, noticeDoc);
+      });
+
+      toUidSnapshot.forEach((noticeDoc) => {
+        map.set(noticeDoc.id, noticeDoc);
+      });
+
+      return Array.from(map.values());
+    }
+
+    async function getUnreadNotificationDocs(){
+      const receiverUnreadQuery = query(
+        collection(db, "notifications"),
+        where("receiverId", "==", currentUser.uid),
+        where("isRead", "==", false)
+      );
+
+      const toUidUnreadQuery = query(
+        collection(db, "notifications"),
+        where("toUid", "==", currentUser.uid),
+        where("read", "==", false)
+      );
+
+      const [receiverSnapshot, toUidSnapshot] = await Promise.all([
+        getDocs(receiverUnreadQuery),
+        getDocs(toUidUnreadQuery)
+      ]);
+
+      const map = new Map();
+
+      receiverSnapshot.forEach((noticeDoc) => {
+        map.set(noticeDoc.id, noticeDoc);
+      });
+
+      toUidSnapshot.forEach((noticeDoc) => {
+        map.set(noticeDoc.id, noticeDoc);
+      });
+
+      return Array.from(map.values()).filter((noticeDoc) => {
+        return !isNoticeRead(noticeDoc.data());
+      });
+    }
+
+    async function loadCounts(){
+      if(!currentUser){
+        return;
+      }
+
+      try{
+        const allDocs = await getAllNotificationDocsForCount();
+        const unreadDocs = allDocs.filter((noticeDoc) => {
+          return !isNoticeRead(noticeDoc.data());
+        });
+
+        totalCount.innerText = allDocs.length;
+        unreadCount.innerText = unreadDocs.length;
+
+      } catch(error){
+        totalCount.innerText = notifications.length;
+        unreadCount.innerText = notifications.filter((item) => !isNoticeRead(item.data)).length;
+      }
+    }
+
+    function makeReceiverQuery(){
+      const base = [
+        collection(db, "notifications"),
+        where("receiverId", "==", currentUser.uid)
+      ];
+
+      if(currentFilter === "unread"){
+        base.push(where("isRead", "==", false));
+      }
+
+      base.push(orderBy("createdAt", "desc"));
+
+      if(receiverLastVisible){
+        base.push(startAfter(receiverLastVisible));
+      }
+
+      base.push(limit(noticesPerPage));
+
+      return query(...base);
+    }
+
+    function makeToUidQuery(){
+      const base = [
+        collection(db, "notifications"),
+        where("toUid", "==", currentUser.uid)
+      ];
+
+      if(currentFilter === "unread"){
+        base.push(where("read", "==", false));
+      }
+
+      base.push(orderBy("createdAt", "desc"));
+
+      if(toUidLastVisible){
+        base.push(startAfter(toUidLastVisible));
+      }
+
+      base.push(limit(noticesPerPage));
+
+      return query(...base);
+    }
+
+    async function loadNotifications(){
+      if(!currentUser || isLoadingNotices || !hasMoreNotices){
+        return;
+      }
+
+      isLoadingNotices = true;
+
+      if(notifications.length > 0){
+        renderNotifications(true);
+      }
+
+      try{
+        const tasks = [];
+
+        if(receiverHasMore){
+          tasks.push(
+            getDocs(makeReceiverQuery()).then((snapshot) => {
+              return {
+                type: "receiver",
+                snapshot: snapshot
+              };
+            })
+          );
+        }
+
+        if(toUidHasMore){
+          tasks.push(
+            getDocs(makeToUidQuery()).then((snapshot) => {
+              return {
+                type: "toUid",
+                snapshot: snapshot
+              };
+            })
+          );
+        }
+
+        if(tasks.length === 0){
+          hasMoreNotices = false;
+          renderNotifications();
+          return;
+        }
+
+        const results = await Promise.all(tasks);
+        const docs = [];
+
+        results.forEach((result) => {
+          const snapshot = result.snapshot;
+
+          if(result.type === "receiver"){
+            if(snapshot.empty){
+              receiverHasMore = false;
+            } else {
+              receiverLastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+              if(snapshot.docs.length < noticesPerPage){
+                receiverHasMore = false;
+              }
+            }
+          }
+
+          if(result.type === "toUid"){
+            if(snapshot.empty){
+              toUidHasMore = false;
+            } else {
+              toUidLastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+              if(snapshot.docs.length < noticesPerPage){
+                toUidHasMore = false;
+              }
+            }
+          }
+
+          snapshot.forEach((noticeDoc) => {
+            docs.push(noticeDoc);
+          });
+        });
+
+        const mergedItems = mergeDocsToItems(docs).filter((item) => {
+          if(currentFilter === "unread"){
+            return !isNoticeRead(item.data);
+          }
+
+          return true;
+        });
+
+        addUniqueNotifications(mergedItems);
+
+        hasMoreNotices = receiverHasMore || toUidHasMore;
+
+        renderNotifications();
+
+      } catch(error){
+        noticeList.innerHTML = `
+          <div class="empty">
+            알림을 불러오지 못했어요.<br>
+            ${escapeHTML(error.message)}<br><br>
+            Firestore 인덱스가 필요하면 콘솔에 뜨는 링크로 인덱스를 만들어주세요.
+          </div>
+        `;
+      } finally {
+        isLoadingNotices = false;
+      }
+    }
+
+    function renderNotifications(showLoading = false){
+      const list = notifications;
+
+      noticeList.innerHTML = "";
+
+      if(list.length === 0 && !showLoading){
+        noticeList.innerHTML = `
+          <div class="empty">
+            ${currentFilter === "unread"
+              ? "읽지 않은 알림이 없어요 🌷"
+              : "아직 도착한 알림이 없어요 🌷<br><br><a href='home.html'>홈으로 가기</a>"}
+          </div>
+        `;
+        return;
+      }
+
+      list.forEach((item) => {
+        const notice = item.data;
+        const isUnread = !isNoticeRead(notice);
+
+        noticeList.innerHTML += `
+          <div class="notice-item ${isUnread ? "unread" : ""}" onclick="openNotification('${item.id}')">
+            <div class="notice-dot"></div>
+
+            <div class="notice-icon">
+              ${getNoticeIcon(notice.type)}
+            </div>
+
+            <div class="notice-content">
+              <div class="notice-title">${escapeHTML(getNoticeTitle(notice))}</div>
+              <div class="notice-message">${escapeHTML(getNoticeMessage(notice))}</div>
+
+              <div class="notice-meta">
+                <span class="notice-type">${escapeHTML(getNoticeTypeText(notice.type))}</span>
+                <span>${getTimeText(notice.createdAt)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      if(showLoading || isLoadingNotices){
+        noticeList.innerHTML += `
+          <div class="empty">
+            알림을 더 불러오는 중이에요.
+          </div>
+        `;
+      }
+    }
+
+    window.openNotification = async function(notificationId){
+      const target = notifications.find((item) => item.id === notificationId);
+
+      if(!target){
+        return;
+      }
+
+      const notice = target.data;
+
+      try{
+        if(!isNoticeRead(notice)){
+          await updateDoc(doc(db, "notifications", notificationId), {
+            isRead: true,
+            read: true,
+            readAt: new Date()
+          });
+
+          target.data.isRead = true;
+          target.data.read = true;
+          target.data.readAt = new Date();
+
+          await loadCounts();
+          renderNotifications();
+        }
+      } catch(error){
+        console.log(error.message);
+      }
+
+      if(notice.postId){
+        window.location.href = "detail.html?id=" + encodeURIComponent(notice.postId);
+      } else {
+        renderNotifications();
+      }
+    };
+  </script>
+
+<script src="theme.js"></script>
+
+</body>
+</html>

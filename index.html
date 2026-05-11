@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>오늘도육아</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    body{
+      font-family:Arial,sans-serif;
+      background:linear-gradient(135deg,#fff7fb,#ffeaf2);
+      min-height:100vh;
+      color:#2f272a;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      width:320px;
+      height:320px;
+      background:#ffd6e7;
+      border-radius:50%;
+      top:-120px;
+      left:-120px;
+      opacity:0.65;
+      z-index:-1;
+    }
+
+    body::after{
+      content:'';
+      position:fixed;
+      width:260px;
+      height:260px;
+      background:#ffc8dc;
+      border-radius:50%;
+      bottom:-90px;
+      right:-90px;
+      opacity:0.45;
+      z-index:-1;
+    }
+
+    .app{
+      width:100%;
+      max-width:430px;
+      min-height:100vh;
+      margin:0 auto;
+      padding:22px 18px 30px;
+    }
+
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:26px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:24px;
+      font-weight:900;
+      color:#ff5c8a;
+      letter-spacing:-0.8px;
+    }
+
+    .mini-logo{
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ff5c8a;
+      position:relative;
+      display:inline-block;
+      flex-shrink:0;
+    }
+
+    .mini-logo::after{
+      content:'';
+      position:absolute;
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ffe4ef;
+      top:-2px;
+      left:7px;
+    }
+
+    .badge{
+      background:white;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+    }
+
+    .hero{
+      background:rgba(255,255,255,0.9);
+      border-radius:34px;
+      padding:28px 24px;
+      box-shadow:0 20px 50px rgba(255,92,138,0.14);
+      border:1px solid rgba(255,255,255,0.9);
+      margin-bottom:18px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::after{
+      content:'';
+      position:absolute;
+      width:150px;
+      height:150px;
+      background:#ffd6e7;
+      border-radius:50%;
+      right:-55px;
+      top:-55px;
+      opacity:0.45;
+    }
+
+    .tag{
+      display:inline-block;
+      background:#fff0f5;
+      color:#ff5c8a;
+      padding:8px 13px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:18px;
+      position:relative;
+      z-index:2;
+    }
+
+    h1{
+      font-size:31px;
+      line-height:1.28;
+      letter-spacing:-1.2px;
+      margin-bottom:14px;
+      position:relative;
+      z-index:2;
+    }
+
+    h1 span{
+      color:#ff5c8a;
+    }
+
+    .desc{
+      font-size:15px;
+      line-height:1.7;
+      color:#6d5f64;
+      position:relative;
+      z-index:2;
+    }
+
+    .category-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin:18px 0 22px;
+    }
+
+    .category{
+      background:rgba(255,255,255,0.94);
+      border-radius:22px;
+      padding:16px 6px 14px;
+      text-align:center;
+      box-shadow:0 12px 28px rgba(255,92,138,0.07);
+      border:1px solid rgba(255,255,255,0.9);
+    }
+
+    .category div{
+      font-size:24px;
+      margin-bottom:7px;
+    }
+
+    .category span{
+      font-size:12px;
+      font-weight:bold;
+      color:#5f5357;
+      white-space:nowrap;
+    }
+
+    .login-box{
+      background:rgba(255,255,255,0.96);
+      border-radius:34px;
+      padding:28px 22px;
+      box-shadow:0 20px 50px rgba(255,92,138,0.16);
+      border:1px solid rgba(255,255,255,0.9);
+      margin-bottom:18px;
+    }
+
+    .app-logo{
+      width:74px;
+      height:74px;
+      border-radius:26px;
+      background:linear-gradient(135deg,#fff1f6,#ffd6e7);
+      position:relative;
+      margin:0 auto 18px;
+      box-shadow:0 16px 35px rgba(255,92,138,0.18);
+    }
+
+    .moon{
+      position:absolute;
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      background:#ff5c8a;
+      top:19px;
+      left:19px;
+    }
+
+    .moon::after{
+      content:'';
+      position:absolute;
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      background:#ffe4ef;
+      top:-3px;
+      left:10px;
+    }
+
+    .heart{
+      position:absolute;
+      right:15px;
+      bottom:13px;
+      color:#ff5c8a;
+      font-size:17px;
+      font-weight:bold;
+    }
+
+    .login-box h2{
+      text-align:center;
+      color:#ff5c8a;
+      font-size:27px;
+      margin-bottom:8px;
+      letter-spacing:-0.8px;
+    }
+
+    .login-sub{
+      text-align:center;
+      color:#7d7276;
+      font-size:14px;
+      line-height:1.6;
+      margin-bottom:22px;
+    }
+
+    input{
+      width:100%;
+      padding:16px;
+      margin-bottom:12px;
+      border-radius:18px;
+      border:1px solid #f0dfe6;
+      background:#fff7fa;
+      font-size:15px;
+      outline:none;
+      color:#2f272a;
+    }
+
+    input:focus{
+      background:white;
+      border-color:#ff8fb1;
+      box-shadow:0 0 0 4px rgba(255,92,138,0.08);
+    }
+
+    button{
+      width:100%;
+      padding:16px;
+      border:none;
+      border-radius:18px;
+      background:#ff5c8a;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+      font-weight:bold;
+      margin-top:8px;
+      box-shadow:0 12px 28px rgba(255,92,138,0.25);
+    }
+
+    button:active{
+      transform:scale(0.99);
+    }
+
+    .kakao-btn{
+      background:#FEE500;
+      color:#191919;
+      box-shadow:none;
+      margin-top:10px;
+    }
+
+    .join{
+      background:white;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      box-shadow:none;
+      margin-top:10px;
+    }
+
+    a{
+      text-decoration:none;
+    }
+
+    .trust{
+      margin-top:16px;
+      padding:14px;
+      border-radius:18px;
+      background:#fff7fb;
+      color:#7d7276;
+      font-size:13px;
+      line-height:1.5;
+      text-align:center;
+    }
+
+    .bottom-note{
+      background:#ff5c8a;
+      color:white;
+      border-radius:28px;
+      padding:22px;
+      box-shadow:0 16px 38px rgba(255,92,138,0.22);
+    }
+
+    .bottom-note h3{
+      font-size:19px;
+      margin-bottom:8px;
+      letter-spacing:-0.5px;
+    }
+
+    .bottom-note p{
+      font-size:14px;
+      line-height:1.6;
+      opacity:0.92;
+    }
+
+    .top-actions{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-shrink:0;
+    }
+
+    .dark-mode-toggle{
+      width:auto;
+      min-height:36px;
+      padding:8px 12px;
+      margin-top:0;
+      border-radius:999px;
+      background:white;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      font-size:12px;
+      font-weight:bold;
+      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    .dark-mode-toggle:active{
+      transform:scale(0.97);
+    }
+
+    @supports(padding:max(0px)){
+      .app{
+        padding-top:max(22px, env(safe-area-inset-top));
+        padding-left:max(18px, env(safe-area-inset-left));
+        padding-right:max(18px, env(safe-area-inset-right));
+        padding-bottom:max(30px, env(safe-area-inset-bottom));
+      }
+    }
+
+    @media (max-width:360px){
+      .app{
+        padding-left:14px;
+        padding-right:14px;
+      }
+
+      .brand{
+        font-size:22px;
+      }
+
+      h1{
+        font-size:28px;
+      }
+
+      .category-row{
+        gap:8px;
+      }
+
+      .category span{
+        font-size:11px;
+      }
+
+      .badge,
+      .dark-mode-toggle{
+        padding:8px 10px;
+        font-size:11px;
+      }
+    }
+
+    @media (min-width:431px){
+      body{
+        display:flex;
+        justify-content:center;
+      }
+
+      .app{
+        width:430px;
+      }
+    }
+
+    input,
+    button,
+    .category,
+    .badge,
+    .dark-mode-toggle{
+      min-height:44px;
+    }
+
+    button:disabled{
+      opacity:0.65;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    body.dark-mode{
+      background:linear-gradient(135deg,#1f171c,#2b2027);
+      color:#f8eef3;
+    }
+
+    body.dark-mode::before{
+      background:#5a3040;
+      opacity:0.28;
+    }
+
+    body.dark-mode::after{
+      background:#6b3548;
+      opacity:0.22;
+    }
+
+    body.dark-mode .brand{
+      color:#ff8fb1;
+    }
+
+    body.dark-mode .mini-logo{
+      background:#ff8fb1;
+    }
+
+    body.dark-mode .mini-logo::after{
+      background:#3a2932;
+    }
+
+    body.dark-mode .badge,
+    body.dark-mode .dark-mode-toggle{
+      background:#30242b;
+      color:#ffc1d5;
+      border-color:#5b3d4b;
+      box-shadow:0 8px 22px rgba(0,0,0,0.18);
+    }
+
+    body.dark-mode .hero,
+    body.dark-mode .category,
+    body.dark-mode .login-box{
+      background:rgba(43,32,39,0.98);
+      border-color:#4a3440;
+      color:#f8eef3;
+      box-shadow:0 18px 45px rgba(0,0,0,0.26);
+    }
+
+    body.dark-mode .hero::after{
+      background:#5a3040;
+      opacity:0.34;
+    }
+
+    body.dark-mode .tag,
+    body.dark-mode .trust{
+      background:#241b21;
+      color:#ffc1d5;
+      border:1px solid #4a3440;
+    }
+
+    body.dark-mode h1,
+    body.dark-mode .login-box h2,
+    body.dark-mode .bottom-note h3{
+      color:#fff7fb;
+    }
+
+    body.dark-mode h1 span,
+    body.dark-mode .login-box h2{
+      color:#ff8fb1;
+    }
+
+    body.dark-mode .desc,
+    body.dark-mode .login-sub,
+    body.dark-mode .category span{
+      color:#c9aeba;
+    }
+
+    body.dark-mode input{
+      background:#241b21;
+      border-color:#4a3440;
+      color:#f8eef3;
+    }
+
+    body.dark-mode input::placeholder{
+      color:#bfa5b0;
+    }
+
+    body.dark-mode input:focus{
+      background:#2d2229;
+      border-color:#ff8fb1;
+      box-shadow:0 0 0 4px rgba(255,143,177,0.12);
+    }
+
+    body.dark-mode button{
+      box-shadow:0 12px 28px rgba(0,0,0,0.22);
+    }
+
+    body.dark-mode .join{
+      background:#30242b;
+      color:#ffc1d5;
+      border-color:#5b3d4b;
+    }
+
+    body.dark-mode .kakao-btn{
+      background:#FEE500;
+      color:#191919;
+    }
+
+    body.dark-mode .app-logo{
+      background:linear-gradient(135deg,#3a2932,#5a3040);
+      box-shadow:0 16px 35px rgba(0,0,0,0.24);
+    }
+
+    body.dark-mode .moon{
+      background:#ff8fb1;
+    }
+
+    body.dark-mode .moon::after{
+      background:#3a2932;
+    }
+
+    body.dark-mode .heart{
+      color:#ffc1d5;
+    }
+
+    body.dark-mode .bottom-note{
+      background:#30242b;
+      color:#ffc1d5;
+      border:1px solid #5b3d4b;
+      box-shadow:0 16px 38px rgba(0,0,0,0.24);
+    }
+
+    body.dark-mode .bottom-note p{
+      color:#f8dbe6;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <div class="top">
+      <div class="brand">
+        <span class="mini-logo"></span>
+        오늘도육아
+      </div>
+
+      <div class="top-actions">
+        <div class="badge">
+          따뜻한 공간
+        </div>
+
+        <button class="dark-mode-toggle" type="button" onclick="toggleDarkMode()">
+          🌙 야간
+        </button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="tag">
+        오늘도 버틴 부모들을 위한 공간
+      </div>
+
+      <h1>
+        혼자 참는 육아 말고,<br>
+        <span>함께 나누는</span><br>
+        따뜻한 이야기
+      </h1>
+
+      <p class="desc">
+        출산 준비부터 새벽 수유,<br>
+        독박육아 고민까지 함께 나눠보세요.
+      </p>
+    </section>
+
+    <div class="category-row">
+      <div class="category">
+        <div>🤰</div>
+        <span>출산준비</span>
+      </div>
+
+      <div class="category">
+        <div>🌙</div>
+        <span>새벽육아</span>
+      </div>
+
+      <div class="category">
+        <div>🍼</div>
+        <span>신생아</span>
+      </div>
+
+      <div class="category">
+        <div>🧸</div>
+        <span>영유아</span>
+      </div>
+
+      <div class="category">
+        <div>🧒</div>
+        <span>어린이</span>
+      </div>
+
+      <div class="category">
+        <div>💗</div>
+        <span>위로받기</span>
+      </div>
+    </div>
+
+    <div class="login-box">
+
+      <div class="app-logo">
+        <div class="moon"></div>
+        <div class="heart">♥</div>
+      </div>
+
+      <h2>로그인</h2>
+
+      <p class="login-sub">
+        아이디 또는 카카오톡으로<br>
+        오늘도육아에 들어가 보세요.
+      </p>
+
+      <input type="text" id="loginId" placeholder="아이디 입력" autocomplete="username" inputmode="text">
+      <input type="password" id="password" placeholder="비밀번호 입력" autocomplete="current-password">
+
+      <button id="loginBtn">
+        로그인하기
+      </button>
+
+      <button id="kakaoBtn" class="kakao-btn" type="button">
+        카카오톡으로 로그인
+      </button>
+
+      <a href="join.html">
+        <button class="join" type="button">
+          처음이라면 회원가입
+        </button>
+      </a>
+
+      <div class="trust">
+        닉네임 기반으로 안전하게 활동할 수 있어요.
+      </div>
+
+    </div>
+
+    <div class="bottom-note">
+      <h3>
+        조용하고 따뜻한 육아 공간
+      </h3>
+
+      <p>
+        복잡한 맘카페보다 더 편안하게,<br>
+        오늘의 육아 이야기를 나눠보세요.
+      </p>
+    </div>
+
+  </div>
+
+  <script type="module">
+
+    function applySavedTheme(){
+      const savedTheme = localStorage.getItem("todayParentingTheme");
+
+      if(savedTheme === "dark"){
+        document.body.classList.add("dark-mode");
+      }
+
+      updateDarkModeButtons();
+    }
+
+    function updateDarkModeButtons(){
+      const isDark = document.body.classList.contains("dark-mode");
+      const buttons = document.querySelectorAll(".dark-mode-toggle");
+
+      buttons.forEach((button) => {
+        button.innerText = isDark ? "☀️ 라이트" : "🌙 야간";
+      });
+    }
+
+    window.toggleDarkMode = function(){
+      document.body.classList.toggle("dark-mode");
+
+      if(document.body.classList.contains("dark-mode")){
+        localStorage.setItem("todayParentingTheme", "dark");
+      } else {
+        localStorage.setItem("todayParentingTheme", "light");
+      }
+
+      updateDarkModeButtons();
+    };
+
+    applySavedTheme();
+
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      OAuthProvider,
+      signInWithRedirect,
+      getRedirectResult
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4x9d4aQlbroxcnT2v-zHODDPdQabIFx0",
+      authDomain: "today-parenting-app.firebaseapp.com",
+      projectId: "today-parenting-app",
+      storageBucket: "today-parenting-app.firebasestorage.app",
+      messagingSenderId: "375329953167",
+      appId: "1:375329953167:web:d29af0e45cc7d10e9f67fa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loginBtn = document.getElementById("loginBtn");
+    const kakaoBtn = document.getElementById("kakaoBtn");
+    const loginId = document.getElementById("loginId");
+    const password = document.getElementById("password");
+
+    function makeEmailFromId(id){
+      return id.trim().toLowerCase() + "@todayparenting.local";
+    }
+
+    function goAfterLogin(id){
+      const cleanId = id.trim().toLowerCase();
+
+      if(cleanId === "admin"){
+        window.location.href = "admin.html";
+        return;
+      }
+
+      window.location.href = "home.html";
+    }
+
+    loginBtn.addEventListener("click", async () => {
+
+      if(loginId.value.trim() === ""){
+        alert("아이디를 입력해주세요.");
+        return;
+      }
+
+      if(password.value.trim() === ""){
+        alert("비밀번호를 입력해주세요.");
+        return;
+      }
+
+      try{
+
+        loginBtn.disabled = true;
+        loginBtn.innerText = "로그인 중...";
+
+        const fakeEmail = makeEmailFromId(loginId.value);
+
+        await signInWithEmailAndPassword(
+          auth,
+          fakeEmail,
+          password.value
+        );
+
+        goAfterLogin(loginId.value);
+
+      }
+
+      catch(error){
+
+        alert("아이디 또는 비밀번호를 확인해주세요.");
+
+        loginBtn.disabled = false;
+        loginBtn.innerText = "로그인하기";
+
+      }
+
+    });
+
+    kakaoBtn.addEventListener("click", async () => {
+
+      try{
+
+        const provider = new OAuthProvider("oidc.kakao");
+
+        await signInWithRedirect(auth, provider);
+
+      }
+
+      catch(error){
+
+        alert(error.message);
+
+      }
+
+    });
+
+    async function checkKakaoRedirect(){
+
+      try{
+
+        const result = await getRedirectResult(auth);
+
+        if(!result){
+          return;
+        }
+
+        const user = result.user;
+
+        const userRef = doc(db, "users", user.uid);
+
+        const userSnap = await getDoc(userRef);
+
+        if(!userSnap.exists()){
+
+          await setDoc(userRef, {
+            nickname: user.displayName || "카카오사용자",
+            loginId: "",
+            email: user.email || "",
+            realEmail: user.email || "",
+            loginType: "kakao",
+            stage: "예비부모",
+            categories: [
+              "출산준비",
+              "새벽육아",
+              "신생아",
+              "영유아",
+              "어린이",
+              "위로받기"
+            ],
+            status: "초보엄마예요 💕",
+            photoUrl: user.photoURL || "",
+            createdAt: new Date()
+          });
+
+        }
+
+        window.location.href = "home.html";
+
+      }
+
+      catch(error){
+
+        console.log(error.message);
+
+      }
+
+    }
+
+    document.addEventListener("keydown", async (event) => {
+
+      if(event.key !== "Enter"){
+        return;
+      }
+
+      const activeElement = document.activeElement;
+
+      if(
+        activeElement === loginId ||
+        activeElement === password
+      ){
+
+        event.preventDefault();
+
+        loginBtn.click();
+
+      }
+
+    });
+
+    checkKakaoRedirect();
+
+  </script>
+
+</body>
+</html>

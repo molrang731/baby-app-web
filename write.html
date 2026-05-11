@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>글쓰기 - 오늘도육아</title>
+
+<link rel="stylesheet" href="theme.css">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+    body{
+      font-family:Arial,sans-serif;
+      background:linear-gradient(135deg,#fff7fb,#ffeaf2);
+      color:#2f272a;
+      padding-bottom:96px;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      width:320px;
+      height:320px;
+      background:#ffd6e7;
+      border-radius:50%;
+      top:-130px;
+      left:-130px;
+      opacity:0.5;
+      z-index:-1;
+    }
+
+    body::after{
+      content:'';
+      position:fixed;
+      width:260px;
+      height:260px;
+      background:#ffc8dc;
+      border-radius:50%;
+      bottom:-100px;
+      right:-100px;
+      opacity:0.32;
+      z-index:-1;
+    }
+
+    .header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(255,255,255,0.88);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(255,214,231,0.55);
+    }
+
+    .header-inner{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      padding:15px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:23px;
+      font-weight:900;
+      color:#ff5c8a;
+      letter-spacing:-0.8px;
+      white-space:nowrap;
+    }
+
+    .mini-logo{
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ff5c8a;
+      position:relative;
+      display:inline-block;
+      flex-shrink:0;
+    }
+
+    .mini-logo::after{
+      content:'';
+      position:absolute;
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ffe4ef;
+      top:-2px;
+      left:7px;
+    }
+
+    .back-link{
+      text-decoration:none;
+      color:#ff5c8a;
+      background:white;
+      border:1px solid #ffd6e7;
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      white-space:nowrap;
+    }
+
+    .container{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      padding:18px 14px 24px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.97);
+      border-radius:30px;
+      padding:22px 18px 20px;
+      box-shadow:0 14px 35px rgba(255,92,138,0.08);
+      border:1px solid rgba(255,255,255,0.95);
+      overflow:hidden;
+    }
+
+    .label{
+      display:inline-block;
+      background:#fff0f5;
+      color:#ff5c8a;
+      padding:8px 13px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:15px;
+    }
+
+    h2{
+      font-size:25px;
+      line-height:1.35;
+      letter-spacing:-0.8px;
+      margin-bottom:8px;
+      color:#2f272a;
+    }
+
+    .sub{
+      color:#8d7c83;
+      font-size:14px;
+      line-height:1.6;
+      margin-bottom:22px;
+    }
+
+    .section-title{
+      font-size:14px;
+      font-weight:900;
+      color:#51464a;
+      margin-bottom:10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+
+    .draft-state{
+      color:#aa9ba1;
+      font-size:11px;
+      font-weight:bold;
+    }
+
+    .category-box{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:9px;
+      margin-bottom:20px;
+    }
+
+    .category-option input{display:none;}
+
+    .category-option span{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      min-height:74px;
+      border-radius:20px;
+      background:#fff7fa;
+      border:1px solid #f3dfe7;
+      color:#7d7276;
+      font-size:12px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.2s;
+      text-align:center;
+    }
+
+    .category-option b{
+      font-size:22px;
+      line-height:1;
+      font-weight:normal;
+    }
+
+    .category-option input:checked + span{
+      background:#ff5c8a;
+      color:white;
+      border-color:#ff5c8a;
+      box-shadow:0 12px 28px rgba(255,92,138,0.25);
+      transform:translateY(-2px);
+    }
+
+    .field{margin-bottom:13px;}
+
+    .input-box,
+    .textarea-box{
+      width:100%;
+      border:none;
+      border-radius:21px;
+      background:#fff7fa;
+      padding:16px;
+      font-size:15px;
+      outline:none;
+      color:#2f272a;
+      border:1px solid #f3dfe7;
+    }
+
+    .input-box:focus,
+    .textarea-box:focus{
+      background:white;
+      border-color:#ff8fb1;
+      box-shadow:0 0 0 4px rgba(255,92,138,0.08);
+    }
+
+    .textarea-box{
+      height:210px;
+      resize:none;
+      line-height:1.75;
+    }
+
+    .count-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:7px;
+      color:#aa9ba1;
+      font-size:12px;
+      font-weight:bold;
+    }
+
+    .count-row.warning{
+      color:#ff5c8a;
+    }
+
+    .upload-box{
+      margin:16px 0 20px;
+    }
+
+    .upload-label{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      width:100%;
+      min-height:76px;
+      border-radius:23px;
+      background:#fff7fa;
+      border:1.5px dashed #ffb3c9;
+      color:#ff5c8a;
+      font-weight:bold;
+      cursor:pointer;
+      font-size:14px;
+    }
+
+    .upload-label span{
+      width:28px;
+      height:28px;
+      border-radius:50%;
+      background:#fff0f5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
+      line-height:1;
+    }
+
+    #imageInput{display:none;}
+
+    .preview-grid{
+      display:none;
+      grid-template-columns:repeat(3,1fr);
+      gap:9px;
+      margin-top:14px;
+    }
+
+    .preview-item{
+      position:relative;
+      border-radius:20px;
+      overflow:hidden;
+      background:#fff7fa;
+      border:1px solid #f3dfe7;
+      aspect-ratio:1/1;
+    }
+
+    .preview-item img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .remove-image{
+      position:absolute;
+      right:6px;
+      top:6px;
+      width:25px;
+      height:25px;
+      border-radius:50%;
+      border:none;
+      background:rgba(255,255,255,0.95);
+      color:#ff5c8a;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 5px 12px rgba(0,0,0,0.08);
+    }
+
+    .helper{
+      margin-top:9px;
+      color:#9c8b91;
+      font-size:12px;
+      line-height:1.5;
+      text-align:center;
+    }
+
+    .button-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+    }
+
+    .draft-btn,
+    .post-btn{
+      width:100%;
+      padding:16px;
+      border:none;
+      border-radius:20px;
+      font-size:15px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    .draft-btn{
+      background:white;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      box-shadow:none;
+    }
+
+    .post-btn{
+      background:#ff5c8a;
+      color:white;
+      box-shadow:0 14px 30px rgba(255,92,138,0.25);
+    }
+
+    .post-btn:active,
+    .draft-btn:active{transform:scale(0.99);}
+
+    .post-btn:disabled,
+    .draft-btn:disabled{
+      opacity:0.65;
+      cursor:not-allowed;
+    }
+
+    .loading-box{
+      display:none;
+      margin-top:14px;
+      background:#fff7fa;
+      border:1px solid #f3dfe7;
+      color:#ff5c8a;
+      border-radius:20px;
+      padding:13px;
+      text-align:center;
+      font-size:13px;
+      font-weight:bold;
+    }
+
+    .loading-box.active{
+      display:block;
+    }
+
+    .bottom-menu{
+      position:fixed;
+      bottom:0;
+      left:0;
+      width:100%;
+      background:rgba(255,255,255,0.96);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border-top:1px solid #f0dfe6;
+      z-index:110;
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+
+    .bottom-inner{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      display:flex;
+      justify-content:space-around;
+      padding:11px 0 9px;
+    }
+
+    .bottom-menu a{
+      width:25%;
+      text-decoration:none;
+      color:#7d7276;
+      font-size:11.5px;
+      text-align:center;
+      font-weight:bold;
+    }
+
+    .bottom-menu a div{
+      font-size:21px;
+      margin-bottom:3px;
+      line-height:1;
+    }
+
+    .bottom-menu a.active{color:#ff5c8a;}
+
+    @media(max-width:390px){
+      .container{padding-left:12px;padding-right:12px;}
+      .header-inner{padding-left:16px;padding-right:16px;}
+      h2{font-size:23px;}
+      .category-box{gap:8px;}
+      .category-option span{
+        min-height:70px;
+        font-size:11.5px;
+      }
+    }
+    .pill{
+    border:none;
+    background:white;
+    padding:10px 16px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+    color:#ff5c8a;
+    cursor:pointer;
+    box-shadow:0 8px 22px rgba(255,92,138,0.08);
+    border:1px solid #ffd6e7;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .dark-mode-toggle{
+    white-space:nowrap;
+  }
+  </style>
+</head>
+
+<body>
+<div class="header">
+  <div class="header-inner">
+    <!-- 로고 -->
+    <div class="brand">
+      <span class="mini-logo"></span>
+      오늘도육아
+    </div>
+
+    <!-- 오른쪽 버튼 묶음 -->
+    <div class="header-actions" style="display:flex; gap:8px; align-items:center; justify-content:flex-end;">
+      <!-- 홈 버튼 -->
+      <a href="home.html" class="pill back-link">홈으로</a>
+
+      <!-- 야간 버튼 -->
+      <button
+        class="pill dark-mode-toggle"
+        onclick="toggleDarkMode()"
+        type="button"
+      >
+        🌙 야간
+      </button>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>a
+
+  <div class="container">
+    <div class="card">
+
+      <div class="label">TODAY WRITE</div>
+
+      <h2>
+        오늘의 육아 이야기를<br>
+        편하게 남겨주세요
+      </h2>
+
+      <p class="sub">
+        고민도, 자랑도, 위로받고 싶은 마음도 괜찮아요.
+      </p>
+
+      <div class="section-title">
+        <span>카테고리 선택</span>
+        <span class="draft-state" id="draftState">자동 임시저장</span>
+      </div>
+
+      <div class="category-box">
+
+        <label class="category-option">
+          <input type="radio" name="category" value="출산준비" checked>
+          <span>
+            <b>🤰</b>
+            출산준비
+          </span>
+        </label>
+
+        <label class="category-option">
+          <input type="radio" name="category" value="새벽육아">
+          <span>
+            <b>🌙</b>
+            새벽육아
+          </span>
+        </label>
+
+        <label class="category-option">
+          <input type="radio" name="category" value="신생아">
+          <span>
+            <b>🍼</b>
+            신생아
+          </span>
+        </label>
+
+        <label class="category-option">
+          <input type="radio" name="category" value="영유아">
+          <span>
+            <b>🧸</b>
+            영유아
+          </span>
+        </label>
+
+        <label class="category-option">
+          <input type="radio" name="category" value="어린이">
+          <span>
+            <b>🧒</b>
+            어린이
+          </span>
+        </label>
+
+        <label class="category-option">
+          <input type="radio" name="category" value="위로받기">
+          <span>
+            <b>💗</b>
+            위로받기
+          </span>
+        </label>
+
+      </div>
+
+      <div class="field">
+        <input
+          type="text"
+          id="title"
+          class="input-box"
+          maxlength="40"
+          placeholder="제목을 입력해주세요"
+        >
+
+        <div class="count-row" id="titleCountRow">
+          <span>제목은 짧고 또렷하게 좋아요</span>
+          <span id="titleCount">0 / 40</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <textarea
+          id="content"
+          class="textarea-box"
+          maxlength="1000"
+          placeholder="오늘 있었던 육아 고민을 자유롭게 적어보세요"
+        ></textarea>
+
+        <div class="count-row" id="contentCountRow">
+          <span>따뜻한 말투로 남겨주세요</span>
+          <span id="contentCount">0 / 1000</span>
+        </div>
+      </div>
+
+      <div class="upload-box">
+        <label for="imageInput" class="upload-label">
+          <span>＋</span>
+          사진 추가하기
+        </label>
+
+        <input type="file" id="imageInput" accept="image/*" multiple>
+
+        <div class="preview-grid" id="previewGrid"></div>
+
+        <div class="helper">
+          사진은 최대 3장까지 올릴 수 있어요.
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="draft-btn" id="saveDraftBtn" type="button">
+          임시저장
+        </button>
+
+        <button class="post-btn" id="postBtn" type="button">
+          고민 공유하기
+        </button>
+      </div>
+
+      <div class="loading-box" id="loadingBox">
+        게시글을 등록하고 있어요...
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-menu">
+    <div class="bottom-inner">
+      <a href="home.html">
+        <div>⌂</div>
+        홈
+      </a>
+
+      <a href="write.html" class="active">
+        <div>✎</div>
+        글쓰기
+      </a>
+
+      <a href="profile.html">
+        <div>☾</div>
+        내정보
+      </a>
+
+      <a  href="notifications.html">
+  <div>🔔</div>
+  알림
+      </a>
+    </div>
+  </div>
+
+  <script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+    import {
+      getStorage,
+      ref,
+      uploadBytes,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4x9d4aQlbroxcnT2v-zHODDPdQabIFx0",
+      authDomain: "today-parenting-app.firebaseapp.com",
+      projectId: "today-parenting-app",
+      storageBucket: "today-parenting-app.firebasestorage.app",
+      messagingSenderId: "375329953167",
+      appId: "1:375329953167:web:d29af0e45cc7d10e9f67fa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const postBtn = document.getElementById("postBtn");
+    const saveDraftBtn = document.getElementById("saveDraftBtn");
+    const title = document.getElementById("title");
+    const content = document.getElementById("content");
+    const imageInput = document.getElementById("imageInput");
+    const previewGrid = document.getElementById("previewGrid");
+    const loadingBox = document.getElementById("loadingBox");
+    const draftState = document.getElementById("draftState");
+    const titleCount = document.getElementById("titleCount");
+    const contentCount = document.getElementById("contentCount");
+    const titleCountRow = document.getElementById("titleCountRow");
+    const contentCountRow = document.getElementById("contentCountRow");
+
+    let currentUser = null;
+    let currentNickname = "익명";
+    let selectedFiles = [];
+
+    const DRAFT_KEY = "todayParentingWriteDraft";
+
+    const params = new URLSearchParams(window.location.search);
+    const categoryFromUrl = params.get("category");
+
+    function getSelectedCategory(){
+      const checkedCategory = document.querySelector("input[name='category']:checked");
+      return checkedCategory ? checkedCategory.value : "출산준비";
+    }
+
+    function setCategory(category){
+      const target = document.querySelector(`input[name='category'][value="${category}"]`);
+
+      if(target){
+        target.checked = true;
+      }
+    }
+
+    function updateCounts(){
+      titleCount.innerText = `${title.value.length} / 40`;
+      contentCount.innerText = `${content.value.length} / 1000`;
+
+      titleCountRow.classList.toggle("warning", title.value.length >= 35);
+      contentCountRow.classList.toggle("warning", content.value.length >= 900);
+    }
+
+    function saveDraft(silent = false){
+      const draft = {
+        category: getSelectedCategory(),
+        title: title.value,
+        content: content.value,
+        savedAt: new Date().toISOString()
+      };
+
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+
+      draftState.innerText = "임시저장 완료";
+
+      if(!silent){
+        alert("임시저장 되었어요.");
+      }
+
+      setTimeout(() => {
+        draftState.innerText = "자동 임시저장";
+      }, 1500);
+    }
+
+    function loadDraft(){
+      const saved = localStorage.getItem(DRAFT_KEY);
+
+      if(!saved){
+        if(categoryFromUrl){
+          setCategory(categoryFromUrl);
+        }
+
+        updateCounts();
+        return;
+      }
+
+      try{
+        const draft = JSON.parse(saved);
+
+        if(draft.category){
+          setCategory(categoryFromUrl || draft.category);
+        }
+
+        title.value = draft.title || "";
+        content.value = draft.content || "";
+
+        updateCounts();
+
+      } catch(error){
+        localStorage.removeItem(DRAFT_KEY);
+      }
+    }
+
+    function clearDraft(){
+      localStorage.removeItem(DRAFT_KEY);
+    }
+
+    function renderPreview(){
+      previewGrid.innerHTML = "";
+
+      if(selectedFiles.length === 0){
+        previewGrid.style.display = "none";
+        return;
+      }
+
+      previewGrid.style.display = "grid";
+
+      selectedFiles.forEach((file, index) => {
+        const imageUrl = URL.createObjectURL(file);
+
+        const item = document.createElement("div");
+        item.className = "preview-item";
+
+        item.innerHTML = `
+          <img src="${imageUrl}" alt="미리보기 이미지">
+          <button class="remove-image" type="button" data-index="${index}">×</button>
+        `;
+
+        previewGrid.appendChild(item);
+      });
+
+      document.querySelectorAll(".remove-image").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const index = Number(btn.dataset.index);
+          selectedFiles.splice(index, 1);
+          renderPreview();
+        });
+      });
+    }
+
+
+    function compressImage(file, maxWidth = 1200, maxHeight = 1200, quality = 0.75){
+      return new Promise((resolve, reject) => {
+        if(!file || !file.type.startsWith("image/")){
+          resolve(file);
+          return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = (event) => {
+          const img = new Image();
+
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+
+            if(width > maxWidth || height > maxHeight){
+              const ratio = Math.min(maxWidth / width, maxHeight / height);
+              width = Math.round(width * ratio);
+              height = Math.round(height * ratio);
+            }
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+
+            if(!ctx){
+              resolve(file);
+              return;
+            }
+
+            ctx.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob((blob) => {
+              if(!blob){
+                resolve(file);
+                return;
+              }
+
+              const originalName = file.name || "image";
+              const nameWithoutExt = originalName.replace(/\.[^/.]+$/, "");
+              const compressedName = nameWithoutExt + ".jpg";
+
+              const compressedFile = new File(
+                [blob],
+                compressedName,
+                {
+                  type: "image/jpeg",
+                  lastModified: Date.now()
+                }
+              );
+
+              resolve(compressedFile);
+            }, "image/jpeg", quality);
+          };
+
+          img.onerror = () => {
+            reject(new Error("이미지를 압축하지 못했어요."));
+          };
+
+          img.src = event.target.result;
+        };
+
+        reader.onerror = () => {
+          reject(new Error("이미지를 읽지 못했어요."));
+        };
+
+        reader.readAsDataURL(file);
+      });
+    }
+
+    imageInput.addEventListener("change", () => {
+      const files = Array.from(imageInput.files || []);
+
+      const imageFiles = files.filter((file) => file.type.startsWith("image/"));
+
+      selectedFiles = imageFiles.slice(0, 3);
+
+      if(files.length > 3){
+        alert("사진은 최대 3장까지만 올릴 수 있어요.");
+      }
+
+      renderPreview();
+      imageInput.value = "";
+    });
+
+    title.addEventListener("input", () => {
+      updateCounts();
+      saveDraft(true);
+    });
+
+    content.addEventListener("input", () => {
+      updateCounts();
+      saveDraft(true);
+    });
+
+    document.querySelectorAll("input[name='category']").forEach((radio) => {
+      radio.addEventListener("change", () => {
+        saveDraft(true);
+      });
+    });
+
+    saveDraftBtn.addEventListener("click", () => {
+      saveDraft(false);
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if(user){
+        currentUser = user;
+
+        try{
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+
+          if(userDoc.exists()){
+            currentNickname = userDoc.data().nickname || user.displayName || "익명";
+          } else {
+            currentNickname = user.displayName || user.email || "익명";
+          }
+
+          loadDraft();
+
+        } catch(error){
+          currentNickname = user.displayName || user.email || "익명";
+          loadDraft();
+        }
+
+      } else {
+        alert("로그인이 필요합니다.");
+        window.location.href = "index.html";
+      }
+    });
+
+    postBtn.addEventListener("click", async () => {
+      const categoryValue = getSelectedCategory();
+      const titleValue = title.value.trim();
+      const contentValue = content.value.trim();
+
+      if(!currentUser){
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      if(titleValue === ""){
+        alert("제목을 입력해주세요.");
+        title.focus();
+        return;
+      }
+
+      if(titleValue.length < 2){
+        alert("제목은 2글자 이상 입력해주세요.");
+        title.focus();
+        return;
+      }
+
+      if(contentValue === ""){
+        alert("내용을 입력해주세요.");
+        content.focus();
+        return;
+      }
+
+      if(contentValue.length < 5){
+        alert("내용은 5글자 이상 입력해주세요.");
+        content.focus();
+        return;
+      }
+
+      try{
+        postBtn.disabled = true;
+        saveDraftBtn.disabled = true;
+        postBtn.innerText = "등록 중...";
+        loadingBox.classList.add("active");
+
+        let imageUrls = [];
+
+        for(const file of selectedFiles){
+          const compressedFile = await compressImage(file);
+          const safeFileName = compressedFile.name.replaceAll(" ", "_");
+
+          const imageRef = ref(
+            storage,
+            "postImages/" + currentUser.uid + "/" + Date.now() + "_" + safeFileName
+          );
+
+          await uploadBytes(imageRef, compressedFile, {
+            contentType: compressedFile.type || "image/jpeg"
+          });
+
+          const downloadURL = await getDownloadURL(imageRef);
+
+          imageUrls.push(downloadURL);
+        }
+
+        await addDoc(collection(db, "posts"), {
+          category: categoryValue,
+          title: titleValue,
+          content: contentValue,
+          imageUrl: imageUrls[0] || "",
+          imageUrls: imageUrls,
+          nickname: currentNickname,
+          userId: currentUser.uid,
+          likes: 0,
+          views: 0,
+          commentCount: 0,
+          likedBy: [],
+          viewedBy: [],
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+
+        clearDraft();
+
+        alert("게시글 등록 완료 💕");
+
+        window.location.href =
+          "home.html?category=" + encodeURIComponent(categoryValue);
+
+      } catch(error){
+        alert("등록 실패: " + error.message);
+
+        postBtn.disabled = false;
+        saveDraftBtn.disabled = false;
+        postBtn.innerText = "고민 공유하기";
+        loadingBox.classList.remove("active");
+      }
+    });
+
+  </script>
+
+<script src="theme.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,2754 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="theme.css">
+  <title>오늘도육아</title>
+
+  <style>
+    *{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+    html, body{ width:100%; min-height:100%; }
+
+    body{
+      font-family:Arial, sans-serif;
+      background:linear-gradient(135deg,#fff7fb,#ffeaf2);
+      color:#2f272a;
+      padding-bottom:96px;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      width:320px;
+      height:320px;
+      background:#ffd6e7;
+      border-radius:50%;
+      top:-130px;
+      left:-130px;
+      opacity:0.55;
+      z-index:-1;
+    }
+
+    body::after{
+      content:'';
+      position:fixed;
+      width:260px;
+      height:260px;
+      background:#ffc8dc;
+      border-radius:50%;
+      bottom:-100px;
+      right:-100px;
+      opacity:0.35;
+      z-index:-1;
+    }
+
+    .header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(255,255,255,0.88);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(255,214,231,0.55);
+    }
+
+    .header-inner{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      padding:15px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:23px;
+      font-weight:900;
+      color:#ff5c8a;
+      letter-spacing:-0.8px;
+      white-space:nowrap;
+      cursor:pointer;
+    }
+
+    .mini-logo{
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ff5c8a;
+      position:relative;
+      display:inline-block;
+      flex-shrink:0;
+    }
+
+    .mini-logo::after{
+      content:'';
+      position:absolute;
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ffe4ef;
+      top:-2px;
+      left:7px;
+    }
+
+    .pill{
+      background:white;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:bold;
+      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      white-space:nowrap;
+      text-decoration:none;
+    }
+
+    .container{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      padding:18px 16px 24px;
+    }
+
+    .hero{ display:block; margin-bottom:18px; }
+
+    .hero-main{
+      background:rgba(255,255,255,0.9);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border-radius:32px;
+      padding:26px 22px;
+      box-shadow:0 18px 42px rgba(255,92,138,0.13);
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.9);
+      margin-bottom:12px;
+    }
+
+    .hero-main::after{
+      content:'';
+      position:absolute;
+      width:150px;
+      height:150px;
+      background:#ffd6e7;
+      border-radius:50%;
+      right:-55px;
+      top:-55px;
+      opacity:0.45;
+    }
+
+    .hero-label{
+      display:inline-block;
+      background:#fff0f5;
+      color:#ff5c8a;
+      padding:8px 13px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:16px;
+      position:relative;
+      z-index:2;
+    }
+
+    .hero-main h1{
+      font-size:29px;
+      line-height:1.3;
+      letter-spacing:-1.1px;
+      margin-bottom:12px;
+      position:relative;
+      z-index:2;
+    }
+
+    .hero-main p{
+      color:#6d5f64;
+      font-size:14px;
+      line-height:1.7;
+      position:relative;
+      z-index:2;
+    }
+
+    .hero-side{
+      background:#ff5c8a;
+      color:white;
+      border-radius:30px;
+      padding:22px;
+      box-shadow:0 16px 38px rgba(255,92,138,0.22);
+    }
+
+    .app-logo{
+      width:64px;
+      height:64px;
+      border-radius:23px;
+      background:linear-gradient(135deg,#fff1f6,#ffd6e7);
+      position:relative;
+      margin-bottom:16px;
+    }
+
+    .moon{
+      position:absolute;
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      background:#ff5c8a;
+      top:17px;
+      left:17px;
+    }
+
+    .moon::after{
+      content:'';
+      position:absolute;
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      background:#ffe4ef;
+      top:-3px;
+      left:9px;
+    }
+
+    .heart{
+      position:absolute;
+      right:13px;
+      bottom:11px;
+      color:#ff5c8a;
+      font-size:16px;
+      font-weight:bold;
+    }
+
+    .hero-side h2{
+      font-size:21px;
+      line-height:1.42;
+      margin-bottom:10px;
+      letter-spacing:-0.5px;
+    }
+
+    .hero-side p{
+      font-size:14px;
+      line-height:1.6;
+      opacity:0.92;
+    }
+
+    .category-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin:16px 0 22px;
+    }
+
+    .category{
+      background:rgba(255,255,255,0.94);
+      border-radius:20px;
+      padding:12px 3px 10px;
+      text-align:center;
+      box-shadow:0 10px 24px rgba(255,92,138,0.07);
+      border:1px solid rgba(255,255,255,0.9);
+      text-decoration:none;
+      color:inherit;
+      font-family:inherit;
+      cursor:pointer;
+    }
+
+    .category.active{
+      border-color:#ff8fb1;
+      background:#fff0f5;
+    }
+
+    .category:active{ transform:scale(0.97); }
+
+    .category h3{
+      font-size:10.5px;
+      color:#382e32;
+      letter-spacing:-0.4px;
+      white-space:nowrap;
+    }
+
+    .cat-icon{
+      width:38px;
+      height:38px;
+      border-radius:15px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:0 auto 7px;
+      position:relative;
+      font-size:19px;
+    }
+
+    .cat-all{ background:linear-gradient(135deg,#ffe5ef,#ffc6dc); }
+    .cat-birth{ background:linear-gradient(135deg,#fff0dc,#ffd6e7); }
+    .cat-night{ background:linear-gradient(135deg,#f1e7ff,#ffd9ec); }
+    .cat-baby{ background:linear-gradient(135deg,#fff0dc,#ffd6e7); }
+    .cat-toddler{ background:linear-gradient(135deg,#e8fff7,#ffe4ef); }
+    .cat-child{ background:linear-gradient(135deg,#eaf6ff,#ffe0ec); }
+    .cat-comfort{ background:linear-gradient(135deg,#ffe5ef,#ffc6dc); }
+
+    .cat-all::before{ content:'🏠'; }
+    .cat-birth::before{ content:'🤰'; }
+    .cat-night::before{ content:'🌙'; }
+    .cat-baby::before{ content:'🍼'; }
+    .cat-toddler::before{ content:'🧸'; }
+    .cat-child::before{ content:'🧒'; }
+    .cat-comfort::before{ content:'💗'; }
+
+    .feed-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      margin-bottom:12px;
+      gap:10px;
+    }
+
+    .feed-title h2{
+      font-size:23px;
+      letter-spacing:-0.8px;
+      margin-bottom:5px;
+      color:#2f272a;
+    }
+
+    .feed-title p{
+      color:#8d7c83;
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .sort-box{
+      display:flex;
+      gap:5px;
+      background:rgba(255,255,255,0.78);
+      padding:5px;
+      border-radius:999px;
+      border:1px solid #f1dfe7;
+      box-shadow:0 8px 22px rgba(255,92,138,0.06);
+      flex-shrink:0;
+    }
+
+    .sort-btn{
+      border:none;
+      background:transparent;
+      color:#9a8a90;
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .sort-btn.active{
+      background:#ff5c8a;
+      color:white;
+      box-shadow:0 8px 20px rgba(255,92,138,0.22);
+    }
+
+    .period-box{
+      display:flex;
+      gap:8px;
+      margin-bottom:16px;
+      overflow-x:auto;
+      padding:2px 1px 4px;
+      scrollbar-width:none;
+    }
+
+    .period-box::-webkit-scrollbar{ display:none; }
+
+    .period-btn{
+      border:1px solid #f1dfe7;
+      background:white;
+      color:#8d7c83;
+      padding:9px 14px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      cursor:pointer;
+      white-space:nowrap;
+      box-shadow:0 8px 22px rgba(255,92,138,0.05);
+    }
+
+    .period-btn.active{
+      background:#fff0f5;
+      color:#ff5c8a;
+      border-color:#ffd6e7;
+    }
+
+
+
+    .popular-card{
+      background:rgba(255,255,255,0.96);
+      border:1px solid rgba(255,255,255,0.95);
+      border-radius:28px;
+      padding:17px 14px;
+      margin:0 0 18px;
+      box-shadow:0 14px 35px rgba(255,92,138,0.09);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .popular-card::after{
+      content:'';
+      position:absolute;
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      background:#ffd6e7;
+      right:-45px;
+      top:-55px;
+      opacity:0.34;
+      pointer-events:none;
+    }
+
+    .popular-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:10px;
+      margin-bottom:12px;
+      position:relative;
+      z-index:2;
+    }
+
+    .popular-title h2{
+      font-size:19px;
+      color:#241f21;
+      letter-spacing:-0.6px;
+      margin-bottom:4px;
+    }
+
+    .popular-title p{
+      color:#8d7c83;
+      font-size:12.5px;
+      line-height:1.4;
+      font-weight:bold;
+    }
+
+    .popular-badge{
+      background:#fff0f5;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    .popular-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      position:relative;
+      z-index:2;
+    }
+
+    .popular-item{
+      background:#fff7fa;
+      border:1px solid #f7e5ec;
+      border-radius:21px;
+      padding:11px;
+      cursor:pointer;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .popular-rank{
+      width:34px;
+      height:34px;
+      border-radius:14px;
+      background:#ff5c8a;
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      font-weight:900;
+      flex-shrink:0;
+      box-shadow:0 9px 20px rgba(255,92,138,0.20);
+    }
+
+    .popular-info{
+      min-width:0;
+      flex:1;
+    }
+
+    .popular-category{
+      display:inline-block;
+      color:#ff5c8a;
+      background:white;
+      border:1px solid #ffd6e7;
+      padding:3px 7px;
+      border-radius:999px;
+      font-size:10.5px;
+      font-weight:900;
+      margin-bottom:5px;
+    }
+
+    .popular-post-title{
+      font-size:14px;
+      font-weight:900;
+      color:#241f21;
+      line-height:1.35;
+      margin-bottom:5px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      overflow-wrap:anywhere;
+    }
+
+    .popular-meta{
+      display:flex;
+      gap:7px;
+      flex-wrap:wrap;
+      color:#9c8b91;
+      font-size:11.5px;
+      font-weight:900;
+    }
+
+    .popular-empty{
+      background:#fff7fa;
+      border:1px solid #f7e5ec;
+      border-radius:21px;
+      padding:18px 12px;
+      text-align:center;
+      color:#8d7c83;
+      font-size:13px;
+      line-height:1.6;
+      font-weight:bold;
+      position:relative;
+      z-index:2;
+    }
+
+
+    .search-card{
+      background:rgba(255,255,255,0.94);
+      border:1px solid rgba(255,255,255,0.9);
+      border-radius:25px;
+      padding:12px;
+      margin:0 0 16px;
+      box-shadow:0 10px 24px rgba(255,92,138,0.07);
+    }
+
+    .search-row{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:8px;
+      align-items:center;
+    }
+
+    .search-select{
+      border:none;
+      border-radius:18px;
+      background:#fff7fa;
+      border:1px solid #f3dfe7;
+      padding:0 12px;
+      outline:none;
+      font-size:13px;
+      color:#2f272a;
+      height:45px;
+      min-width:92px;
+      cursor:pointer;
+      font-family:inherit;
+      font-weight:bold;
+    }
+
+    .search-select:focus{
+      background:white;
+      border-color:#ff8fb1;
+      box-shadow:0 0 0 4px rgba(255,92,138,0.08);
+    }
+
+    .search-input{
+      width:100%;
+      border:none;
+      border-radius:18px;
+      background:#fff7fa;
+      border:1px solid #f3dfe7;
+      padding:13px 14px;
+      outline:none;
+      font-size:14px;
+      color:#2f272a;
+    }
+
+    .search-input:focus{
+      background:white;
+      border-color:#ff8fb1;
+      box-shadow:0 0 0 4px rgba(255,92,138,0.08);
+    }
+
+    .search-clear{
+      border:none;
+      border-radius:18px;
+      background:#ff5c8a;
+      color:white;
+      padding:0 14px;
+      height:45px;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+      white-space:nowrap;
+      box-shadow:0 10px 22px rgba(255,92,138,0.18);
+    }
+
+    .search-help{
+      color:#9c8b91;
+      font-size:11.5px;
+      line-height:1.5;
+      margin-top:8px;
+      padding:0 3px;
+      font-weight:bold;
+    }
+
+    .post{
+      background:rgba(255,255,255,0.96);
+      border-radius:30px;
+      margin-bottom:18px;
+      box-shadow:0 14px 35px rgba(255,92,138,0.08);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.9);
+    }
+
+    .post-image-wrap{
+      position:relative;
+      background:#fff7fa;
+      cursor:pointer;
+    }
+
+    .post-image{
+      width:100%;
+      max-height:240px;
+      object-fit:cover;
+      display:block;
+      background:#fff7fa;
+    }
+
+    .image-more{
+      position:absolute;
+      right:13px;
+      top:13px;
+      background:rgba(0,0,0,0.58);
+      color:white;
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .no-image{
+      height:152px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:
+        radial-gradient(circle at 25% 20%, #fff 0 11%, transparent 12%),
+        linear-gradient(135deg,#fff0f5,#ffd6e7);
+      color:#ff5c8a;
+      font-size:38px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .post-body{ padding:16px 15px 14px; }
+
+    .post-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      margin-bottom:15px;
+      gap:10px;
+    }
+
+    .user-area{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      cursor:pointer;
+    }
+
+    .profile{
+      width:44px;
+      height:44px;
+      border-radius:17px;
+      background:linear-gradient(135deg,#fff0f5,#ffd6e7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#ff5c8a;
+      font-weight:bold;
+      font-size:17px;
+      flex-shrink:0;
+      overflow:hidden;
+    }
+
+    .name{
+      font-weight:800;
+      font-size:14px;
+      color:#342b2f;
+      max-width:145px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .time{
+      color:#aa9ba1;
+      font-size:12px;
+      margin-top:4px;
+    }
+
+    .delete-btn{
+      border:none;
+      background:#fff0f5;
+      color:#ff5c8a;
+      padding:8px 11px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:bold;
+      flex-shrink:0;
+    }
+
+    .post-category{
+      display:inline-block;
+      padding:7px 12px;
+      background:#fff0f5;
+      color:#ff5c8a;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:12px;
+      cursor:pointer;
+    }
+
+    .title{
+      font-size:18px;
+      font-weight:900;
+      line-height:1.42;
+      margin-bottom:10px;
+      color:#261f22;
+      letter-spacing:-0.5px;
+      word-break:keep-all;
+      overflow-wrap:anywhere;
+      cursor:pointer;
+    }
+
+    .content{
+      font-size:14.5px;
+      line-height:1.75;
+      color:#5f5357;
+      margin-bottom:4px;
+      white-space:pre-line;
+      background:#fff9fb;
+      border-radius:20px;
+      padding:15px;
+      max-height:92px;
+      overflow:hidden;
+      cursor:pointer;
+    }
+
+    .post-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      background:#fff8fb;
+      border-top:1px solid #f5e4eb;
+      padding:13px 15px;
+    }
+
+    .actions{
+      display:flex;
+      gap:7px;
+      flex-wrap:wrap;
+    }
+
+    .action-btn{
+      border:none;
+      background:white;
+      cursor:pointer;
+      font-size:13px;
+      color:#766d70;
+      display:flex;
+      align-items:center;
+      gap:5px;
+      padding:8px 10px;
+      border-radius:999px;
+      font-weight:bold;
+      box-shadow:0 8px 18px rgba(0,0,0,0.03);
+      text-decoration:none;
+    }
+
+    .like-btn{ color:#ff3d73; }
+
+    .like-btn.liked{
+      background:#fff0f5;
+      border:1px solid #ffd6e7;
+    }
+
+    .post-views{
+      color:#aa9ba1;
+      font-size:12px;
+      font-weight:bold;
+      white-space:nowrap;
+    }
+
+    .comment-box{
+      display:none;
+      padding:16px;
+      background:#fff8fb;
+      border-top:1px solid #f5e4eb;
+    }
+
+    .comment-box.active{ display:block; }
+
+    .comment-write{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:8px;
+      margin-bottom:13px;
+    }
+
+    .comment-input{
+      width:100%;
+      border:none;
+      border-radius:17px;
+      background:white;
+      border:1px solid #f3dfe7;
+      padding:12px 13px;
+      outline:none;
+      font-size:13px;
+      color:#2f272a;
+    }
+
+    .comment-input:focus{
+      border-color:#ff8fb1;
+      box-shadow:0 0 0 4px rgba(255,92,138,0.08);
+    }
+
+    .comment-submit{
+      border:none;
+      border-radius:17px;
+      background:#ff5c8a;
+      color:white;
+      padding:0 13px;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    .comment-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .comment{
+      background:white;
+      border:1px solid #f3dfe7;
+      border-radius:18px;
+      padding:12px;
+      color:#4d4447;
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .comment-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:8px;
+      margin-bottom:5px;
+    }
+
+    .comment-name{
+      color:#ff5c8a;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    .comment-text{
+      white-space:pre-line;
+      word-break:break-word;
+    }
+
+    .comment-time{
+      color:#aa9ba1;
+      font-size:11px;
+      margin-top:6px;
+    }
+
+    .comment-actions{
+      display:flex;
+      gap:6px;
+      margin-top:8px;
+      flex-wrap:wrap;
+    }
+
+    .comment-action-btn{
+      border:none;
+      background:#fff7fa;
+      color:#7d7276;
+      padding:6px 9px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .comment-action-btn.good{ color:#ff3d73; }
+
+    .comment-action-btn.bad{ color:#777; }
+
+    .comment-action-btn.active{
+      background:#fff0f5;
+      border:1px solid #ffd6e7;
+    }
+
+    .comment-delete{
+      border:none;
+      background:#fff0f5;
+      color:#ff5c8a;
+      padding:5px 8px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:bold;
+      cursor:pointer;
+      flex-shrink:0;
+    }
+
+    .comment-pages{
+      display:flex;
+      gap:6px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:13px;
+    }
+
+    .comment-page-btn{
+      min-width:30px;
+      height:30px;
+      border:none;
+      border-radius:999px;
+      background:white;
+      color:#8d7c83;
+      border:1px solid #f3dfe7;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .comment-page-btn.active{
+      background:#ff5c8a;
+      color:white;
+      border-color:#ff5c8a;
+    }
+
+    .empty{
+      background:rgba(255,255,255,0.94);
+      border-radius:28px;
+      padding:34px 22px;
+      text-align:center;
+      color:#8b7f83;
+      line-height:1.7;
+      font-size:14px;
+      box-shadow:0 14px 35px rgba(255,92,138,0.07);
+    }
+
+    .empty a{
+      color:#ff5c8a;
+      text-decoration:none;
+      font-weight:900;
+    }
+
+    .comment-empty{
+      background:white;
+      border:1px solid #f3dfe7;
+      border-radius:18px;
+      padding:15px;
+      text-align:center;
+      color:#8b7f83;
+      font-size:13px;
+      line-height:1.6;
+    }
+
+
+
+    .more-loading{
+      display:none;
+      background:rgba(255,255,255,0.94);
+      border-radius:24px;
+      padding:16px 14px;
+      text-align:center;
+      color:#ff5c8a;
+      font-size:13px;
+      font-weight:900;
+      box-shadow:0 10px 24px rgba(255,92,138,0.07);
+      margin-top:4px;
+    }
+
+    .more-loading.active{ display:block; }
+
+    .write-floating{
+      position:fixed;
+      right:calc(50% - 205px);
+      bottom:82px;
+      width:58px;
+      height:58px;
+      background:#ff5c8a;
+      color:white;
+      border-radius:22px;
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:25px;
+      font-weight:bold;
+      box-shadow:0 15px 35px rgba(255,92,138,0.34);
+      z-index:120;
+    }
+
+    .bottom-menu{
+      position:fixed;
+      bottom:0;
+      left:0;
+      width:100%;
+      background:rgba(255,255,255,0.96);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border-top:1px solid #f0dfe6;
+      z-index:110;
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+
+    .bottom-inner{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      display:flex;
+      justify-content:space-around;
+      padding:11px 0 9px;
+    }
+
+    .bottom-menu a{
+      width:25%;
+      text-decoration:none;
+      color:#7d7276;
+      font-size:11.5px;
+      text-align:center;
+      font-weight:bold;
+    }
+
+    .bottom-menu a div{
+      font-size:21px;
+      margin-bottom:3px;
+      line-height:1;
+    }
+
+    .bottom-menu a.active{ color:#ff5c8a; }
+
+    .notification-link{
+      position:relative;
+    }
+
+    .notification-icon{
+      position:relative;
+      display:inline-block;
+    }
+
+    .notification-badge{
+      position:absolute;
+      top:-8px;
+      right:-10px;
+      min-width:18px;
+      height:18px;
+      padding:0 5px;
+      background:#ff2f6d;
+      color:white;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      line-height:18px;
+      text-align:center;
+      display:none;
+      box-shadow:0 4px 10px rgba(255,47,109,0.35);
+    }
+
+    @media(max-width:430px){
+      .write-floating{ right:16px; }
+    }
+
+    @media(max-width:390px){
+      .container{ padding-left:12px; padding-right:12px; }
+      .header-inner{ padding-left:16px; padding-right:16px; }
+      .hero-main h1{ font-size:27px; }
+      .feed-top{ align-items:flex-start; flex-direction:column; }
+      .category h3{ font-size:10px; }
+      .cat-icon{ width:36px; height:36px; border-radius:14px; }
+      .popular-top{ align-items:flex-start; flex-direction:column; }
+      .popular-badge{ align-self:flex-start; }
+      .popular-post-title{ white-space:normal; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+      .search-row{ grid-template-columns:1fr; }
+      .search-select{ width:100%; }
+      .search-clear{ width:100%; }
+      .name{ max-width:120px; }
+      .comment-write{ grid-template-columns:1fr; }
+      .comment-submit{ padding:12px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="header-inner">
+      <div class="brand" onclick="location.href='home.html'">
+        <span class="mini-logo"></span>
+        오늘도육아
+      </div>
+
+      <div style="display:flex; gap:8px; align-items:center;">
+
+  <button
+    class="pill dark-mode-toggle"
+    onclick="toggleDarkMode()"
+    type="button"
+  >
+    🌙 야간
+  </button>
+
+  <a href="profile.html" class="pill" id="userPill">
+    내정보
+  </a>
+
+</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="hero">
+      <div class="hero-main">
+        <div class="hero-label">TODAY PARENTING</div>
+        <h1>오늘도 잘 버틴<br>우리들의 육아 이야기</h1>
+        <p>
+          출산준비부터 새벽육아, 신생아, 영유아, 어린이 고민까지<br>
+          편하게 나누고 공감받는 공간이에요.
+        </p>
+      </div>
+
+      <div class="hero-side">
+        <div class="app-logo">
+          <div class="moon"></div>
+          <div class="heart">♥</div>
+        </div>
+
+        <h2>혼자 끙끙대지 말고<br>오늘의 마음을 남겨보세요</h2>
+        <p>비슷한 시간을 지나고 있는 부모들이 함께 공감해줄 거예요.</p>
+      </div>
+    </div>
+
+    <div class="category-grid">
+      <button type="button" class="category" id="catAll" data-category="">
+        <div class="cat-icon cat-all"></div>
+        <h3>전체</h3>
+      </button>
+
+      <button type="button" class="category" data-category="출산준비">
+        <div class="cat-icon cat-birth"></div>
+        <h3>출산준비</h3>
+      </button>
+
+      <button type="button" class="category" data-category="새벽육아">
+        <div class="cat-icon cat-night"></div>
+        <h3>새벽육아</h3>
+      </button>
+
+      <button type="button" class="category" data-category="신생아">
+        <div class="cat-icon cat-baby"></div>
+        <h3>신생아</h3>
+      </button>
+
+      <button type="button" class="category" data-category="영유아">
+        <div class="cat-icon cat-toddler"></div>
+        <h3>영유아</h3>
+      </button>
+
+      <button type="button" class="category" data-category="어린이">
+        <div class="cat-icon cat-child"></div>
+        <h3>어린이</h3>
+      </button>
+
+      <button type="button" class="category" data-category="위로받기">
+        <div class="cat-icon cat-comfort"></div>
+        <h3>위로받기</h3>
+      </button>
+    </div>
+
+
+    <div class="popular-card" id="popularCard">
+      <div class="popular-top">
+        <div class="popular-title">
+          <h2>🔥 오늘의 인기글</h2>
+          <p>최근 24시간 동안 공감과 조회가 높은 이야기</p>
+        </div>
+
+        <div class="popular-badge">TOP 3</div>
+      </div>
+
+      <div class="popular-list" id="popularList">
+        <div class="popular-empty">인기글을 불러오는 중이에요.</div>
+      </div>
+    </div>
+
+
+    <div class="feed-top">
+      <div class="feed-title">
+        <h2 id="feedTitle">실시간 육아 이야기</h2>
+        <p id="feedSub">지금 부모들이 나누고 있는 고민들</p>
+      </div>
+
+      <div class="sort-box">
+        <button class="sort-btn active" data-sort="latest" type="button">최신순</button>
+        <button class="sort-btn" data-sort="likes" type="button">공감순</button>
+        <button class="sort-btn" data-sort="views" type="button">조회순</button>
+      </div>
+    </div>
+
+    <div class="period-box">
+      <button class="period-btn active" data-period="all" type="button">전체</button>
+      <button class="period-btn" data-period="day" type="button">일간</button>
+      <button class="period-btn" data-period="week" type="button">주간</button>
+      <button class="period-btn" data-period="month" type="button">월간</button>
+    </div>
+
+    <div class="search-card">
+      <div class="search-row">
+        <select id="searchType" class="search-select" aria-label="검색 범위 선택">
+          <option value="all">전체</option>
+          <option value="title">제목</option>
+          <option value="content">내용</option>
+          <option value="nickname">닉네임</option>
+        </select>
+
+        <input
+          type="search"
+          id="searchInput"
+          class="search-input"
+          placeholder="검색어를 입력하세요"
+          autocomplete="off"
+        >
+
+        <button type="button" class="search-clear" id="searchClearBtn">초기화</button>
+      </div>
+
+      <div class="search-help" id="searchHelp">
+        검색 범위, 카테고리, 기간, 최신순/공감순/조회순과 함께 검색돼요.
+      </div>
+    </div>
+
+    <div id="postList">
+      <div class="empty">게시글을 불러오는 중이에요.</div>
+    </div>
+
+    <div class="more-loading" id="moreLoading">
+      더 불러오는 중이에요…
+    </div>
+
+  </div>
+
+  <a href="write.html" class="write-floating">✎</a>
+
+  <div class="bottom-menu">
+    <div class="bottom-inner">
+      <a href="home.html" class="active">
+        <div>⌂</div>
+        홈
+      </a>
+
+      <a href="write.html">
+        <div>✎</div>
+        글쓰기
+      </a>
+
+      <a href="profile.html">
+        <div>☾</div>
+        내정보
+      </a>
+
+      <a href="notifications.html" class="notification-link">
+        <div class="notification-icon">
+          🔔
+          <span id="notificationBadge" class="notification-badge"></span>
+        </div>
+        알림
+      </a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      query,
+      where,
+      orderBy,
+      doc,
+      getDoc,
+      updateDoc,
+      deleteDoc,
+      increment,
+      arrayUnion,
+      arrayRemove,
+      getCountFromServer,
+      limit,
+      startAfter,
+      onSnapshot
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4x9d4aQlbroxcnT2v-zHODDPdQabIFx0",
+      authDomain: "today-parenting-app.firebaseapp.com",
+      projectId: "today-parenting-app",
+      storageBucket: "today-parenting-app.firebasestorage.app",
+      messagingSenderId: "375329953167",
+      appId: "1:375329953167:web:d29af0e45cc7d10e9f67fa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const postList = document.getElementById("postList");
+    const popularList = document.getElementById("popularList");
+    const moreLoading = document.getElementById("moreLoading");
+    const feedTitle = document.getElementById("feedTitle");
+    const feedSub = document.getElementById("feedSub");
+    const userPill = document.getElementById("userPill");
+    const searchInput = document.getElementById("searchInput");
+    const searchTypeSelect = document.getElementById("searchType");
+    const searchClearBtn = document.getElementById("searchClearBtn");
+    const searchHelp = document.getElementById("searchHelp");
+
+    const sortButtons = document.querySelectorAll(".sort-btn");
+    const periodButtons = document.querySelectorAll(".period-btn");
+
+    const params = new URLSearchParams(window.location.search);
+    let selectedCategory = params.get("category") || "";
+
+    let currentUser = null;
+    let currentNickname = "사용자";
+    let notificationBadgeUnsubscribe = null;
+    let allPosts = [];
+    let currentSort = "latest";
+    let currentPeriod = "all";
+    let searchKeyword = "";
+    let searchType = "all";
+
+    let lastVisiblePost = null;
+    let isLoadingMore = false;
+    let hasMorePosts = true;
+    const postsPerPage = 10;
+
+    const commentsState = {};
+    const commentsPerPage = 10;
+
+    setActiveCategory();
+    updateFeedText();
+
+    document.querySelectorAll(".category").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        selectedCategory = btn.dataset.category || "";
+
+        document.querySelectorAll(".category").forEach((item) => {
+          item.classList.remove("active");
+        });
+
+        btn.classList.add("active");
+
+        updateFeedText();
+        renderPopularPosts();
+        renderPosts();
+      });
+    });
+
+    sortButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        sortButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        currentSort = btn.dataset.sort;
+
+        updateFeedText();
+        renderPosts();
+      });
+    });
+
+    periodButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        periodButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        currentPeriod = btn.dataset.period;
+
+        updateFeedText();
+        renderPosts();
+      });
+    });
+    let searchTimer = null;
+
+    searchInput.addEventListener("input", () => {
+      clearTimeout(searchTimer);
+
+      searchTimer = setTimeout(() => {
+        searchKeyword = searchInput.value.trim().toLowerCase();
+        updateFeedText();
+        renderPosts();
+      }, 150);
+    });
+
+    searchTypeSelect.addEventListener("change", () => {
+      searchType = searchTypeSelect.value;
+      updateFeedText();
+      renderPosts();
+    });
+
+    searchInput.addEventListener("keydown", (event) => {
+      if(event.key === "Escape"){
+        clearSearch();
+      }
+    });
+
+    searchClearBtn.addEventListener("click", () => {
+      clearSearch();
+    });
+
+    function clearSearch(){
+      searchInput.value = "";
+      searchKeyword = "";
+      searchType = "all";
+      searchTypeSelect.value = "all";
+
+      updateFeedText();
+      renderPosts();
+      searchInput.focus();
+    }
+
+    function canUseInfiniteScroll(){
+      return currentSort === "latest" &&
+        currentPeriod === "all" &&
+        !selectedCategory &&
+        !searchKeyword;
+    }
+
+    function updateMoreLoading(){
+      if(!moreLoading){
+        return;
+      }
+
+      if(isLoadingMore){
+        moreLoading.innerText = "더 불러오는 중이에요…";
+        moreLoading.classList.add("active");
+        return;
+      }
+
+      moreLoading.classList.remove("active");
+    }
+
+    window.addEventListener("scroll", () => {
+      if(!canUseInfiniteScroll()){
+        return;
+      }
+
+      if(isLoadingMore || !hasMorePosts){
+        return;
+      }
+
+      const scrollBottom = window.innerHeight + window.scrollY;
+      const pageBottom = document.documentElement.scrollHeight - 260;
+
+      if(scrollBottom >= pageBottom){
+        loadMorePosts();
+      }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if(user){
+        currentUser = user;
+        startNotificationBadge(user.uid);
+
+        try{
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+
+          if(userDoc.exists()){
+            const userData = userDoc.data();
+            currentNickname = userData.nickname || user.displayName || "사용자";
+            userPill.innerText = currentNickname;
+          } else {
+            currentNickname = user.displayName || user.email || "사용자";
+          }
+        } catch(error){
+          currentNickname = user.displayName || user.email || "사용자";
+        }
+
+        await loadPosts();
+
+      } else {
+        alert("로그인이 필요합니다.");
+        window.location.href = "index.html";
+      }
+    });
+
+    function escapeHTML(text){
+      return String(text || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function startNotificationBadge(uid){
+      const badge = document.getElementById("notificationBadge");
+
+      if(!badge || !uid){
+        return;
+      }
+
+      if(notificationBadgeUnsubscribe){
+        notificationBadgeUnsubscribe();
+      }
+
+      const badgeQuery = query(
+        collection(db, "notifications"),
+        where("receiverId", "==", uid),
+        where("isRead", "==", false)
+      );
+
+      notificationBadgeUnsubscribe = onSnapshot(badgeQuery, (snapshot) => {
+        const count = snapshot.size;
+
+        if(count > 0){
+          badge.innerText = count > 99 ? "99+" : count;
+          badge.style.display = "inline-block";
+        } else {
+          badge.innerText = "";
+          badge.style.display = "none";
+        }
+      }, (error) => {
+        console.log("알림 뱃지 오류:", error.message);
+      });
+    }
+
+    function setActiveCategory(){
+      document.querySelectorAll(".category").forEach((item) => {
+        item.classList.remove("active");
+
+        if((item.dataset.category || "") === selectedCategory){
+          item.classList.add("active");
+        }
+      });
+    }
+
+    function getSortText(){
+      if(currentSort === "likes"){
+        return "공감순";
+      }
+
+      if(currentSort === "views"){
+        return "조회순";
+      }
+
+      return "최신순";
+    }
+
+    function updateFeedText(){
+      const periodText = {
+        all:"전체",
+        day:"일간",
+        week:"주간",
+        month:"월간"
+      };
+
+      const sortText = getSortText();
+      const hasSearch = searchKeyword.length > 0;
+
+      if(selectedCategory){
+        feedTitle.innerText = selectedCategory + " 이야기";
+      } else {
+        feedTitle.innerText = "실시간 육아 이야기";
+      }
+
+      if(hasSearch){
+        const searchTypeText = {
+          all:"전체",
+          title:"제목",
+          content:"내용",
+          nickname:"닉네임"
+        };
+
+        feedSub.innerText = searchTypeText[searchType] + " 검색 ‘" + searchInput.value.trim() + "’ · " + periodText[currentPeriod] + " · " + sortText;
+        searchHelp.innerText = searchTypeText[searchType] + " 범위에서 검색 중이에요.";
+      } else if(selectedCategory){
+        feedSub.innerText = periodText[currentPeriod] + " " + sortText + "으로 보는 " + selectedCategory + " 글";
+        searchHelp.innerText = "검색 범위, 카테고리, 기간, 최신순/공감순/조회순과 함께 검색돼요.";
+      } else if(currentSort === "latest" && currentPeriod === "all"){
+        feedSub.innerText = "지금 부모들이 나누고 있는 고민들";
+        searchHelp.innerText = "검색 범위, 카테고리, 기간, 최신순/공감순/조회순과 함께 검색돼요.";
+      } else {
+        feedSub.innerText = periodText[currentPeriod] + " " + sortText + " 이야기";
+        searchHelp.innerText = "검색 범위, 카테고리, 기간, 최신순/공감순/조회순과 함께 검색돼요.";
+      }
+    }
+
+    function getPostDate(createdAt){
+      if(!createdAt){
+        return new Date(0);
+      }
+
+      if(createdAt.toDate){
+        return createdAt.toDate();
+      }
+
+      return new Date(createdAt);
+    }
+
+    function getTimeText(createdAt){
+      const postDate = getPostDate(createdAt);
+
+      if(postDate.getTime() === 0){
+        return "방금 전";
+      }
+
+      const now = new Date();
+      const diff = now - postDate;
+      const minute = 60 * 1000;
+      const hour = 60 * minute;
+      const day = 24 * hour;
+
+      if(diff < minute){
+        return "방금 전";
+      }
+
+      if(diff < hour){
+        return Math.floor(diff / minute) + "분 전";
+      }
+
+      if(diff < day){
+        return Math.floor(diff / hour) + "시간 전";
+      }
+
+      if(diff < day * 7){
+        return Math.floor(diff / day) + "일 전";
+      }
+
+      return postDate.getFullYear() + "." +
+        String(postDate.getMonth() + 1).padStart(2, "0") + "." +
+        String(postDate.getDate()).padStart(2, "0");
+    }
+
+    function isInPeriod(postDate){
+      if(currentPeriod === "all"){
+        return true;
+      }
+
+      const now = new Date();
+      const diff = now - postDate;
+      const oneDay = 24 * 60 * 60 * 1000;
+
+      if(currentPeriod === "day"){
+        return diff <= oneDay;
+      }
+
+      if(currentPeriod === "week"){
+        return diff <= oneDay * 7;
+      }
+
+      if(currentPeriod === "month"){
+        return diff <= oneDay * 30;
+      }
+
+      return true;
+    }
+
+    function getPostImages(post){
+      if(Array.isArray(post.imageUrls) && post.imageUrls.length > 0){
+        return post.imageUrls.filter((url) => url);
+      }
+
+      if(post.imageUrl){
+        return [post.imageUrl];
+      }
+
+      return [];
+    }
+
+    function makeImageHtml(post, postId){
+      const images = getPostImages(post);
+
+      if(images.length === 0){
+        return `
+          <div class="no-image" onclick="goDetail('${postId}')">
+            💬
+          </div>
+        `;
+      }
+
+      const firstImage = escapeHTML(images[0]);
+      const moreCount = images.length - 1;
+
+      return `
+        <div class="post-image-wrap" onclick="goDetail('${postId}')">
+          <img src="${firstImage}" class="post-image" alt="게시글 이미지" loading="lazy" decoding="async">
+          ${moreCount > 0 ? `<div class="image-more">+${moreCount}</div>` : ""}
+        </div>
+      `;
+    }
+
+    async function createNotification({receiverId, type, postIdValue, commentIdValue = "", message = "", postTitle = ""}){
+      if(!receiverId || !currentUser){
+        return;
+      }
+
+      if(receiverId === currentUser.uid){
+        return;
+      }
+
+      try{
+        await addDoc(collection(db, "notifications"), {
+          receiverId: receiverId,
+          toUid: receiverId,
+
+          senderId: currentUser.uid,
+          actorUid: currentUser.uid,
+
+          senderNickname: currentNickname,
+          actorNickname: currentNickname,
+
+          type: type,
+          originalType: type,
+
+          postId: postIdValue || "",
+          commentId: commentIdValue || "",
+          postTitle: postTitle || "게시글",
+          message: message || "",
+
+          isRead: false,
+          read: false,
+
+          createdAt: new Date()
+        });
+      } catch(error){
+        console.log("notification error", error.message);
+      }
+    }
+
+    async function loadPosts(){
+      postList.innerHTML = `
+        <div class="empty">
+          게시글을 불러오는 중이에요.
+        </div>
+      `;
+
+      allPosts = [];
+      lastVisiblePost = null;
+      isLoadingMore = false;
+      hasMorePosts = true;
+      updateMoreLoading();
+
+      try{
+        const postsQuery = query(
+          collection(db, "posts"),
+          orderBy("createdAt", "desc"),
+          limit(postsPerPage)
+        );
+
+        const querySnapshot = await getDocs(postsQuery);
+
+        querySnapshot.forEach((docItem) => {
+          allPosts.push({
+            id: docItem.id,
+            data: docItem.data()
+          });
+        });
+
+        lastVisiblePost = querySnapshot.docs[querySnapshot.docs.length - 1] || null;
+        hasMorePosts = querySnapshot.docs.length === postsPerPage;
+
+        updateFeedText();
+        renderPopularPosts();
+        renderPosts();
+
+      } catch(error){
+        postList.innerHTML = `
+          <div class="empty">
+            게시글을 불러오지 못했어요.<br>
+            ${escapeHTML(error.message)}
+          </div>
+        `;
+      }
+    }
+
+    async function loadMorePosts(){
+      if(isLoadingMore || !hasMorePosts || !lastVisiblePost){
+        return;
+      }
+
+      isLoadingMore = true;
+      updateMoreLoading();
+
+      try{
+        const postsQuery = query(
+          collection(db, "posts"),
+          orderBy("createdAt", "desc"),
+          startAfter(lastVisiblePost),
+          limit(postsPerPage)
+        );
+
+        const querySnapshot = await getDocs(postsQuery);
+
+        querySnapshot.forEach((docItem) => {
+          const alreadyExists = allPosts.some((item) => item.id === docItem.id);
+
+          if(!alreadyExists){
+            allPosts.push({
+              id: docItem.id,
+              data: docItem.data()
+            });
+          }
+        });
+
+        lastVisiblePost = querySnapshot.docs[querySnapshot.docs.length - 1] || lastVisiblePost;
+        hasMorePosts = querySnapshot.docs.length === postsPerPage;
+
+        renderPopularPosts();
+        renderPosts();
+
+      } catch(error){
+        console.log(error.message);
+      } finally {
+        isLoadingMore = false;
+        updateMoreLoading();
+      }
+    }
+
+    function matchesSearch(post){
+      if(!searchKeyword){
+        return true;
+      }
+
+      const title = String(post.title || "").toLowerCase();
+      const content = String(post.content || "").toLowerCase();
+      const nickname = String(post.nickname || "").toLowerCase();
+      const category = String(post.category || "").toLowerCase();
+
+      if(searchType === "title"){
+        return title.includes(searchKeyword);
+      }
+
+      if(searchType === "content"){
+        return content.includes(searchKeyword);
+      }
+
+      if(searchType === "nickname"){
+        return nickname.includes(searchKeyword);
+      }
+
+      return title.includes(searchKeyword) ||
+        content.includes(searchKeyword) ||
+        nickname.includes(searchKeyword) ||
+        category.includes(searchKeyword);
+    }
+
+
+    function renderPopularPosts(){
+      if(!popularList){
+        return;
+      }
+
+      const now = new Date();
+      const oneDay = 24 * 60 * 60 * 1000;
+
+      const popularPosts = allPosts
+        .filter((item) => {
+          const postDate = getPostDate(item.data.createdAt);
+          const diff = now - postDate;
+          const likes = item.data.likes || 0;
+          const views = item.data.views || 0;
+
+          return diff >= 0 && diff <= oneDay && (likes > 0 || views > 0);
+        })
+        .sort((a, b) => {
+          const likeDiff = (b.data.likes || 0) - (a.data.likes || 0);
+
+          if(likeDiff !== 0){
+            return likeDiff;
+          }
+
+          const viewDiff = (b.data.views || 0) - (a.data.views || 0);
+
+          if(viewDiff !== 0){
+            return viewDiff;
+          }
+
+          return getPostDate(b.data.createdAt) - getPostDate(a.data.createdAt);
+        })
+        .slice(0, 3);
+
+      if(popularPosts.length === 0){
+        popularList.innerHTML = `
+          <div class="popular-empty">
+            아직 오늘의 인기글이 없어요.<br>
+            첫 공감이 쌓이면 여기에 보여요.
+          </div>
+        `;
+        return;
+      }
+
+      let html = "";
+
+      popularPosts.forEach((item, index) => {
+        const post = item.data;
+
+        html += `
+          <div class="popular-item" onclick="goDetail('${item.id}')">
+            <div class="popular-rank">${index + 1}</div>
+
+            <div class="popular-info">
+              <div class="popular-category">${escapeHTML(post.category || "육아")}</div>
+              <div class="popular-post-title">${escapeHTML(post.title || "제목 없음")}</div>
+
+              <div class="popular-meta">
+                <span>♥ ${post.likes || 0}</span>
+                <span>조회 ${post.views || 0}</span>
+                <span>${getTimeText(post.createdAt)}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      popularList.innerHTML = html;
+    }
+
+    function renderPosts(){
+      let filteredPosts = allPosts.filter((item) => {
+        const postDate = getPostDate(item.data.createdAt);
+        const sameCategory = !selectedCategory || item.data.category === selectedCategory;
+        const sameSearch = matchesSearch(item.data);
+
+        return sameCategory && isInPeriod(postDate) && sameSearch;
+      });
+
+      if(currentSort === "latest"){
+        filteredPosts.sort((a, b) => getPostDate(b.data.createdAt) - getPostDate(a.data.createdAt));
+      }
+
+      if(currentSort === "likes"){
+        filteredPosts.sort((a, b) => {
+          const likeDiff = (b.data.likes || 0) - (a.data.likes || 0);
+
+          if(likeDiff !== 0){
+            return likeDiff;
+          }
+
+          return getPostDate(b.data.createdAt) - getPostDate(a.data.createdAt);
+        });
+      }
+
+      if(currentSort === "views"){
+        filteredPosts.sort((a, b) => {
+          const viewDiff = (b.data.views || 0) - (a.data.views || 0);
+
+          if(viewDiff !== 0){
+            return viewDiff;
+          }
+
+          return getPostDate(b.data.createdAt) - getPostDate(a.data.createdAt);
+        });
+      }
+
+      if(filteredPosts.length === 0){
+        postList.innerHTML = `
+          <div class="empty">
+            조건에 맞는 이야기가 없어요.<br>
+            검색어나 필터를 바꿔보세요.<br><br>
+            <a href="write.html${selectedCategory ? "?category=" + encodeURIComponent(selectedCategory) : ""}">
+              글쓰기
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      let html = "";
+
+      filteredPosts.forEach((item) => {
+        const postId = item.id;
+        const post = item.data;
+
+        const isMyPost = currentUser && post.userId === currentUser.uid;
+        const likedBy = Array.isArray(post.likedBy) ? post.likedBy : [];
+        const alreadyLiked = currentUser ? likedBy.includes(currentUser.uid) : false;
+
+        const nickname = post.nickname || "사용자";
+        const initial = nickname.charAt(0);
+
+        const deleteButtonHtml = isMyPost
+          ? `<button class="delete-btn" onclick="deletePost('${postId}')">삭제</button>`
+          : "";
+
+        const commentCountText = typeof post.commentCount === "number" ? post.commentCount : "…";
+
+        html += `
+          <div class="post" id="post-${postId}">
+            ${makeImageHtml(post, postId)}
+
+            <div class="post-body">
+              <div class="post-top">
+                <div class="user-area" onclick="goUser('${escapeHTML(post.userId || "")}')">
+                  <div class="profile">${escapeHTML(initial)}</div>
+
+                  <div>
+                    <div class="name">${escapeHTML(nickname)}</div>
+                    <div class="time">${getTimeText(post.createdAt)}</div>
+                  </div>
+                </div>
+
+                ${deleteButtonHtml}
+              </div>
+
+              <div class="post-category" onclick="goCategory('${escapeHTML(post.category || "")}')">
+                ${escapeHTML(post.category || "육아")}
+              </div>
+
+              <div class="title" onclick="goDetail('${postId}')">
+                ${escapeHTML(post.title || "제목 없음")}
+              </div>
+
+              <div class="content" onclick="goDetail('${postId}')">
+                ${escapeHTML(post.content || "")}
+              </div>
+            </div>
+
+            <div class="post-footer">
+              <div class="actions">
+                <button class="action-btn like-btn ${alreadyLiked ? "liked" : ""}" onclick="likePost('${postId}')">
+                  ♥ ${alreadyLiked ? "공감취소" : "공감"} ${post.likes || 0}
+                </button>
+
+                <button class="action-btn" onclick="toggleComments('${postId}')">
+                  💬 댓글 <span id="commentCount-${postId}">${commentCountText}</span>
+                </button>
+              </div>
+
+              <div class="post-views">
+                조회 ${post.views || 0}
+              </div>
+            </div>
+
+            <div class="comment-box" id="commentBox-${postId}">
+              <div class="comment-write">
+                <input
+                  type="text"
+                  class="comment-input"
+                  id="commentInput-${postId}"
+                  placeholder="따뜻한 댓글을 남겨주세요"
+                  onkeydown="commentEnter(event, '${postId}')"
+                >
+
+                <button class="comment-submit" onclick="addComment('${postId}')">
+                  등록
+                </button>
+              </div>
+
+              <div class="comment-list" id="commentList-${postId}">
+                <div class="comment-empty">댓글을 불러오는 중이에요.</div>
+              </div>
+
+              <div class="comment-pages" id="commentPages-${postId}"></div>
+            </div>
+          </div>
+        `;
+
+        if(commentsState[postId] && commentsState[postId].open){
+          setTimeout(() => {
+            const box = document.getElementById("commentBox-" + postId);
+            if(box){
+              box.classList.add("active");
+              loadComments(postId, commentsState[postId].page || 1).then(() => {
+                renderComments(postId);
+              });
+            }
+          }, 0);
+        }
+      });
+
+      postList.innerHTML = html;
+      syncVisibleCommentCounts(filteredPosts);
+    }
+
+    async function syncVisibleCommentCounts(posts){
+      const targets = posts.filter((item) => typeof item.data.commentCount !== "number");
+
+      if(targets.length === 0){
+        return;
+      }
+
+      await Promise.all(targets.map(async (item) => {
+        try{
+          const countSnapshot = await getCountFromServer(
+            collection(db, "posts", item.id, "comments")
+          );
+
+          const count = countSnapshot.data().count || 0;
+          item.data.commentCount = count;
+
+          const countEl = document.getElementById("commentCount-" + item.id);
+
+          if(countEl){
+            countEl.innerText = count;
+          }
+
+          try{
+            await updateDoc(doc(db, "posts", item.id), {
+              commentCount: count
+            });
+          } catch(updateError){
+            console.log(updateError.message);
+          }
+
+        } catch(error){
+          const countEl = document.getElementById("commentCount-" + item.id);
+
+          if(countEl){
+            countEl.innerText = 0;
+          }
+        }
+      }));
+    }
+
+    function ensureCommentState(postId){
+      if(!commentsState[postId]){
+        commentsState[postId] = {
+          open:false,
+          page:1,
+          totalCount:null,
+          totalPages:1,
+          commentsByPage:{},
+          lastDocByPage:{},
+          loading:false
+        };
+      }
+
+      if(!commentsState[postId].commentsByPage){
+        commentsState[postId].commentsByPage = {};
+      }
+
+      if(!commentsState[postId].lastDocByPage){
+        commentsState[postId].lastDocByPage = {};
+      }
+
+      return commentsState[postId];
+    }
+
+    function resetCommentState(postId, keepOpen = true){
+      commentsState[postId] = {
+        open:keepOpen,
+        page:1,
+        totalCount:null,
+        totalPages:1,
+        commentsByPage:{},
+        lastDocByPage:{},
+        loading:false
+      };
+
+      return commentsState[postId];
+    }
+
+    async function loadCommentCount(postId){
+      const state = ensureCommentState(postId);
+
+      if(typeof state.totalCount === "number"){
+        return state.totalCount;
+      }
+
+      const countSnapshot = await getCountFromServer(
+        collection(db, "posts", postId, "comments")
+      );
+
+      state.totalCount = countSnapshot.data().count || 0;
+      state.totalPages = Math.max(1, Math.ceil(state.totalCount / commentsPerPage));
+
+      const countEl = document.getElementById("commentCount-" + postId);
+      if(countEl){
+        countEl.innerText = state.totalCount;
+      }
+
+      const postTarget = allPosts.find((item) => item.id === postId);
+      if(postTarget){
+        postTarget.data.commentCount = state.totalCount;
+      }
+
+      return state.totalCount;
+    }
+
+    async function loadComments(postId, page = 1){
+      const state = ensureCommentState(postId);
+
+      if(state.loading){
+        return;
+      }
+
+      state.loading = true;
+
+      const list = document.getElementById("commentList-" + postId);
+      const pages = document.getElementById("commentPages-" + postId);
+
+      if(list){
+        list.innerHTML = `<div class="comment-empty">댓글을 불러오는 중이에요.</div>`;
+      }
+
+      if(pages){
+        pages.innerHTML = "";
+      }
+
+      try{
+        await loadCommentCount(postId);
+
+        const targetPage = Math.max(1, Math.min(page, state.totalPages));
+        state.page = targetPage;
+
+        if(state.commentsByPage[targetPage]){
+          state.loading = false;
+          return;
+        }
+
+        if(targetPage > 1 && !state.lastDocByPage[targetPage - 1]){
+          state.loading = false;
+          await loadComments(postId, targetPage - 1);
+          state.loading = true;
+        }
+
+        const previousLastDoc = targetPage > 1 ? state.lastDocByPage[targetPage - 1] : null;
+
+        let commentsQuery;
+
+        if(previousLastDoc){
+          commentsQuery = query(
+            collection(db, "posts", postId, "comments"),
+            orderBy("createdAt", "asc"),
+            startAfter(previousLastDoc),
+            limit(commentsPerPage)
+          );
+        } else {
+          commentsQuery = query(
+            collection(db, "posts", postId, "comments"),
+            orderBy("createdAt", "asc"),
+            limit(commentsPerPage)
+          );
+        }
+
+        const snapshot = await getDocs(commentsQuery);
+        const pageComments = [];
+
+        snapshot.forEach((commentDoc) => {
+          pageComments.push({
+            id: commentDoc.id,
+            data: commentDoc.data()
+          });
+        });
+
+        state.commentsByPage[targetPage] = pageComments;
+        state.lastDocByPage[targetPage] = snapshot.docs[snapshot.docs.length - 1] || previousLastDoc || null;
+
+      } catch(error){
+        if(list){
+          list.innerHTML = `
+            <div class="comment-empty">
+              댓글을 불러오지 못했어요.<br>
+              ${escapeHTML(error.message)}
+            </div>
+          `;
+        }
+      } finally {
+        state.loading = false;
+      }
+    }
+
+    function findLoadedComment(postId, commentId){
+      const state = commentsState[postId];
+
+      if(!state || !state.commentsByPage){
+        return null;
+      }
+
+      const pages = Object.values(state.commentsByPage);
+
+      for(const pageComments of pages){
+        const target = pageComments.find((item) => item.id === commentId);
+
+        if(target){
+          return target;
+        }
+      }
+
+      return null;
+    }
+
+    function renderComments(postId){
+      const list = document.getElementById("commentList-" + postId);
+      const pages = document.getElementById("commentPages-" + postId);
+
+      if(!list || !pages){
+        return;
+      }
+
+      const state = commentsState[postId];
+
+      if(!state || !state.commentsByPage){
+        list.innerHTML = `<div class="comment-empty">댓글을 불러오는 중이에요.</div>`;
+        pages.innerHTML = "";
+        return;
+      }
+
+      const totalCount = typeof state.totalCount === "number" ? state.totalCount : 0;
+
+      if(totalCount === 0){
+        list.innerHTML = `
+          <div class="comment-empty">
+            아직 댓글이 없어요.<br>
+            첫 댓글을 남겨보세요.
+          </div>
+        `;
+        pages.innerHTML = "";
+        return;
+      }
+
+      const totalPages = Math.max(1, state.totalPages || Math.ceil(totalCount / commentsPerPage));
+      const currentPage = Math.max(1, Math.min(state.page || 1, totalPages));
+      state.page = currentPage;
+
+      const pageComments = state.commentsByPage[currentPage];
+
+      if(!pageComments){
+        list.innerHTML = `<div class="comment-empty">댓글을 불러오는 중이에요.</div>`;
+        pages.innerHTML = "";
+        return;
+      }
+
+      list.innerHTML = "";
+
+      pageComments.forEach((item) => {
+        const comment = item.data;
+
+        const isMyComment = currentUser && comment.userId === currentUser.uid;
+
+        const likedBy = Array.isArray(comment.likedBy) ? comment.likedBy : [];
+        const dislikedBy = Array.isArray(comment.dislikedBy) ? comment.dislikedBy : [];
+
+        const alreadyLiked = currentUser ? likedBy.includes(currentUser.uid) : false;
+        const alreadyDisliked = currentUser ? dislikedBy.includes(currentUser.uid) : false;
+
+        const deleteHtml = isMyComment
+          ? `<button class="comment-delete" onclick="deleteComment('${postId}', '${item.id}')">삭제</button>`
+          : "";
+
+        list.innerHTML += `
+          <div class="comment">
+            <div class="comment-top">
+              <div class="comment-name">${escapeHTML(comment.nickname || "사용자")}</div>
+              ${deleteHtml}
+            </div>
+
+            <div class="comment-text">${escapeHTML(comment.text || "")}</div>
+
+            <div class="comment-time">${getTimeText(comment.createdAt)}</div>
+
+            <div class="comment-actions">
+              <button
+                class="comment-action-btn good ${alreadyLiked ? "active" : ""}"
+                onclick="likeComment('${postId}', '${item.id}')"
+              >
+                공감 ${comment.likes || 0}
+              </button>
+
+              <button
+                class="comment-action-btn bad ${alreadyDisliked ? "active" : ""}"
+                onclick="dislikeComment('${postId}', '${item.id}')"
+              >
+                비공감 ${comment.dislikes || 0}
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      pages.innerHTML = "";
+
+      if(totalPages > 1){
+        for(let i = 1; i <= totalPages; i++){
+          pages.innerHTML += `
+            <button
+              class="comment-page-btn ${i === currentPage ? "active" : ""}"
+              onclick="moveCommentPage('${postId}', ${i})"
+            >
+              ${i}
+            </button>
+          `;
+        }
+      }
+    }
+
+    window.toggleComments = async function(postId){
+      const state = ensureCommentState(postId);
+      state.open = !state.open;
+
+      const box = document.getElementById("commentBox-" + postId);
+
+      if(!box){
+        return;
+      }
+
+      if(!state.open){
+        box.classList.remove("active");
+        return;
+      }
+
+      box.classList.add("active");
+      await loadComments(postId, state.page || 1);
+      renderComments(postId);
+    };
+
+    window.moveCommentPage = async function(postId, page){
+      const state = ensureCommentState(postId);
+      state.page = page;
+
+      await loadComments(postId, page);
+      renderComments(postId);
+    };
+
+    window.commentEnter = function(event, postId){
+      if(event.key === "Enter"){
+        event.preventDefault();
+        addComment(postId);
+      }
+    };
+
+    window.addComment = async function(postId){
+      if(!currentUser){
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      const input = document.getElementById("commentInput-" + postId);
+
+      if(!input || input.value.trim() === ""){
+        alert("댓글을 입력해주세요.");
+        return;
+      }
+
+      const commentText = input.value.trim();
+
+      try{
+        const commentRef = await addDoc(
+          collection(db, "posts", postId, "comments"),
+          {
+            userId: currentUser.uid,
+            nickname: currentNickname,
+            text: commentText,
+            likes: 0,
+            dislikes: 0,
+            likedBy: [],
+            dislikedBy: [],
+            createdAt: new Date()
+          }
+        );
+
+        await updateDoc(doc(db, "posts", postId), {
+          commentCount: increment(1)
+        });
+
+        const postTarget = allPosts.find((item) => item.id === postId);
+
+        if(postTarget){
+          postTarget.data.commentCount = (postTarget.data.commentCount || 0) + 1;
+
+          await createNotification({
+            receiverId: postTarget.data.userId,
+            type: "post_comment",
+            postIdValue: postId,
+            commentIdValue: commentRef.id,
+            postTitle: postTarget.data.title || "게시글",
+            message: currentNickname + "님이 내 글에 댓글을 남겼어요."
+          });
+        }
+
+        const countEl = document.getElementById("commentCount-" + postId);
+        if(countEl && postTarget){
+          countEl.innerText = postTarget.data.commentCount;
+        }
+
+        input.value = "";
+
+        const state = resetCommentState(postId, true);
+        state.totalCount = postTarget ? postTarget.data.commentCount : null;
+
+        if(typeof state.totalCount === "number"){
+          state.totalPages = Math.max(1, Math.ceil(state.totalCount / commentsPerPage));
+          state.page = state.totalPages;
+        }
+
+        await loadComments(postId, state.page || 1);
+        renderComments(postId);
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+
+    window.likeComment = async function(postId, commentId){
+      if(!currentUser){
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      const target = findLoadedComment(postId, commentId);
+
+      if(!target){
+        return;
+      }
+
+      const likedBy = Array.isArray(target.data.likedBy) ? target.data.likedBy : [];
+
+      if(likedBy.includes(currentUser.uid)){
+        alert("이미 공감한 댓글이에요.");
+        return;
+      }
+
+      try{
+        await updateDoc(doc(db, "posts", postId, "comments", commentId), {
+          likes: increment(1),
+          likedBy: arrayUnion(currentUser.uid)
+        });
+
+        target.data.likes = (target.data.likes || 0) + 1;
+        target.data.likedBy = [...likedBy, currentUser.uid];
+
+        const postTarget = allPosts.find((item) => item.id === postId);
+
+        await createNotification({
+          receiverId: target.data.userId,
+          type: "comment_like",
+          postIdValue: postId,
+          commentIdValue: commentId,
+          postTitle: postTarget ? postTarget.data.title || "게시글" : "게시글",
+          message: currentNickname + "님이 내 댓글에 공감했어요."
+        });
+
+        renderComments(postId);
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+
+    window.dislikeComment = async function(postId, commentId){
+      if(!currentUser){
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      const target = findLoadedComment(postId, commentId);
+
+      if(!target){
+        return;
+      }
+
+      const dislikedBy = Array.isArray(target.data.dislikedBy) ? target.data.dislikedBy : [];
+
+      if(dislikedBy.includes(currentUser.uid)){
+        alert("이미 비공감한 댓글이에요.");
+        return;
+      }
+
+      try{
+        await updateDoc(doc(db, "posts", postId, "comments", commentId), {
+          dislikes: increment(1),
+          dislikedBy: arrayUnion(currentUser.uid)
+        });
+
+        target.data.dislikes = (target.data.dislikes || 0) + 1;
+        target.data.dislikedBy = [...dislikedBy, currentUser.uid];
+
+        renderComments(postId);
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+
+    window.deleteComment = async function(postId, commentId){
+      const confirmDelete = confirm("댓글을 삭제할까요?");
+
+      if(!confirmDelete){
+        return;
+      }
+
+      try{
+        await deleteDoc(doc(db, "posts", postId, "comments", commentId));
+
+        await updateDoc(doc(db, "posts", postId), {
+          commentCount: increment(-1)
+        });
+
+        const postTarget = allPosts.find((item) => item.id === postId);
+
+        if(postTarget){
+          postTarget.data.commentCount = Math.max(0, (postTarget.data.commentCount || 0) - 1);
+        }
+
+        const previousPage = commentsState[postId] ? commentsState[postId].page || 1 : 1;
+        const state = resetCommentState(postId, true);
+        state.totalCount = postTarget ? postTarget.data.commentCount : null;
+
+        if(typeof state.totalCount === "number"){
+          state.totalPages = Math.max(1, Math.ceil(state.totalCount / commentsPerPage));
+          state.page = Math.min(previousPage, state.totalPages);
+        }
+
+        const countEl = document.getElementById("commentCount-" + postId);
+        if(countEl && postTarget){
+          countEl.innerText = postTarget.data.commentCount;
+        }
+
+        await loadComments(postId, state.page || 1);
+        renderComments(postId);
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+
+    window.goDetail = function(postId){
+      window.location.href = "detail.html?id=" + postId;
+    };
+
+    window.goCategory = function(category){
+      selectedCategory = category || "";
+
+      setActiveCategory();
+      updateFeedText();
+      renderPosts();
+    };
+
+    window.goUser = function(uid){
+      if(!uid){
+        return;
+      }
+
+      if(currentUser && uid === currentUser.uid){
+        window.location.href = "profile.html";
+      } else {
+        window.location.href = "user.html?uid=" + encodeURIComponent(uid);
+      }
+    };
+
+    window.likePost = async function(postId){
+      if(!currentUser){
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      const target = allPosts.find((item) => item.id === postId);
+
+      if(!target){
+        return;
+      }
+
+      const likedBy = Array.isArray(target.data.likedBy) ? target.data.likedBy : [];
+      const alreadyLiked = likedBy.includes(currentUser.uid);
+      const currentLikes = target.data.likes || 0;
+
+      try{
+        if(alreadyLiked){
+          await updateDoc(doc(db, "posts", postId), {
+            likes: increment(currentLikes > 0 ? -1 : 0),
+            likedBy: arrayRemove(currentUser.uid)
+          });
+
+          target.data.likes = currentLikes > 0 ? currentLikes - 1 : 0;
+          target.data.likedBy = likedBy.filter((uid) => uid !== currentUser.uid);
+
+        } else {
+          await updateDoc(doc(db, "posts", postId), {
+            likes: increment(1),
+            likedBy: arrayUnion(currentUser.uid)
+          });
+
+          target.data.likes = currentLikes + 1;
+          target.data.likedBy = [...likedBy, currentUser.uid];
+
+          await createNotification({
+            receiverId: target.data.userId,
+            type: "post_like",
+            postIdValue: postId,
+            postTitle: target.data.title || "게시글",
+            message: currentNickname + "님이 내 글에 공감했어요."
+          });
+        }
+
+        renderPosts();
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+
+    window.deletePost = async function(postId){
+      const confirmDelete = confirm("정말 삭제할까요?");
+
+      if(!confirmDelete){
+        return;
+      }
+
+      try{
+        await deleteDoc(doc(db, "posts", postId));
+
+        allPosts = allPosts.filter((item) => item.id !== postId);
+
+        alert("삭제되었습니다.");
+        renderPopularPosts();
+        renderPosts();
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+        
+
+    document.body.classList.add("dark-mode");
+
+</script>
+
+<script src="theme.js"></script>
+
+</body>
+</html>

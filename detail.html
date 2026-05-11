@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>게시글 보기 - 오늘도육아</title>
+
+  <link rel="stylesheet" href="theme.css">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+    body{
+      font-family:Arial,sans-serif;
+      background:linear-gradient(135deg,#fff7fb,#ffeaf2);
+      color:#2f272a;
+      padding-bottom:96px;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      width:320px;
+      height:320px;
+      background:#ffd6e7;
+      border-radius:50%;
+      top:-130px;
+      left:-130px;
+      opacity:0.5;
+      z-index:-1;
+    }
+
+    body::after{
+      content:'';
+      position:fixed;
+      width:260px;
+      height:260px;
+      background:#ffc8dc;
+      border-radius:50%;
+      bottom:-100px;
+      right:-100px;
+      opacity:0.32;
+      z-index:-1;
+    }
+
+    .header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(255,255,255,0.88);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(255,214,231,0.55);
+    }
+
+    .header-inner{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      padding:15px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:23px;
+      font-weight:900;
+      color:#ff5c8a;
+      letter-spacing:-0.8px;
+      white-space:nowrap;
+      cursor:pointer;
+      min-width:0;
+    }
+
+    .mini-logo{
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ff5c8a;
+      position:relative;
+      display:inline-block;
+      flex-shrink:0;
+    }
+
+    .mini-logo::after{
+      content:'';
+      position:absolute;
+      width:19px;
+      height:19px;
+      border-radius:50%;
+      background:#ffe4ef;
+      top:-2px;
+      left:7px;
+    }
+
+    .header-actions{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      flex-shrink:0;
+    }
+
+    .notice-link{
+      width:38px;
+      height:38px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      color:#ff5c8a;
+      background:white;
+      border:1px solid #ffd6e7;
+      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      font-size:18px;
+      font-weight:900;
+      position:relative;
+    }
+
+    .notice-badge{
+      position:absolute;
+      min-width:17px;
+      height:17px;
+      padding:0 4px;
+      border-radius:999px;
+      background:#ff3d73;
+      color:white;
+      right:-3px;
+      top:-4px;
+      font-size:10px;
+      line-height:17px;
+      text-align:center;
+      font-weight:900;
+      border:2px solid white;
+      display:none;
+    }
+
+    .notice-badge.active{display:block;}
+
+    .back-link{
+      text-decoration:none;
+      color:#ff5c8a;
+      background:white;
+      border:1px solid #ffd6e7;
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      box-shadow:0 8px 22px rgba(255,92,138,0.08);
+      white-space:nowrap;
+    }
+
+    .container{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      padding:18px 14px 24px;
+    }
+
+    .post{
+      background:rgba(255,255,255,0.97);
+      border-radius:28px;
+      box-shadow:0 14px 35px rgba(255,92,138,0.08);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.95);
+    }
+
+    .image-grid{
+      display:grid;
+      gap:4px;
+      background:#fff7fa;
+      position:relative;
+    }
+
+    .image-grid.one{grid-template-columns:1fr;}
+    .image-grid.two{grid-template-columns:1fr 1fr;}
+    .image-grid.three{grid-template-columns:1fr 1fr;grid-template-rows:150px 150px;}
+
+    .image-grid.three .post-image:first-child{
+      grid-row:1/3;
+      height:304px;
+    }
+
+    .post-image{
+      width:100%;
+      height:280px;
+      object-fit:cover;
+      display:block;
+      background:#fff7fa;
+      cursor:pointer;
+    }
+
+    .image-grid.two .post-image,
+    .image-grid.three .post-image{height:150px;}
+
+    .image-more{
+      position:absolute;
+      right:13px;
+      bottom:13px;
+      background:rgba(0,0,0,0.6);
+      color:white;
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .post-body{padding:18px 16px 15px;}
+
+    .post-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .user-area{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      cursor:pointer;
+    }
+
+    .profile{
+      width:42px;
+      height:42px;
+      border-radius:16px;
+      background:linear-gradient(135deg,#fff0f5,#ffd6e7);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#ff5c8a;
+      font-weight:900;
+      font-size:17px;
+      flex-shrink:0;
+      overflow:hidden;
+    }
+
+    .profile img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .name{
+      font-weight:900;
+      font-size:14px;
+      color:#342b2f;
+      max-width:180px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .time{
+      color:#aa9ba1;
+      font-size:12px;
+      margin-top:4px;
+    }
+
+    .top-buttons{
+      display:flex;
+      gap:6px;
+      flex-shrink:0;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .delete-btn,
+    .report-btn{
+      border:none;
+      background:#fff0f5;
+      color:#ff5c8a;
+      padding:8px 11px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:bold;
+      flex-shrink:0;
+    }
+
+    .report-btn{
+      background:#fff7fa;
+      color:#8b6f78;
+      border:1px solid #f3dfe7;
+    }
+
+    .post-category{
+      display:inline-block;
+      padding:7px 12px;
+      background:#fff0f5;
+      color:#ff5c8a;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:12px;
+      cursor:pointer;
+    }
+
+    .title{
+      font-size:22px;
+      font-weight:900;
+      line-height:1.42;
+      margin-bottom:12px;
+      color:#261f22;
+      letter-spacing:-0.7px;
+      word-break:keep-all;
+      overflow-wrap:anywhere;
+    }
+
+    .content{
+      font-size:14.5px;
+      line-height:1.78;
+      color:#5f5357;
+      white-space:pre-line;
+      background:#fff9fb;
+      border-radius:21px;
+      padding:15px;
+      margin-bottom:4px;
+      word-break:break-word;
+    }
+
+    .post-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      background:#fff8fb;
+      border-top:1px solid #f5e4eb;
+      padding:13px 15px;
+      flex-wrap:wrap;
+    }
+
+    .actions{
+      display:flex;
+      gap:7px;
+      flex-wrap:wrap;
+    }
+
+    .action-btn{
+      border:none;
+      background:white;
+      cursor:pointer;
+      font-size:13px;
+      color:#766d70;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 10px;
+      border-radius:999px;
+      font-weight:bold;
+      box-shadow:0 8px 18px rgba(0,0,0,0.03);
+    }
+
+    .like-btn{color:#ff3d73;}
+
+    .like-btn.liked{
+      background:#fff0f5;
+      border:1px solid #ffd6e7;
+    }
+
+    .heart-red{
+      color:#ff3d73;
+      font-size:17px;
+      line-height:1;
+    }
+
+    .post-views{
+      color:#aa9ba1;
+      font-size:12px;
+      font-weight:bold;
+      white-space:nowrap;
+    }
+
+    .comment-section{
+      margin-top:16px;
+      background:rgba(255,255,255,0.97);
+      border-radius:28px;
+      padding:18px 16px;
+      box-shadow:0 14px 35px rgba(255,92,138,0.07);
+      border:1px solid rgba(255,255,255,0.95);
+    }
+
+    .comment-section h3{
+      font-size:19px;
+      margin-bottom:13px;
+      color:#2f272a;
+      letter-spacing:-0.5px;
+    }
+
+    .comment-input{
+      width:100%;
+      padding:13px 14px;
+      border-radius:18px;
+      border:1px solid #f3dfe7;
+      background:#fff7fa;
+      margin-bottom:10px;
+      outline:none;
+      font-size:14px;
+      color:#2f272a;
+    }
+
+    .comment-input:focus{
+      background:white;
+      border-color:#ff8fb1;
+      box-shadow:0 0 0 4px rgba(255,92,138,0.08);
+    }
+
+    .comment-btn{
+      width:100%;
+      padding:13px;
+      border:none;
+      border-radius:18px;
+      background:#ff5c8a;
+      color:white;
+      cursor:pointer;
+      font-weight:bold;
+      margin-bottom:16px;
+      font-size:14px;
+      box-shadow:0 12px 26px rgba(255,92,138,0.22);
+    }
+
+    .comment-btn:disabled{opacity:0.65;cursor:not-allowed;}
+
+    .comment{
+      background:#fff7fa;
+      padding:13px;
+      border-radius:17px;
+      margin-bottom:9px;
+      color:#4d4447;
+      font-size:13.5px;
+      line-height:1.55;
+      border:1px solid #f7e5ec;
+    }
+
+    .comment-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:8px;
+      margin-bottom:5px;
+    }
+
+    .comment-name{
+      font-weight:bold;
+      color:#ff5c8a;
+      font-size:13px;
+      cursor:pointer;
+    }
+
+    .comment-top-buttons{
+      display:flex;
+      gap:5px;
+      flex-shrink:0;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .comment-delete,
+    .comment-report{
+      border:none;
+      background:#fff0f5;
+      color:#ff5c8a;
+      padding:5px 8px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:bold;
+      cursor:pointer;
+      flex-shrink:0;
+    }
+
+    .comment-report{
+      background:white;
+      color:#8b6f78;
+      border:1px solid #f3dfe7;
+    }
+
+    .comment-text{
+      white-space:pre-line;
+      word-break:break-word;
+    }
+
+    .comment-time{
+      color:#aa9ba1;
+      font-size:11px;
+      margin-top:6px;
+    }
+
+    .comment-actions{
+      display:flex;
+      gap:6px;
+      margin-top:8px;
+      flex-wrap:wrap;
+    }
+
+    .comment-action-btn{
+      border:none;
+      background:white;
+      color:#7d7276;
+      padding:6px 9px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .comment-action-btn.good{color:#ff3d73;}
+    .comment-action-btn.bad{color:#777;}
+
+    .comment-action-btn.active{
+      background:#fff0f5;
+      border:1px solid #ffd6e7;
+    }
+
+    .comment-pages{
+      display:flex;
+      gap:6px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-top:13px;
+    }
+
+    .comment-page-btn{
+      min-width:30px;
+      height:30px;
+      border:none;
+      border-radius:999px;
+      background:white;
+      color:#8d7c83;
+      border:1px solid #f3dfe7;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .comment-page-btn.active{
+      background:#ff5c8a;
+      color:white;
+      border-color:#ff5c8a;
+    }
+
+    .empty{
+      background:rgba(255,255,255,0.94);
+      border-radius:28px;
+      padding:34px 22px;
+      text-align:center;
+      color:#8b7f83;
+      line-height:1.7;
+      font-size:14px;
+      box-shadow:0 14px 35px rgba(255,92,138,0.07);
+    }
+
+    .image-modal{
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:300;
+      background:rgba(0,0,0,0.72);
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .image-modal.active{display:flex;}
+
+    .image-modal img{
+      width:100%;
+      max-width:430px;
+      max-height:82vh;
+      object-fit:contain;
+      border-radius:24px;
+      background:white;
+    }
+
+    .modal-close{
+      position:absolute;
+      top:18px;
+      right:18px;
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      border:none;
+      background:white;
+      color:#ff5c8a;
+      font-size:22px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .bottom-menu{
+      position:fixed;
+      bottom:0;
+      left:0;
+      width:100%;
+      background:rgba(255,255,255,0.96);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border-top:1px solid #f0dfe6;
+      z-index:110;
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+
+    .bottom-inner{
+      width:100%;
+      max-width:430px;
+      margin:0 auto;
+      display:flex;
+      justify-content:space-around;
+      padding:11px 0 9px;
+    }
+
+    .bottom-menu a{
+      width:25%;
+      text-decoration:none;
+      color:#7d7276;
+      font-size:11.5px;
+      text-align:center;
+      font-weight:bold;
+    }
+
+    .bottom-menu a div{
+      font-size:21px;
+      margin-bottom:3px;
+      line-height:1;
+    }
+
+    .bottom-menu a.active{color:#ff5c8a;}
+
+    .notification-link{
+      position:relative;
+    }
+
+    .notification-icon{
+      position:relative;
+      width:21px;
+      height:21px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:0 auto 3px;
+      font-size:21px;
+      line-height:1;
+    }
+
+    .notification-badge{
+      position:absolute;
+      top:-7px;
+      right:-11px;
+      min-width:18px;
+      height:18px;
+      padding:0 5px;
+      border-radius:999px;
+      background:#ff2f6d;
+      color:white;
+      font-size:11px;
+      font-weight:900;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 4px 10px rgba(255,47,109,0.28);
+    }
+.pill{
+  border:none;
+  background:white;
+  padding:10px 16px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:700;
+  color:#ff5c8a;
+  cursor:pointer;
+  box-shadow:0 8px 22px rgba(255,92,138,0.08);
+  border:1px solid #ffd6e7;
+}
+
+.dark-mode-toggle{
+  white-space:nowrap;
+}
+
+    @media(max-width:390px){
+      .container{padding-left:12px;padding-right:12px;}
+      .header-inner{padding-left:16px;padding-right:16px;}
+      .brand{font-size:21px;}
+      .back-link{font-size:11px;padding:8px 10px;}
+      .notice-link{width:36px;height:36px;font-size:17px;}
+      .title{font-size:20px;}
+      .post-body{padding-left:15px;padding-right:15px;}
+      .post-image{height:240px;}
+      .image-grid.three{grid-template-rows:135px 135px;}
+      .image-grid.three .post-image:first-child{height:274px;}
+      .image-grid.two .post-image,
+      .image-grid.three .post-image{height:135px;}
+      .name{max-width:145px;}
+    }
+  </style>
+</head>
+
+<body>
+
+ <div class="header-inner">
+  <div class="brand" onclick="location.href='home.html'">
+    <span class="mini-logo"></span>
+    오늘도육아
+  </div>
+
+  <div class="header-actions">
+
+    <button
+      class="pill dark-mode-toggle"
+      onclick="toggleDarkMode()"
+      type="button"
+    >
+      🌙 야간
+    </button>
+
+    <a href="notifications.html" class="notice-link" aria-label="알림">
+      🔔
+      <span class="notice-badge" id="noticeBadge">0</span>
+    </a>
+
+    <a href="home.html" class="back-link">목록으로</a>
+  </div>
+</div>
+
+  <div class="container">
+    <div id="postArea"></div>
+
+    <div class="comment-section" id="commentSection" style="display:none;">
+      <h3 id="commentTitle">댓글</h3>
+
+      <input
+        type="text"
+        id="commentInput"
+        class="comment-input"
+        placeholder="따뜻한 댓글을 남겨주세요"
+      >
+
+      <button id="commentBtn" class="comment-btn">
+        댓글 등록
+      </button>
+
+      <div id="commentList"></div>
+      <div class="comment-pages" id="commentPages"></div>
+    </div>
+  </div>
+
+  <div class="image-modal" id="imageModal">
+    <button class="modal-close" id="modalClose">×</button>
+    <img id="modalImage" src="" alt="확대 이미지">
+  </div>
+
+  <div class="bottom-menu">
+    <div class="bottom-inner">
+      <a href="home.html">
+        <div>⌂</div>
+        홈
+      </a>
+
+      <a href="write.html">
+        <div>✎</div>
+        글쓰기
+      </a>
+
+      <a href="profile.html">
+        <div>☾</div>
+        내정보
+      </a>
+
+      <a href="notifications.html" class="notification-link">
+        <div class="notification-icon">
+          🔔
+          <span id="notificationBadge" class="notification-badge"></span>
+        </div>
+        알림
+      </a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      updateDoc,
+      deleteDoc,
+      collection,
+      addDoc,
+      getDocs,
+      query,
+      where,
+      orderBy,
+      limit,
+      startAfter,
+      increment,
+      arrayUnion,
+      arrayRemove,
+      getCountFromServer,
+      onSnapshot
+    } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4x9d4aQlbroxcnT2v-zHODDPdQabIFx0",
+      authDomain: "today-parenting-app.firebaseapp.com",
+      projectId: "today-parenting-app",
+      storageBucket: "today-parenting-app.firebasestorage.app",
+      messagingSenderId: "375329953167",
+      appId: "1:375329953167:web:d29af0e45cc7d10e9f67fa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const postArea = document.getElementById("postArea");
+    const commentSection = document.getElementById("commentSection");
+    const commentTitle = document.getElementById("commentTitle");
+    const commentInput = document.getElementById("commentInput");
+    const commentBtn = document.getElementById("commentBtn");
+    const commentList = document.getElementById("commentList");
+    const commentPages = document.getElementById("commentPages");
+
+    const imageModal = document.getElementById("imageModal");
+    const modalImage = document.getElementById("modalImage");
+    const modalClose = document.getElementById("modalClose");
+
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get("id");
+
+    let currentUser = null;
+    let currentNickname = "사용자";
+    let notificationBadgeUnsubscribe = null;
+    let currentPost = null;
+    let comments = [];
+    let commentPage = 1;
+    let totalCommentCount = 0;
+    let totalCommentPages = 1;
+    let commentPageCache = {};
+    let commentPageLastDocs = {};
+    const commentsPerPage = 10;
+
+    if(!postId){
+      postArea.innerHTML = `
+        <div class="empty">
+          게시글 정보를 찾을 수 없어요.<br>
+          다시 목록에서 게시글을 선택해주세요.
+        </div>
+      `;
+    }
+
+    function escapeHTML(text){
+      return String(text || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getPostDate(createdAt){
+      if(!createdAt){
+        return new Date(0);
+      }
+
+      if(createdAt.toDate){
+        return createdAt.toDate();
+      }
+
+      return new Date(createdAt);
+    }
+
+    function getTimeText(createdAt){
+      const postDate = getPostDate(createdAt);
+
+      if(postDate.getTime() === 0){
+        return "방금 전";
+      }
+
+      const now = new Date();
+      const diff = now - postDate;
+      const minute = 60 * 1000;
+      const hour = 60 * minute;
+      const day = 24 * hour;
+
+      if(diff < minute){
+        return "방금 전";
+      }
+
+      if(diff < hour){
+        return Math.floor(diff / minute) + "분 전";
+      }
+
+      if(diff < day){
+        return Math.floor(diff / hour) + "시간 전";
+      }
+
+      if(diff < day * 7){
+        return Math.floor(diff / day) + "일 전";
+      }
+
+      return postDate.getFullYear() + "." +
+        String(postDate.getMonth() + 1).padStart(2, "0") + "." +
+        String(postDate.getDate()).padStart(2, "0");
+    }
+
+    function getPostImages(post){
+      if(Array.isArray(post.imageUrls) && post.imageUrls.length > 0){
+        return post.imageUrls.filter((url) => url);
+      }
+
+      if(post.imageUrl){
+        return [post.imageUrl];
+      }
+
+      return [];
+    }
+
+    function getProfileHtml(userData, nickname){
+      const photoURL = userData && (userData.photoURL || userData.photoUrl);
+
+      if(photoURL){
+        return `<img src="${escapeHTML(photoURL)}" alt="프로필 사진">`;
+      }
+
+      return escapeHTML(nickname ? nickname.charAt(0) : "U");
+    }
+
+    function makeImageHtml(post){
+      const images = getPostImages(post);
+
+      if(images.length === 0){
+        return "";
+      }
+
+      const limitedImages = images.slice(0, 3);
+      let gridClass = "one";
+
+      if(limitedImages.length === 2){
+        gridClass = "two";
+      }
+
+      if(limitedImages.length >= 3){
+        gridClass = "three";
+      }
+
+      const imageItems = limitedImages.map((url) => {
+        const safeUrl = escapeHTML(url);
+
+        return `
+          <img
+            src="${safeUrl}"
+            class="post-image"
+            alt="게시글 이미지"
+            onclick="openImage('${safeUrl}')"
+            loading="lazy"
+            decoding="async"
+          >
+        `;
+      }).join("");
+
+      const moreCount = images.length - limitedImages.length;
+      const moreHtml = moreCount > 0
+        ? `<div class="image-more" onclick="openImage('${escapeHTML(images[3] || images[0])}')">+${moreCount}</div>`
+        : "";
+
+      return `
+        <div class="image-grid ${gridClass}">
+          ${imageItems}
+          ${moreHtml}
+        </div>
+      `;
+    }
+
+    function normalizeNotificationType(type){
+      if(type === "comment"){
+        return "post_comment";
+      }
+
+      return type;
+    }
+
+    async function createNotification({receiverId, type, postIdValue, commentIdValue = "", message}){
+      if(!receiverId || !currentUser){
+        return;
+      }
+
+      if(receiverId === currentUser.uid){
+        return;
+      }
+
+      try{
+        const normalizedType = normalizeNotificationType(type);
+
+        await addDoc(collection(db, "notifications"), {
+          receiverId: receiverId,
+          toUid: receiverId,
+
+          senderId: currentUser.uid,
+          actorUid: currentUser.uid,
+
+          senderNickname: currentNickname,
+          actorNickname: currentNickname,
+
+          type: normalizedType,
+          originalType: type,
+
+          postId: postIdValue || postId,
+          commentId: commentIdValue,
+
+          message: message,
+
+          isRead: false,
+          read: false,
+
+          createdAt: new Date()
+        });
+      } catch(error){
+        console.log("notification error", error.message);
+      }
+    }
+
+    function startNotificationBadge(uid){
+      const badges = [
+        document.getElementById("noticeBadge"),
+        document.getElementById("notificationBadge")
+      ].filter(Boolean);
+
+      if(badges.length === 0 || !uid){
+        return;
+      }
+
+      if(notificationBadgeUnsubscribe){
+        notificationBadgeUnsubscribe();
+      }
+
+      const unreadQuery = query(
+        collection(db, "notifications"),
+        where("receiverId", "==", uid),
+        where("isRead", "==", false)
+      );
+
+      notificationBadgeUnsubscribe = onSnapshot(unreadQuery, (snapshot) => {
+        const count = snapshot.size;
+        const countText = count > 99 ? "99+" : String(count);
+
+        badges.forEach((badge) => {
+          if(count > 0){
+            badge.innerText = countText;
+
+            if(badge.classList.contains("notice-badge")){
+              badge.classList.add("active");
+            } else {
+              badge.style.display = "flex";
+            }
+          } else {
+            badge.innerText = "";
+
+            if(badge.classList.contains("notice-badge")){
+              badge.classList.remove("active");
+            } else {
+              badge.style.display = "none";
+            }
+          }
+        });
+      }, (error) => {
+        console.log("알림 뱃지 오류:", error.message);
+
+        badges.forEach((badge) => {
+          badge.innerText = "";
+
+          if(badge.classList.contains("notice-badge")){
+            badge.classList.remove("active");
+          } else {
+            badge.style.display = "none";
+          }
+        });
+      });
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if(!user){
+        alert("로그인이 필요합니다.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      currentUser = user;
+      startNotificationBadge(user.uid);
+
+      try{
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+
+        if(userDoc.exists()){
+          currentNickname = userDoc.data().nickname || user.displayName || "사용자";
+        } else {
+          currentNickname = user.displayName || user.email || "사용자";
+        }
+
+        if(postId){
+          await loadPost();
+          await increaseViewsOnce();
+          await loadPost();
+          await loadComments();
+        }
+
+      } catch(error){
+        postArea.innerHTML = `
+          <div class="empty">
+            정보를 불러오지 못했어요.<br>
+            ${escapeHTML(error.message)}
+          </div>
+        `;
+      }
+    });
+
+    async function increaseViewsOnce(){
+      if(!currentPost || !currentUser){
+        return;
+      }
+
+      const viewedBy = Array.isArray(currentPost.viewedBy) ? currentPost.viewedBy : [];
+
+      if(viewedBy.includes(currentUser.uid)){
+        return;
+      }
+
+      await updateDoc(doc(db, "posts", postId), {
+        views: increment(1),
+        viewedBy: arrayUnion(currentUser.uid)
+      });
+    }
+
+    async function loadPost(){
+      const postDoc = await getDoc(doc(db, "posts", postId));
+
+      if(!postDoc.exists()){
+        postArea.innerHTML = `
+          <div class="empty">
+            삭제되었거나 존재하지 않는 게시글이에요.
+          </div>
+        `;
+
+        commentSection.style.display = "none";
+        return;
+      }
+
+      currentPost = postDoc.data();
+
+      const isMyPost = currentPost.userId === currentUser.uid;
+      const likedBy = Array.isArray(currentPost.likedBy) ? currentPost.likedBy : [];
+      const alreadyLiked = likedBy.includes(currentUser.uid);
+      const imageHtml = makeImageHtml(currentPost);
+      const nickname = currentPost.nickname || "사용자";
+
+      let writerData = null;
+
+      try{
+        if(currentPost.userId){
+          const writerDoc = await getDoc(doc(db, "users", currentPost.userId));
+          if(writerDoc.exists()){
+            writerData = writerDoc.data();
+          }
+        }
+      } catch(error){
+        writerData = null;
+      }
+
+      const deleteButtonHtml = isMyPost
+        ? `<button class="delete-btn" onclick="deletePost()">삭제</button>`
+        : "";
+
+      const reportButtonHtml = !isMyPost
+        ? `<button class="report-btn" onclick="reportPost()">신고</button>`
+        : "";
+
+      const topButtonsHtml = deleteButtonHtml || reportButtonHtml
+        ? `
+          <div class="top-buttons">
+            ${deleteButtonHtml}
+            ${reportButtonHtml}
+          </div>
+        `
+        : "";
+
+      const commentCountText = typeof currentPost.commentCount === "number" ? currentPost.commentCount : 0;
+
+      postArea.innerHTML = `
+        <div class="post">
+          ${imageHtml}
+
+          <div class="post-body">
+            <div class="post-top">
+              <div class="user-area" onclick="goUser('${escapeHTML(currentPost.userId || "")}')">
+                <div class="profile">
+                  ${getProfileHtml(writerData, nickname)}
+                </div>
+
+                <div>
+                  <div class="name">${escapeHTML(nickname)}</div>
+                  <div class="time">${getTimeText(currentPost.createdAt)}</div>
+                </div>
+              </div>
+
+              ${topButtonsHtml}
+            </div>
+
+            <div class="post-category" onclick="goCategory('${escapeHTML(currentPost.category || "")}' )">
+              ${escapeHTML(currentPost.category || "육아")}
+            </div>
+
+            <div class="title">${escapeHTML(currentPost.title || "")}</div>
+
+            <div class="content">${escapeHTML(currentPost.content || "")}</div>
+          </div>
+
+          <div class="post-footer">
+            <div class="actions">
+              <button class="action-btn like-btn ${alreadyLiked ? "liked" : ""}" onclick="likePost()">
+                <span class="heart-red">♥</span>
+                ${alreadyLiked ? "공감취소" : "공감"} ${currentPost.likes || 0}
+              </button>
+
+              <button class="action-btn" onclick="focusCommentInput()">
+                💬 댓글 <span id="footerCommentCount">${commentCountText}</span>
+              </button>
+            </div>
+
+            <div class="post-views">
+              조회 ${currentPost.views || 0}
+            </div>
+          </div>
+        </div>
+      `;
+
+      commentSection.style.display = "block";
+    }
+
+    async function syncPostCommentCount(count){
+      try{
+        await updateDoc(doc(db, "posts", postId), {
+          commentCount: Math.max(0, count)
+        });
+
+        if(currentPost){
+          currentPost.commentCount = Math.max(0, count);
+        }
+
+        const footerCount = document.getElementById("footerCommentCount");
+        if(footerCount){
+          footerCount.innerText = Math.max(0, count);
+        }
+      } catch(error){
+        console.log(error.message);
+      }
+    }
+
+    function resetCommentCache(){
+      comments = [];
+      commentPageCache = {};
+      commentPageLastDocs = {};
+    }
+
+    async function refreshCommentCount(){
+      const countSnapshot = await getCountFromServer(
+        collection(db, "posts", postId, "comments")
+      );
+
+      totalCommentCount = countSnapshot.data().count || 0;
+      totalCommentPages = Math.max(1, Math.ceil(totalCommentCount / commentsPerPage));
+      commentTitle.innerText = `댓글 ${totalCommentCount}`;
+      await syncPostCommentCount(totalCommentCount);
+    }
+
+    async function fetchCommentPage(page){
+      if(commentPageCache[page]){
+        return commentPageCache[page];
+      }
+
+      let commentsQuery;
+
+      if(page <= 1){
+        commentsQuery = query(
+          collection(db, "posts", postId, "comments"),
+          orderBy("createdAt", "asc"),
+          limit(commentsPerPage)
+        );
+      } else {
+        if(!commentPageLastDocs[page - 1]){
+          await fetchCommentPage(page - 1);
+        }
+
+        const previousLastDoc = commentPageLastDocs[page - 1];
+
+        if(!previousLastDoc){
+          commentPageCache[page] = [];
+          return commentPageCache[page];
+        }
+
+        commentsQuery = query(
+          collection(db, "posts", postId, "comments"),
+          orderBy("createdAt", "asc"),
+          startAfter(previousLastDoc),
+          limit(commentsPerPage)
+        );
+      }
+
+      const commentsSnapshot = await getDocs(commentsQuery);
+      const pageComments = [];
+
+      commentsSnapshot.forEach((commentDoc) => {
+        pageComments.push({
+          id: commentDoc.id,
+          data: commentDoc.data()
+        });
+      });
+
+      commentPageCache[page] = pageComments;
+      commentPageLastDocs[page] = commentsSnapshot.docs[commentsSnapshot.docs.length - 1] || null;
+
+      return pageComments;
+    }
+
+    async function loadComments(page = 1){
+      commentList.innerHTML = `
+        <div class="comment">
+          댓글을 불러오는 중이에요.
+        </div>
+      `;
+      commentPages.innerHTML = "";
+
+      try{
+        await refreshCommentCount();
+
+        commentPage = Math.min(Math.max(1, page), totalCommentPages);
+        comments = await fetchCommentPage(commentPage);
+        renderComments();
+      } catch(error){
+        commentList.innerHTML = `
+          <div class="comment">
+            댓글을 불러오지 못했어요.<br>
+            ${escapeHTML(error.message)}
+          </div>
+        `;
+      }
+    }
+
+    function renderComments(){
+      commentList.innerHTML = "";
+      commentPages.innerHTML = "";
+
+      if(totalCommentCount === 0){
+        commentList.innerHTML = `
+          <div class="comment">
+            아직 댓글이 없어요. 첫 댓글을 남겨보세요.
+          </div>
+        `;
+        return;
+      }
+
+      if(comments.length === 0){
+        commentList.innerHTML = `
+          <div class="comment">
+            이 페이지에 표시할 댓글이 없어요.
+          </div>
+        `;
+      }
+
+      comments.forEach((item) => {
+        const comment = item.data;
+        const isMyComment = currentUser && comment.userId === currentUser.uid;
+        const likedBy = Array.isArray(comment.likedBy) ? comment.likedBy : [];
+        const dislikedBy = Array.isArray(comment.dislikedBy) ? comment.dislikedBy : [];
+        const alreadyLiked = currentUser ? likedBy.includes(currentUser.uid) : false;
+        const alreadyDisliked = currentUser ? dislikedBy.includes(currentUser.uid) : false;
+
+        const deleteCommentHtml = isMyComment
+          ? `<button class="comment-delete" onclick="deleteComment('${item.id}')">삭제</button>`
+          : "";
+
+        const reportCommentHtml = !isMyComment
+          ? `<button class="comment-report" onclick="reportComment('${item.id}')">신고</button>`
+          : "";
+
+        const commentTopButtonsHtml = deleteCommentHtml || reportCommentHtml
+          ? `
+            <div class="comment-top-buttons">
+              ${deleteCommentHtml}
+              ${reportCommentHtml}
+            </div>
+          `
+          : "";
+
+        commentList.innerHTML += `
+          <div class="comment">
+            <div class="comment-top">
+              <div class="comment-name" onclick="goUser('${escapeHTML(comment.userId || "")}')">
+                ${escapeHTML(comment.nickname || "사용자")}
+              </div>
+
+              ${commentTopButtonsHtml}
+            </div>
+
+            <div class="comment-text">${escapeHTML(comment.text || "")}</div>
+            <div class="comment-time">${getTimeText(comment.createdAt)}</div>
+
+            <div class="comment-actions">
+              <button
+                class="comment-action-btn good ${alreadyLiked ? "active" : ""}"
+                onclick="likeComment('${item.id}')"
+              >
+                공감 ${comment.likes || 0}
+              </button>
+
+              <button
+                class="comment-action-btn bad ${alreadyDisliked ? "active" : ""}"
+                onclick="dislikeComment('${item.id}')"
+              >
+                비공감 ${comment.dislikes || 0}
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      if(totalCommentPages > 1){
+        for(let i = 1; i <= totalCommentPages; i++){
+          commentPages.innerHTML += `
+            <button
+              class="comment-page-btn ${i === commentPage ? "active" : ""}"
+              onclick="moveCommentPage(${i})"
+            >
+              ${i}
+            </button>
+          `;
+        }
+      }
+    }
+
+    commentBtn.addEventListener("click", async () => {
+      if(commentInput.value.trim() === ""){
+        alert("댓글을 입력해주세요.");
+        return;
+      }
+
+      try{
+        commentBtn.disabled = true;
+        commentBtn.innerText = "등록 중...";
+
+        const commentText = commentInput.value.trim();
+
+        await addDoc(
+          collection(db, "posts", postId, "comments"),
+          {
+            userId: currentUser.uid,
+            nickname: currentNickname,
+            text: commentText,
+            likes: 0,
+            dislikes: 0,
+            likedBy: [],
+            dislikedBy: [],
+            createdAt: new Date()
+          }
+        );
+
+        await updateDoc(doc(db, "posts", postId), {
+          commentCount: increment(1)
+        });
+
+        if(currentPost && currentPost.userId){
+          await createNotification({
+            receiverId: currentPost.userId,
+            type: "comment",
+            postIdValue: postId,
+            message: currentNickname + "님이 내 글에 댓글을 남겼어요."
+          });
+        }
+
+        commentInput.value = "";
+        resetCommentCache();
+        await refreshCommentCount();
+        const lastPage = Math.max(1, Math.ceil(totalCommentCount / commentsPerPage));
+        await loadComments(lastPage);
+
+      } catch(error){
+        alert(error.message);
+      } finally {
+        commentBtn.disabled = false;
+        commentBtn.innerText = "댓글 등록";
+      }
+    });
+
+    commentInput.addEventListener("keydown", async (event) => {
+      if(event.key === "Enter"){
+        event.preventDefault();
+        commentBtn.click();
+      }
+    });
+
+    window.focusCommentInput = function(){
+      commentInput.focus();
+      setTimeout(() => {
+        commentInput.scrollIntoView({ behavior:"smooth", block:"center" });
+      }, 100);
+    };
+
+    window.moveCommentPage = async function(page){
+      await loadComments(page);
+    };
+
+    window.likePost = async function(){
+      if(!currentUser || !currentPost){
+        return;
+      }
+
+      const likedBy = Array.isArray(currentPost.likedBy) ? currentPost.likedBy : [];
+      const alreadyLiked = likedBy.includes(currentUser.uid);
+      const currentLikes = currentPost.likes || 0;
+
+      try{
+        if(alreadyLiked){
+          await updateDoc(doc(db, "posts", postId), {
+            likes: increment(currentLikes > 0 ? -1 : 0),
+            likedBy: arrayRemove(currentUser.uid)
+          });
+        } else {
+          await updateDoc(doc(db, "posts", postId), {
+            likes: increment(1),
+            likedBy: arrayUnion(currentUser.uid)
+          });
+
+          if(currentPost.userId){
+            await createNotification({
+              receiverId: currentPost.userId,
+              type: "post_like",
+              postIdValue: postId,
+              message: currentNickname + "님이 내 글에 공감했어요."
+            });
+          }
+        }
+
+        await loadPost();
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+
+    window.likeComment = async function(commentId){
+      if(!currentUser){
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      const target = comments.find((item) => item.id === commentId);
+
+      if(!target){
+        return;
+      }
+
+      const likedBy = Array.isArray(target.data.likedBy) ? target.data.likedBy : [];
+      const dislikedBy = Array.isArray(target.data.dislikedBy) ? target.data.dislikedBy : [];
+      const alreadyLiked = likedBy.includes(currentUser.uid);
+      const alreadyDisliked = dislikedBy.includes(currentUser.uid);
+
+      try{
+        if(alreadyLiked){
+          await updateDoc(doc(db, "posts", postId, "comments", commentId), {
+            likes: increment((target.data.likes || 0) > 0 ? -1 : 0),
+            likedBy: arrayRemove(currentUser.uid)
+          });
+        } else {
+          const updateData = {
+            likes: increment(1),
+            likedBy: arrayUnion(currentUser.uid)
+          };
+
+          if(alreadyDisliked){
+            updateData.dislikes = increment((target.data.dislikes || 0) > 0 ? -1 : 0);
+            updateData.dislikedBy = arrayRemove(currentUser.uid);
+          }
+
+          await updateDoc(doc(db, "posts", postId, "comments", commentId), updateData);
+
+          if(target.data.userId){
+            await createNotification({
+              receiverId: target.data.userId,
+              type: "comment_like",
+              postIdValue: postId,
+              commentIdValue: commentId,
+              message: currentNickname + "님이 내 댓글에 공감했어요."
+            });
+          }
+        }
+
+        resetCommentCache();
+        await loadComments(commentPage);
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+
+    window.dislikeComment = async function(commentId){
+      if(!currentUser){
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      const target = comments.find((item) => item.id === commentId);
+
+      if(!target){
+        return;
+      }
+
+      const likedBy = Array.isArray(target.data.likedBy) ? target.data.likedBy : [];
+      const dislikedBy = Array.isArray(target.data.dislikedBy) ? target.data.dislikedBy : [];
+      const alreadyLiked = likedBy.includes(currentUser.uid);
+      const alreadyDisliked = dislikedBy.includes(currentUser.uid);
+
+      try{
+        if(alreadyDisliked){
+          await updateDoc(doc(db, "posts", postId, "comments", commentId), {
+            dislikes: increment((target.data.dislikes || 0) > 0 ? -1 : 0),
+            dislikedBy: arrayRemove(currentUser.uid)
+          });
+        } else {
+          const updateData = {
+            dislikes: increment(1),
+            dislikedBy: arrayUnion(currentUser.uid)
+          };
+
+          if(alreadyLiked){
+            updateData.likes = increment((target.data.likes || 0) > 0 ? -1 : 0);
+            updateData.likedBy = arrayRemove(currentUser.uid);
+          }
+
+          await updateDoc(doc(db, "posts", postId, "comments", commentId), updateData);
+        }
+
+        resetCommentCache();
+        await loadComments(commentPage);
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+
+    async function checkAlreadyReported({type, commentIdValue = ""}){
+      let reportQuery;
+
+      if(type === "post"){
+        reportQuery = query(
+          collection(db, "reports"),
+          where("type", "==", "post"),
+          where("postId", "==", postId),
+          where("reporterId", "==", currentUser.uid)
+        );
+      } else {
+        reportQuery = query(
+          collection(db, "reports"),
+          where("type", "==", "comment"),
+          where("postId", "==", postId),
+          where("commentId", "==", commentIdValue),
+          where("reporterId", "==", currentUser.uid)
+        );
+      }
+
+      const snapshot = await getDocs(reportQuery);
+      return !snapshot.empty;
+    }
+
+    async function getReportCount({type, commentIdValue = ""}){
+      let reportQuery;
+
+      if(type === "post"){
+        reportQuery = query(
+          collection(db, "reports"),
+          where("type", "==", "post"),
+          where("postId", "==", postId)
+        );
+      } else {
+        reportQuery = query(
+          collection(db, "reports"),
+          where("type", "==", "comment"),
+          where("postId", "==", postId),
+          where("commentId", "==", commentIdValue)
+        );
+      }
+
+      const snapshot = await getDocs(reportQuery);
+      return snapshot.size;
+    }
+
+    window.reportPost = async function(){
+      if(!currentUser || !currentPost){
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      if(currentPost.userId === currentUser.uid){
+        alert("내 게시글은 신고할 수 없어요.");
+        return;
+      }
+
+      try{
+        const alreadyReported = await checkAlreadyReported({
+          type: "post"
+        });
+
+        if(alreadyReported){
+          alert("이미 신고한 게시글이에요.");
+          return;
+        }
+      } catch(error){
+        alert("신고 확인 중 오류가 발생했어요.\n" + error.message);
+        return;
+      }
+
+      const reason = prompt(
+        "신고 사유를 입력해주세요.\n예: 욕설, 광고, 부적절한 내용, 개인정보 노출 등"
+      );
+
+      if(reason === null){
+        return;
+      }
+
+      const trimmedReason = reason.trim();
+
+      if(trimmedReason === ""){
+        alert("신고 사유를 입력해주세요.");
+        return;
+      }
+
+      try{
+        await addDoc(collection(db, "reports"), {
+          type: "post",
+          status: "pending",
+
+          postId: postId,
+          commentId: "",
+
+          targetUserId: currentPost.userId || "",
+          targetNickname: currentPost.nickname || "사용자",
+
+          reporterId: currentUser.uid,
+          reporterNickname: currentNickname,
+          reporterEmail: currentUser.email || "",
+
+          reason: trimmedReason,
+
+          postTitle: currentPost.title || "",
+          postContent: currentPost.content || "",
+
+          commentText: "",
+
+          createdAt: new Date()
+        });
+
+        const reportCount = await getReportCount({
+          type: "post"
+        });
+
+        if(reportCount >= 3){
+          alert("신고가 접수되었습니다.\n신고가 3회 이상 누적되어 관리자 검토 대상입니다.");
+          return;
+        }
+
+        alert("신고가 접수되었습니다.");
+      } catch(error){
+        alert("신고 접수에 실패했어요.\n" + error.message);
+      }
+    };
+
+    window.reportComment = async function(commentId){
+      if(!currentUser){
+        alert("로그인이 필요합니다.");
+        return;
+      }
+
+      const target = comments.find((item) => item.id === commentId);
+
+      if(!target){
+        alert("댓글 정보를 찾을 수 없어요.");
+        return;
+      }
+
+      const comment = target.data;
+
+      if(comment.userId === currentUser.uid){
+        alert("내 댓글은 신고할 수 없어요.");
+        return;
+      }
+
+      try{
+        const alreadyReported = await checkAlreadyReported({
+          type: "comment",
+          commentIdValue: commentId
+        });
+
+        if(alreadyReported){
+          alert("이미 신고한 댓글이에요.");
+          return;
+        }
+      } catch(error){
+        alert("신고 확인 중 오류가 발생했어요.\n" + error.message);
+        return;
+      }
+
+      const reason = prompt(
+        "신고 사유를 입력해주세요.\n예: 욕설, 광고, 부적절한 댓글, 개인정보 노출 등"
+      );
+
+      if(reason === null){
+        return;
+      }
+
+      const trimmedReason = reason.trim();
+
+      if(trimmedReason === ""){
+        alert("신고 사유를 입력해주세요.");
+        return;
+      }
+
+      try{
+        await addDoc(collection(db, "reports"), {
+          type: "comment",
+          status: "pending",
+
+          postId: postId,
+          commentId: commentId,
+
+          targetUserId: comment.userId || "",
+          targetNickname: comment.nickname || "사용자",
+
+          reporterId: currentUser.uid,
+          reporterNickname: currentNickname,
+          reporterEmail: currentUser.email || "",
+
+          reason: trimmedReason,
+
+          postTitle: currentPost ? currentPost.title || "" : "",
+          postContent: currentPost ? currentPost.content || "" : "",
+
+          commentText: comment.text || "",
+
+          createdAt: new Date()
+        });
+
+        const reportCount = await getReportCount({
+          type: "comment",
+          commentIdValue: commentId
+        });
+
+        if(reportCount >= 3){
+          alert("신고가 접수되었습니다.\n신고가 3회 이상 누적되어 관리자 검토 대상입니다.");
+          return;
+        }
+
+        alert("신고가 접수되었습니다.");
+      } catch(error){
+        alert("신고 접수에 실패했어요.\n" + error.message);
+      }
+    };
+
+    window.deletePost = async function(){
+      const confirmDelete = confirm("정말 삭제할까요?");
+
+      if(!confirmDelete){
+        return;
+      }
+
+      try{
+        await deleteDoc(doc(db, "posts", postId));
+        alert("삭제되었습니다.");
+        window.location.href = "home.html";
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+
+    window.deleteComment = async function(commentId){
+      const confirmDelete = confirm("댓글을 삭제할까요?");
+
+      if(!confirmDelete){
+        return;
+      }
+
+      try{
+        await deleteDoc(doc(db, "posts", postId, "comments", commentId));
+        await updateDoc(doc(db, "posts", postId), {
+          commentCount: increment(-1)
+        });
+
+        resetCommentCache();
+        await refreshCommentCount();
+
+        if(commentPage > totalCommentPages){
+          commentPage = totalCommentPages;
+        }
+
+        await loadComments(commentPage);
+
+      } catch(error){
+        alert(error.message);
+      }
+    };
+
+    window.openImage = function(imageUrl){
+      modalImage.src = imageUrl;
+      imageModal.classList.add("active");
+    };
+
+    window.goUser = function(uid){
+      if(!uid){
+        return;
+      }
+
+      if(currentUser && uid === currentUser.uid){
+        window.location.href = "profile.html";
+      } else {
+        window.location.href = "user.html?uid=" + encodeURIComponent(uid);
+      }
+    };
+
+    window.goCategory = function(category){
+      if(!category){
+        window.location.href = "home.html";
+        return;
+      }
+
+      window.location.href = "home.html?category=" + encodeURIComponent(category);
+    };
+
+    modalClose.addEventListener("click", () => {
+      imageModal.classList.remove("active");
+      modalImage.src = "";
+    });
+
+    imageModal.addEventListener("click", (event) => {
+      if(event.target === imageModal){
+        imageModal.classList.remove("active");
+        modalImage.src = "";
+      }
+    });
+  </script>
+
+<script src="theme.js"></script>
+
+</body>
+</html>
