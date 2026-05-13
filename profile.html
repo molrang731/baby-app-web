@@ -126,6 +126,17 @@
 
 <body>
 
+  <script>
+  const savedTheme =
+    localStorage.getItem("todayParentingTheme") ||
+    localStorage.getItem("theme") ||
+    localStorage.getItem("colorTheme");
+
+  if(savedTheme === "dark"){
+    document.body.classList.add("dark-mode");
+  }
+</script>
+
   <div class="header">
     <div class="header-inner">
       <div class="brand">
