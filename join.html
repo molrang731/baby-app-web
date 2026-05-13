@@ -2,80 +2,73 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>회원가입 - 오늘도육아</title>
 
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      -webkit-tap-highlight-color:transparent;
-    }
-
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+    html,body{width:100%;min-height:100%;}
     body{
-      font-family:Arial, sans-serif;
-      background:linear-gradient(135deg,#fff7fb,#ffeaf2);
-      min-height:100vh;
-      color:#2f272a;
+      font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif;
+      background:#fff7fb;
+      color:#241f21;
       overflow-x:hidden;
-      position:relative;
     }
-
-    body::before{
-      content:'';
-      position:fixed;
-      width:320px;
-      height:320px;
-      background:#ffd6e7;
-      border-radius:50%;
-      top:-120px;
-      left:-120px;
-      opacity:0.65;
-      z-index:-1;
-    }
-
-    body::after{
-      content:'';
-      position:fixed;
-      width:260px;
-      height:260px;
-      background:#ffc8dc;
-      border-radius:50%;
-      bottom:-90px;
-      right:-90px;
-      opacity:0.45;
-      z-index:-1;
-    }
+    button,input,textarea{font-family:inherit;}
+    button{cursor:pointer;}
+    a{text-decoration:none;color:inherit;}
 
     .app{
       width:100%;
       max-width:430px;
       min-height:100vh;
       margin:0 auto;
-      padding:22px 18px 34px;
+      padding:20px 16px 28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .app::before{
+      content:'';
+      position:fixed;
+      width:280px;
+      height:280px;
+      border-radius:50%;
+      background:#ffd6e7;
+      top:-115px;
+      left:-120px;
+      opacity:.45;
+      z-index:-1;
+    }
+    .app::after{
+      content:'';
+      position:fixed;
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      background:#ffc8dc;
+      right:-95px;
+      bottom:-90px;
+      opacity:.30;
+      z-index:-1;
     }
 
     .top{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      margin-bottom:22px;
       gap:10px;
+      margin-bottom:16px;
     }
-
     .brand{
       display:flex;
       align-items:center;
       gap:10px;
-      font-size:24px;
-      font-weight:900;
       color:#ff5c8a;
-      letter-spacing:-0.8px;
+      font-size:21px;
+      font-weight:900;
+      letter-spacing:-.7px;
       white-space:nowrap;
-      flex-shrink:0;
     }
-
     .mini-logo{
       width:19px;
       height:19px;
@@ -85,7 +78,6 @@
       display:inline-block;
       flex-shrink:0;
     }
-
     .mini-logo::after{
       content:'';
       position:absolute;
@@ -96,120 +88,145 @@
       top:-2px;
       left:7px;
     }
-
-    .top-actions{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      gap:8px;
-      flex-shrink:0;
-    }
-
-    .back-link,
-    .dark-mode-toggle{
-      text-decoration:none;
-      color:#ff5c8a;
-      background:white;
-      border:1px solid #ffd6e7;
-      height:38px;
+    .top-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-shrink:0;}
+    .back-link,.dark-mode-toggle{
+      min-height:38px;
       padding:0 13px;
       border-radius:999px;
-      font-size:12px;
-      font-weight:bold;
-      box-shadow:0 8px 22px rgba(255,92,138,0.08);
-      white-space:nowrap;
       display:flex;
       align-items:center;
       justify-content:center;
-      line-height:1;
-      cursor:pointer;
+      background:#fff;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      box-shadow:0 8px 22px rgba(255,92,138,.08);
+      font-size:12px;
+      font-weight:900;
+      white-space:nowrap;
     }
+    .dark-mode-toggle{min-width:38px;padding:0 11px;}
 
-    .dark-mode-toggle{
-      min-width:38px;
-      padding:0 12px;
+    .join-hero{
+      background:#fff;
+      border:1px solid #f3dfe7;
+      border-radius:26px;
+      padding:20px 18px;
+      margin-bottom:13px;
+      box-shadow:0 10px 24px rgba(255,92,138,.075);
+      position:relative;
+      overflow:hidden;
+    }
+    .join-hero::after{
+      content:'';
+      position:absolute;
+      width:118px;
+      height:118px;
+      border-radius:50%;
+      background:#ffd6e7;
+      right:-42px;
+      top:-48px;
+      opacity:.38;
+    }
+    .hero-label{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:#fff0f5;
+      color:#ff5c8a;
+      border:1px solid #ffd6e7;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:11.5px;
+      font-weight:900;
+      margin-bottom:12px;
+      position:relative;
+      z-index:2;
+    }
+    h1{
+      font-size:24px;
+      line-height:1.34;
+      letter-spacing:-.85px;
+      color:#241f21;
+      margin-bottom:7px;
+      position:relative;
+      z-index:2;
+    }
+    h1 span{color:#ff5c8a;}
+    .sub{
+      color:#7d7276;
+      font-size:13.5px;
+      line-height:1.58;
+      font-weight:700;
+      position:relative;
+      z-index:2;
     }
 
     .join-card{
-      background:rgba(255,255,255,0.96);
-      border-radius:34px;
-      padding:28px 22px;
-      box-shadow:0 20px 50px rgba(255,92,138,0.16);
-      border:1px solid rgba(255,255,255,0.9);
+      background:#fff;
+      border:1px solid #f3dfe7;
+      border-radius:24px;
+      padding:17px 15px 18px;
+      box-shadow:0 10px 24px rgba(255,92,138,.075);
+      margin-bottom:14px;
+    }
+    .card-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:13px;
+    }
+    .card-title strong{
+      font-size:17px;
+      color:#241f21;
+      font-weight:900;
+      letter-spacing:-.5px;
+    }
+    .card-title span{
+      color:#aa9ba1;
+      font-size:11.5px;
+      font-weight:900;
+      white-space:nowrap;
     }
 
-    .label{
-      display:inline-block;
-      background:#fff0f5;
-      color:#ff5c8a;
-      padding:8px 13px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:bold;
-      margin-bottom:16px;
-    }
-
-    h1{
-      font-size:28px;
-      line-height:1.3;
-      letter-spacing:-1px;
-      margin-bottom:8px;
-    }
-
-    .sub{
-      color:#7d7276;
-      font-size:14px;
-      line-height:1.6;
-      margin-bottom:22px;
-    }
-
-    input,
-    textarea{
+    .input-group{display:flex;flex-direction:column;gap:9px;margin-bottom:14px;}
+    input,textarea{
       width:100%;
-      padding:16px;
-      border-radius:18px;
-      border:1px solid #f0dfe6;
-      background:#fff7fa;
-      font-size:15px;
+      border:none;
       outline:none;
+      background:#fff7fa;
+      border:1px solid #f3dfe7;
+      border-radius:18px;
+      padding:14px 15px;
+      font-size:14.5px;
       color:#2f272a;
-      margin-bottom:12px;
+      font-weight:700;
     }
-
-    textarea{
-      height:92px;
-      resize:none;
-      line-height:1.6;
-    }
-
-    input:focus,
-    textarea:focus{
-      background:white;
+    input::placeholder,textarea::placeholder{color:#aa9ba1;font-weight:700;}
+    input:focus,textarea:focus{
+      background:#fff;
       border-color:#ff8fb1;
-      box-shadow:0 0 0 4px rgba(255,92,138,0.08);
+      box-shadow:0 0 0 4px rgba(255,92,138,.08);
     }
+    textarea{height:92px;resize:none;line-height:1.65;}
 
     .section-title{
-      font-size:14px;
-      font-weight:900;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
       color:#51464a;
-      margin:18px 0 10px;
+      font-size:13px;
+      font-weight:900;
+      margin:15px 0 9px;
     }
-
-    .stage-box,
-    .category-box{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:10px;
-    }
-
-    .option input{
-      display:none;
-    }
-
+    .section-title small{font-size:11px;color:#aa9ba1;font-weight:900;}
+    .stage-box,.category-box{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+    .category-box{grid-template-columns:repeat(3,1fr);}
+    .option input{display:none;}
     .option span{
       min-height:56px;
-      border-radius:18px;
+      border-radius:17px;
       background:#fff7fa;
       border:1px solid #f3dfe7;
       color:#7d7276;
@@ -217,195 +234,117 @@
       justify-content:center;
       align-items:center;
       text-align:center;
-      font-size:14px;
-      font-weight:bold;
-      padding:10px;
+      font-size:12.5px;
+      font-weight:900;
+      padding:10px 6px;
       cursor:pointer;
-      transition:0.2s;
+      transition:.16s ease;
+      line-height:1.25;
     }
-
+    .category-box .option span{min-height:52px;font-size:11.5px;border-radius:16px;}
     .option input:checked + span{
       background:#ff5c8a;
-      color:white;
+      color:#fff;
       border-color:#ff5c8a;
-      box-shadow:0 12px 28px rgba(255,92,138,0.22);
-      transform:translateY(-2px);
+      box-shadow:0 9px 20px rgba(255,92,138,.20);
+      transform:translateY(-1px);
     }
-
     .category-box .option input:checked + span{
       background:#fff0f5;
       color:#ff5c8a;
       border-color:#ff8fb1;
-      box-shadow:0 10px 24px rgba(255,92,138,0.10);
+      box-shadow:0 8px 18px rgba(255,92,138,.10);
     }
 
-    button.join-submit{
+    .join-submit,.kakao-btn{
       width:100%;
-      padding:16px;
+      min-height:51px;
       border:none;
       border-radius:18px;
-      background:#ff5c8a;
-      color:white;
-      font-size:16px;
-      cursor:pointer;
-      font-weight:bold;
-      margin-top:20px;
-      box-shadow:0 12px 28px rgba(255,92,138,0.25);
-    }
-
-    .kakao-btn{
-      width:100%;
-      padding:16px;
-      border:none;
-      border-radius:18px;
-      background:#FEE500;
-      color:#191919;
-      font-size:16px;
-      cursor:pointer;
-      font-weight:bold;
+      font-size:14.5px;
+      font-weight:900;
       margin-top:10px;
-      box-shadow:none;
     }
-
-    button:disabled{
-      opacity:0.65;
-      cursor:not-allowed;
+    .join-submit{
+      background:#ff5c8a;
+      color:#fff;
+      box-shadow:0 12px 26px rgba(255,92,138,.22);
+      margin-top:17px;
     }
-
+    .kakao-btn{background:#FEE500;color:#191919;box-shadow:none;}
+    button:active{transform:scale(.985);}
+    button:disabled{opacity:.65;cursor:not-allowed;transform:none;}
     .login-link{
       text-align:center;
-      margin-top:18px;
-      font-size:14px;
+      margin-top:15px;
       color:#7d7276;
+      font-size:13px;
+      line-height:1.5;
+      font-weight:800;
+    }
+    .login-link a{color:#ff5c8a;font-weight:900;}
+    .trust-note{
+      background:#fff7fa;
+      border:1px solid #f3dfe7;
+      border-radius:20px;
+      padding:13px;
+      text-align:center;
+      color:#8d7c83;
+      font-size:12.5px;
+      line-height:1.55;
+      font-weight:800;
     }
 
-    .login-link a{
-      color:#ff5c8a;
-      text-decoration:none;
-      font-weight:bold;
-    }
-
-    @media(max-width:360px){
-      .app{
-        padding-left:14px;
-        padding-right:14px;
-      }
-
-      .brand{
-        font-size:22px;
-      }
-
-      h1{
-        font-size:26px;
-      }
-
-      .stage-box,
-      .category-box{
-        grid-template-columns:1fr;
-      }
-
-      .back-link,
-      .dark-mode-toggle{
-        height:36px;
-        padding:0 10px;
-        font-size:11px;
-      }
-    }
-
-    body.dark-mode{
-      background:linear-gradient(135deg,#1f171c,#2b2027);
-      color:#f8eef3;
-    }
-
-    body.dark-mode::before{
-      background:#5a3040;
-      opacity:0.28;
-    }
-
-    body.dark-mode::after{
-      background:#6b3548;
-      opacity:0.22;
-    }
-
-    body.dark-mode .brand{
-      color:#ff8fb1;
-    }
-
-    body.dark-mode .mini-logo{
-      background:#ff8fb1;
-    }
-
-    body.dark-mode .mini-logo::after{
-      background:#3a2932;
-    }
-
+    body.dark-mode{background:#181216;color:#f7edf2;}
+    body.dark-mode .app::before{background:#573040;opacity:.36;}
+    body.dark-mode .app::after{background:#7a344d;opacity:.24;}
+    body.dark-mode .brand{color:#ff8fb1;}
+    body.dark-mode .mini-logo{background:#ff8fb1;}
+    body.dark-mode .mini-logo::after{background:#2a1d24;}
     body.dark-mode .back-link,
     body.dark-mode .dark-mode-toggle,
-    body.dark-mode .join-card{
-      background:rgba(43,32,39,0.98);
-      border-color:#4a3440;
-      color:#f8eef3;
-      box-shadow:0 18px 45px rgba(0,0,0,0.26);
+    body.dark-mode .join-card,
+    body.dark-mode .join-hero,
+    body.dark-mode .trust-note{
+      background:#261b22;
+      border-color:#4a303b;
+      color:#f5e8ee;
+      box-shadow:0 12px 26px rgba(0,0,0,.24);
     }
-
-    body.dark-mode .back-link,
-    body.dark-mode .dark-mode-toggle{
-      color:#ffc1d5;
-      border-color:#5b3d4b;
-    }
-
-    body.dark-mode .label{
-      background:#241b21;
-      color:#ffc1d5;
-      border:1px solid #4a3440;
-    }
-
-    body.dark-mode h1{
-      color:#fff7fb;
-    }
-
+    body.dark-mode .join-hero::after{background:#573040;opacity:.32;}
+    body.dark-mode .hero-label{background:#3a2430;color:#ff8fb1;border-color:#5b3747;}
+    body.dark-mode h1,
+    body.dark-mode .card-title strong{color:#fff6fa;}
+    body.dark-mode h1 span{color:#ff8fb1;}
     body.dark-mode .sub,
-    body.dark-mode .section-title,
-    body.dark-mode .login-link{
-      color:#c9aeba;
-    }
-
+    body.dark-mode .card-title span,
+    body.dark-mode .section-title small,
+    body.dark-mode .login-link,
+    body.dark-mode .trust-note{color:#c9aeb9;}
     body.dark-mode input,
     body.dark-mode textarea,
-    body.dark-mode .option span{
-      background:#241b21;
-      border-color:#4a3440;
-      color:#f8eef3;
-    }
-
+    body.dark-mode .option span{background:#2f2028;border-color:#4a303b;color:#f5e8ee;}
     body.dark-mode input::placeholder,
-    body.dark-mode textarea::placeholder{
-      color:#bfa5b0;
-    }
-
+    body.dark-mode textarea::placeholder{color:#bfa5b0;}
     body.dark-mode input:focus,
-    body.dark-mode textarea:focus{
-      background:#2d2229;
-      border-color:#ff8fb1;
-      box-shadow:0 0 0 4px rgba(255,143,177,0.12);
-    }
+    body.dark-mode textarea:focus{background:#34242d;border-color:#ff8fb1;box-shadow:0 0 0 4px rgba(255,143,177,.12);}
+    body.dark-mode .section-title{color:#f5e8ee;}
+    body.dark-mode .category-box .option input:checked + span{background:#3a2430;color:#ff8fb1;border-color:#5b3747;}
+    body.dark-mode .login-link a{color:#ff8fb1;}
 
-    body.dark-mode .category-box .option input:checked + span{
-      background:#3a2932;
-      color:#ffc1d5;
-      border-color:#ff8fb1;
-    }
-
-    body.dark-mode .login-link a{
-      color:#ff8fb1;
+    @media(max-width:390px){
+      .app{padding-left:13px;padding-right:13px;}
+      .join-hero{padding:18px 16px;border-radius:24px;}
+      h1{font-size:22.5px;}
+      .join-card{padding:16px 13px 17px;border-radius:23px;}
+      .category-box{grid-template-columns:repeat(2,1fr);}
+      .option span{font-size:12px;}
     }
   </style>
 </head>
 
 <body>
-
   <div class="app">
-
     <div class="top">
       <div class="brand">
         <span class="mini-logo"></span>
@@ -413,111 +352,78 @@
       </div>
 
       <div class="top-actions">
-        <button
-          class="dark-mode-toggle"
-          data-mode="icon"
-          onclick="toggleDarkMode()"
-          type="button"
-          aria-label="야간모드 전환"
-        >
-          🌙
-        </button>
-
-        <a href="index.html" class="back-link">
-          로그인
-        </a>
+        <button class="dark-mode-toggle" data-mode="icon" onclick="toggleDarkMode()" type="button" aria-label="야간모드 전환">🌙</button>
+        <a href="index.html" class="back-link">로그인</a>
       </div>
     </div>
 
-    <div class="join-card">
-
-      <div class="label">TODAY JOIN</div>
-
+    <section class="join-hero">
+      <div class="hero-label">TODAY JOIN</div>
       <h1>
-        오늘도육아에<br>
-        함께해 주세요
+        함께 버티는 육아,<br>
+        <span>혼자가 아니에요</span> 💗
       </h1>
-
       <p class="sub">
-        아이디로 편하게 가입하고,<br>
-        카카오톡으로도 간편하게 시작할 수 있어요.
+        닉네임으로 편하게 시작하고,<br>
+        나와 비슷한 육아 이야기를 만나보세요.
       </p>
+    </section>
 
-      <input type="text" id="nickname" placeholder="닉네임 입력">
-      <input type="text" id="loginId" placeholder="아이디 입력">
-      <input type="password" id="password" placeholder="비밀번호 6자리 이상">
+    <div class="join-card">
+      <div class="card-title">
+        <strong>가입 정보</strong>
+        <span>1분이면 충분해요</span>
+      </div>
 
-      <div class="section-title">육아 단계 선택</div>
+      <div class="input-group">
+        <input type="text" id="nickname" placeholder="닉네임 입력" autocomplete="nickname">
+        <input type="text" id="loginId" placeholder="아이디 입력" autocomplete="username" inputmode="text">
+        <input type="password" id="password" placeholder="비밀번호 6자리 이상" autocomplete="new-password">
+      </div>
+
+      <div class="section-title">
+        <span>육아 단계 선택</span>
+        <small>현재 상황에 가까운 단계</small>
+      </div>
 
       <div class="stage-box">
-        <label class="option">
-          <input type="radio" name="stage" value="예비부모" checked>
-          <span>🤰 예비부모</span>
-        </label>
-
-        <label class="option">
-          <input type="radio" name="stage" value="신생아">
-          <span>🍼 신생아</span>
-        </label>
-
-        <label class="option">
-          <input type="radio" name="stage" value="영유아">
-          <span>🧸 영유아</span>
-        </label>
-
-        <label class="option">
-          <input type="radio" name="stage" value="어린이">
-          <span>🧒 어린이</span>
-        </label>
+        <label class="option"><input type="radio" name="stage" value="예비부모" checked><span>🤰 예비부모</span></label>
+        <label class="option"><input type="radio" name="stage" value="신생아"><span>🍼 신생아</span></label>
+        <label class="option"><input type="radio" name="stage" value="영유아"><span>🧸 영유아</span></label>
+        <label class="option"><input type="radio" name="stage" value="어린이"><span>🧒 어린이</span></label>
       </div>
 
-      <div class="section-title">관심 카테고리</div>
+      <div class="section-title">
+        <span>관심 카테고리</span>
+        <small>여러 개 선택 가능</small>
+      </div>
 
       <div class="category-box">
-        <label class="option">
-          <input type="checkbox" value="출산준비">
-          <span>🤰 출산준비</span>
-        </label>
-
-        <label class="option">
-          <input type="checkbox" value="새벽육아">
-          <span>🌙 새벽육아</span>
-        </label>
-
-        <label class="option">
-          <input type="checkbox" value="신생아">
-          <span>🍼 신생아</span>
-        </label>
-
-        <label class="option">
-          <input type="checkbox" value="영유아">
-          <span>🧸 영유아</span>
-        </label>
-
-        <label class="option">
-          <input type="checkbox" value="어린이">
-          <span>🧒 어린이</span>
-        </label>
+        <label class="option"><input type="checkbox" value="출산준비"><span>🤰<br>출산준비</span></label>
+        <label class="option"><input type="checkbox" value="새벽육아"><span>🌙<br>새벽육아</span></label>
+        <label class="option"><input type="checkbox" value="신생아"><span>🍼<br>신생아</span></label>
+        <label class="option"><input type="checkbox" value="영유아"><span>🧸<br>영유아</span></label>
+        <label class="option"><input type="checkbox" value="어린이"><span>🧒<br>어린이</span></label>
       </div>
 
-      <div class="section-title">상태메시지</div>
+      <div class="section-title">
+        <span>상태메시지</span>
+        <small>나중에 수정 가능</small>
+      </div>
 
       <textarea id="status" placeholder="예: 초보엄마예요 💕"></textarea>
 
-      <button id="joinBtn" class="join-submit">
-        회원가입하기
-      </button>
-
-      <button id="kakaoBtn" class="kakao-btn" type="button">
-        카카오톡으로 시작하기
-      </button>
+      <button id="joinBtn" class="join-submit" type="button">회원가입하기</button>
+      <button id="kakaoBtn" class="kakao-btn" type="button">카카오톡으로 시작하기</button>
 
       <div class="login-link">
         이미 계정이 있다면 <a href="index.html">로그인하기</a>
       </div>
-
     </div>
 
+    <div class="trust-note">
+      아이디는 로그인에만 사용되고, 앱에서는 닉네임으로 활동해요.
+    </div>
   </div>
 
   <script type="module">

@@ -14,7 +14,7 @@
       font-family:Arial,sans-serif;
       background:linear-gradient(135deg,#fff7fb,#ffeaf2);
       color:#2f272a;
-      padding-bottom:96px;
+      padding-bottom:118px;
       min-height:100vh;
       overflow-x:hidden;
       position:relative;
@@ -386,44 +386,133 @@
 
     .bottom-menu{
       position:fixed;
-      bottom:0;
       left:0;
+      bottom:14px;
       width:100%;
-      background:rgba(255,255,255,0.96);
-      backdrop-filter:blur(16px);
-      -webkit-backdrop-filter:blur(16px);
-      border-top:1px solid #f0dfe6;
-      z-index:110;
-      padding-bottom:env(safe-area-inset-bottom);
+      z-index:999;
+      padding:0 14px env(safe-area-inset-bottom);
+      background:transparent;
+      border:none;
+      pointer-events:none;
     }
 
     .bottom-inner{
       width:100%;
       max-width:430px;
+      height:86px;
       margin:0 auto;
       display:flex;
       justify-content:space-around;
-      padding:11px 0 9px;
+      align-items:center;
+      background:rgba(255,255,255,0.97);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border:1px solid rgba(255,214,231,0.9);
+      border-radius:38px;
+      box-shadow:0 18px 42px rgba(255,92,138,0.16), 0 4px 12px rgba(0,0,0,0.04);
+      position:relative;
+      overflow:visible;
+      pointer-events:auto;
     }
 
-    .bottom-menu a{
+    .bottom-menu a,
+    .menu-item{
       width:25%;
+      height:100%;
       text-decoration:none;
-      color:#7d7276;
-      font-size:11.5px;
+      color:#7d6c72;
+      font-size:12px;
       text-align:center;
-      font-weight:bold;
+      font-weight:900;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      position:relative;
+      z-index:2;
+      transition:transform 0.18s ease, color 0.18s ease;
+      -webkit-tap-highlight-color:transparent;
     }
 
-    .bottom-menu a div{
-      font-size:21px;
-      margin-bottom:3px;
+    .bottom-menu a:active{ transform:scale(0.96); }
+
+    .menu-icon{
+      width:50px;
+      height:50px;
+      border-radius:22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#7d6c72;
+      position:relative;
+      transition:0.18s ease;
+    }
+
+    .menu-icon svg{
+      width:29px;
+      height:29px;
+      stroke:currentColor;
+      stroke-width:1.9;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      display:block;
+    }
+
+    .bottom-menu a.active,
+    .menu-item.active{ color:#ff5c8a; }
+
+    .bottom-menu a.active .menu-icon,
+    .menu-item.active .menu-icon{
+      color:#ff5c8a;
+      background:linear-gradient(135deg,#fff0f5,#ffe3ee);
+      box-shadow:0 10px 24px rgba(255,92,138,0.14);
+      transform:translateY(-2px);
+    }
+
+    .menu-icon.home-icon::after{
+      content:'❤';
+      position:absolute;
+      top:-6px;
+      right:1px;
+      width:17px;
+      height:17px;
+      border-radius:50%;
+      background:#ff8fb1;
+      color:white;
+      font-size:10px;
+      line-height:17px;
+      text-align:center;
+      box-shadow:0 5px 12px rgba(255,92,138,0.22);
+    }
+
+    .menu-item span{
       line-height:1;
+      letter-spacing:-0.35px;
     }
 
-    .bottom-menu a.active{color:#ff5c8a;}
+    .notification-link{ position:relative; }
+    .notification-icon{ position:relative; }
 
-
+    .notification-badge{
+      position:absolute;
+      top:-6px;
+      right:-7px;
+      min-width:18px;
+      height:18px;
+      padding:0 5px;
+      background:#ff2f6d;
+      color:white;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:900;
+      line-height:18px;
+      text-align:center;
+      display:none;
+      box-shadow:0 4px 10px rgba(255,47,109,0.35);
+      border:2px solid white;
+    }
 
     body.dark-mode{
       background:linear-gradient(135deg,#181216,#24161d);
@@ -440,8 +529,7 @@
       opacity:0.25;
     }
 
-    body.dark-mode .header,
-    body.dark-mode .bottom-menu{
+    body.dark-mode .header{
       background:rgba(28,20,25,0.94);
       border-color:#3a2730;
     }
@@ -526,6 +614,41 @@
       color:#ff8fb1;
     }
 
+    body.dark-mode .bottom-inner{
+      background:rgba(34,24,30,0.96);
+      border-color:#4b3440;
+      box-shadow:0 18px 42px rgba(0,0,0,0.34);
+    }
+
+    body.dark-mode .bottom-menu a,
+    body.dark-mode .menu-item,
+    body.dark-mode .menu-icon{
+      color:#c9aeb9;
+    }
+
+    body.dark-mode .bottom-menu a.active,
+    body.dark-mode .menu-item.active,
+    body.dark-mode .menu-item.active .menu-icon{
+      color:#ff8fb1;
+    }
+
+    body.dark-mode .bottom-menu a.active .menu-icon,
+    body.dark-mode .menu-item.active .menu-icon{
+      background:linear-gradient(135deg,#402833,#5b3445);
+      box-shadow:0 10px 24px rgba(0,0,0,0.18);
+    }
+
+    body.dark-mode .notification-badge{
+      border-color:#22181e;
+    }
+
+    @media(max-width:430px){
+      .bottom-menu{ padding:0 12px env(safe-area-inset-bottom); }
+      .bottom-inner{ height:82px; border-radius:34px; }
+      .menu-icon{ width:47px; height:47px; border-radius:20px; }
+      .menu-icon svg{ width:27px; height:27px; }
+    }
+
     @media(max-width:390px){
       .container{padding-left:12px;padding-right:12px;}
       .header-inner{padding-left:16px;padding-right:16px;}
@@ -540,6 +663,208 @@
       .notice-item{padding:13px;border-radius:23px;}
       .notice-icon{width:40px;height:40px;border-radius:16px;font-size:19px;}
     }
+  
+
+    /* =========================================
+       SAFE MOBILE APP PATCH - 원본 기능 유지 + 앱형 디자인만 덮어쓰기
+       ========================================= */
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif;
+      background:#fff7fb;
+      padding-bottom:112px;
+    }
+
+    body::before,
+    body::after{ display:none; }
+
+    .header{
+      background:rgba(255,255,255,0.94);
+      border-bottom:1px solid #f4dce6;
+      box-shadow:0 4px 18px rgba(255,92,138,0.055);
+    }
+
+    .header-inner{ padding:13px 16px; }
+    .brand{ font-size:21px; letter-spacing:-0.7px; }
+    .container{ padding:14px 13px 22px; }
+
+    .notice-hero{
+      border-radius:24px;
+      padding:19px 17px;
+      margin-bottom:12px;
+      box-shadow:0 10px 24px rgba(255,92,138,0.075);
+      border:1px solid #f3dfe7;
+    }
+
+    .notice-hero::after{ display:none; }
+    .hero-label{ display:none; }
+
+    .notice-hero h1{
+      font-size:22px;
+      line-height:1.35;
+      letter-spacing:-0.75px;
+      margin-bottom:6px;
+    }
+
+    .notice-hero p{
+      font-size:13px;
+      line-height:1.55;
+      color:#8d7c83;
+    }
+
+    .summary-row{
+      gap:8px;
+      margin-bottom:12px;
+    }
+
+    .summary-card{
+      border-radius:20px;
+      padding:13px 10px;
+      box-shadow:0 8px 18px rgba(255,92,138,0.06);
+      border:1px solid #f3dfe7;
+    }
+
+    .summary-card strong{
+      font-size:22px;
+      margin-bottom:3px;
+    }
+
+    .control-card{
+      border-radius:22px;
+      padding:10px;
+      margin-bottom:12px;
+      box-shadow:0 8px 18px rgba(255,92,138,0.06);
+      border:1px solid #f3dfe7;
+    }
+
+    .filter-row{
+      padding:4px;
+      gap:4px;
+    }
+
+    .filter-btn{
+      padding:9px 8px;
+      font-size:12px;
+    }
+
+    .read-all-btn{
+      padding:10px 12px;
+      box-shadow:none;
+    }
+
+    .notice-list{ gap:9px; }
+
+    .notice-item{
+      border-radius:22px;
+      padding:13px;
+      gap:10px;
+      box-shadow:0 8px 20px rgba(255,92,138,0.065);
+      border:1px solid #f3dfe7;
+      background:#fff;
+    }
+
+    .notice-item.unread{
+      background:#fff7fa;
+      border-color:#ffd6e7;
+    }
+
+    .notice-dot{
+      width:8px;
+      height:8px;
+      top:12px;
+      right:12px;
+    }
+
+    .notice-icon{
+      width:38px;
+      height:38px;
+      border-radius:15px;
+      font-size:18px;
+      background:#fff0f5;
+    }
+
+    .notice-content{ padding-right:10px; }
+
+    .notice-title{
+      font-size:13.8px;
+      line-height:1.45;
+      margin-bottom:4px;
+    }
+
+    .notice-message{
+      font-size:12.8px;
+      line-height:1.45;
+      margin-bottom:7px;
+      color:#6a5c62;
+    }
+
+    .notice-meta{
+      font-size:11px;
+      gap:6px;
+    }
+
+    .notice-type{
+      font-size:10px;
+      padding:3px 7px;
+    }
+
+    .empty{
+      border-radius:22px;
+      padding:28px 18px;
+      box-shadow:0 8px 20px rgba(255,92,138,0.06);
+      border:1px solid #f3dfe7;
+    }
+
+    .bottom-inner{
+      height:78px;
+      border-radius:30px;
+      box-shadow:0 14px 34px rgba(255,92,138,0.15);
+    }
+
+    .menu-icon{
+      width:45px;
+      height:45px;
+      border-radius:18px;
+    }
+
+    .menu-icon svg{
+      width:26px;
+      height:26px;
+    }
+
+    body.dark-mode{
+      background:#181216;
+    }
+
+    body.dark-mode .notice-hero,
+    body.dark-mode .summary-card,
+    body.dark-mode .control-card,
+    body.dark-mode .notice-item,
+    body.dark-mode .empty{
+      background:#261b22;
+      border-color:#4a303b;
+      box-shadow:0 12px 26px rgba(0,0,0,0.24);
+    }
+
+    body.dark-mode .notice-item.unread{
+      background:#34242d;
+      border-color:#5b3747;
+    }
+
+    body.dark-mode .notice-icon{
+      background:#3a2430;
+      color:#ff8fb1;
+    }
+
+    @media(max-width:390px){
+      .container{ padding-left:11px; padding-right:11px; }
+      .notice-hero{ padding:18px 15px; }
+      .notice-hero h1{ font-size:21px; }
+      .control-card{ display:block; }
+      .filter-row{ margin-bottom:8px; }
+      .read-all-btn{ width:100%; }
+      .notice-item{ padding:12px; }
+    }
+
   </style>
 </head>
 
@@ -607,24 +932,46 @@
 
   <div class="bottom-menu">
     <div class="bottom-inner">
-      <a href="home.html">
-        <div>⌂</div>
-        홈
+      <a href="home.html" class="menu-item" aria-label="홈">
+        <div class="menu-icon home-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3.5 11.2 12 4l8.5 7.2"></path>
+            <path d="M5.7 10.4v8.3c0 .8.6 1.4 1.4 1.4h3.1v-5.4h3.6v5.4h3.1c.8 0 1.4-.6 1.4-1.4v-8.3"></path>
+          </svg>
+        </div>
+        <span>홈</span>
       </a>
 
-      <a href="write.html">
-        <div>✎</div>
-        글쓰기
+      <a href="write.html" class="menu-item" aria-label="글쓰기">
+        <div class="menu-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 20h4.6L19.2 9.4a2.4 2.4 0 0 0 0-3.4L18 4.8a2.4 2.4 0 0 0-3.4 0L4 15.4V20z"></path>
+            <path d="M13.7 5.7l4.6 4.6"></path>
+            <path d="M4 15.4 8.6 20"></path>
+          </svg>
+        </div>
+        <span>글쓰기</span>
       </a>
 
-      <a href="profile.html">
-        <div>☾</div>
-        내정보
+      <a href="notifications.html" class="menu-item notification-link active" aria-label="알림">
+        <div class="menu-icon notification-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18.2 9.8a6.2 6.2 0 0 0-12.4 0c0 7-2.4 7.7-2.4 7.7h17.2s-2.4-.7-2.4-7.7z"></path>
+            <path d="M9.8 20.1a2.6 2.6 0 0 0 4.4 0"></path>
+          </svg>
+          <span id="notificationBadge" class="notification-badge"></span>
+        </div>
+        <span>알림</span>
       </a>
 
-      <a href="notifications.html" class="active">
-        <div>🔔</div>
-        알림
+      <a href="profile.html" class="menu-item" aria-label="내정보">
+        <div class="menu-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 12.3a4.2 4.2 0 1 0 0-8.4 4.2 4.2 0 0 0 0 8.4z"></path>
+            <path d="M4.4 20.2c1.2-3.5 4-5.3 7.6-5.3s6.4 1.8 7.6 5.3"></path>
+          </svg>
+        </div>
+        <span>내정보</span>
       </a>
     </div>
   </div>
