@@ -2,6 +2,14 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+
+  <script>
+    if (!sessionStorage.getItem("splashShown")) {
+      sessionStorage.setItem("splashShown", "true");
+      window.location.replace("splash.html");
+    }
+  </script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>오늘도육아</title>
 
